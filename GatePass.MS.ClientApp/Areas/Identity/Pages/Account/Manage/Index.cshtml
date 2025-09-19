@@ -1,0 +1,196 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Profile";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+    var companyName = ViewContext.RouteData.Values["companyName"]?.ToString();
+
+}
+
+<h3>@ViewData["Title"]</h3>
+<partial name="_StatusMessage" for="StatusMessage" />
+
+
+@try
+{
+
+    <div class="row">
+
+        <div class="col-md-3">
+
+            <!-- Profile Image -->
+            <div class="card card-primary card-outline">
+                <div class="card-body box-profile">
+
+                    <img src="@Url.Content(Model.Input.ProfilePicture)" class="profile-user-img img-fluid img-circle" alt="User profile picture">
+
+                    <h3 class="profile-username text-center">@Model.Input.firstname @Model.Input.lastname </h3>
+
+                    <p class="text-muted text-center">@Model.Input.email</p>
+
+                    <ul class="list-group list-group-unbordered mb-3">
+                        <li class="list-group-item">
+                            <b>Age</b> <a class="float-right">@Model.Input.age</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Gender</b> <a class="float-right">@Model.Input.gender</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Mobile </b> <a class="float-right">@Model.Input.PhoneNumber</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a class="btn btn-primary btn-sm"
+                               asp-area="Identity"
+                               asp-page="/Account/Manage/ChangePassword"
+                               asp-route-companyName="@companyName">
+                                Change Password
+                            </a>
+                        </li>
+                    </ul>
+
+
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+            <!-- About Me Box -->
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">About Me</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <strong><i class="fas fa-book mr-1"></i> Department</strong>
+
+                    <p class="text-muted">
+                        @Model.Input.department
+                    </p>
+
+                    <hr>
+
+                    <strong><i class="fas fa-map-marker-alt mr-1"></i> Location</strong>
+
+                    <p class="text-muted">@Model.Input.address</p>
+                    <hr>
+
+                    <strong><i class="fas fa-pencil-alt mr-1"></i> designation</strong>
+                    <p class="text-muted">@Model.Input.designation</p>
+                    <hr>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+
+
+
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        <div class="form-group row">
+                            <label asp-for="Input.firstname" class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10">
+                                <input asp-for="Input.firstname" class="form-control"   />
+                                <span asp-validation-for="Input.firstname" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label asp-for="Input.lastname" class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10">
+                                <input asp-for="Input.lastname" class="form-control"   />
+                                <span asp-validation-for="Input.lastname" class="text-danger"></span>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group row">
+                            <label asp-for="Input.PhoneNumber" class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10">
+                                <input asp-for="Input.PhoneNumber" class="form-control"   />
+                                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label asp-for="Input.gender" class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10">
+                                <input asp-for="Input.gender" class="form-control"   />
+                                <span asp-validation-for="Input.gender" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label asp-for="Input.address" class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10">
+                                <input asp-for="Input.address" class="form-control"   />
+                                <span asp-validation-for="Input.address" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label asp-for="Input.age" class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10">
+                                <input type="number" asp-for="Input.age" class="form-control"   />
+                                <span asp-validation-for="Input.age" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label asp-for="Input.ProfilePicture" class="col-sm-2 col-form-label">Profile Picture</label>
+                            <div class="col-sm-10">
+                                <input type="file" asp-for="Input.ProfilePicture" class="form-control" name="file" />
+
+                            </div>
+                        </div>
+
+
+
+
+
+                        <div class="form-group row">
+                            <div class="offset-sm-2 col-sm-10">
+                                <button type="submit" class="btn btn-primary">save</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+catch
+{
+    <h1>This is super user</h1>
+    <div class="col-md-3">
+
+        <!-- Profile Image -->
+        <div class="card card-primary card-outline">
+            <div class="card-body box-profile">
+                <ul class="list-group list-group-unbordered mb-3">
+
+                    <li class="list-group-item">
+                        <a class="btn btn-primary btn-sm"
+                           asp-area="Identity"
+                           asp-page="/Account/Manage/ChangePassword"
+                           asp-route-companyName="@companyName">
+                            Change Password
+                        </a>
+                    </li>
+                </ul>
+
+
+            </div>
+            <!-- /.card-body -->
+        </div>
+    </div>
+
+
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

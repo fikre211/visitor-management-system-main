@@ -1,0 +1,92 @@
+﻿@using GatePass.MS.Domain;
+@model List<RequestInformation>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = "Index";
+}
+
+@*small modal*@
+<div class="modal fade" id="modal-sm">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <!-- Content will be loaded via AJAX -->
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.row -->
+<div class="row container">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+               
+                <div class="card-tools">
+                   
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th> Company/@Localizer["guestFullName"]</th>
+                            <th> @Localizer["visitDateStart"]</th>
+                            <th> @Localizer["visitDateEnd"]</th>
+                            <th> @Localizer["approvalStatus"]</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Count; i++)
+                        {
+
+                          var invitation = Model[i];                           
+                            <tr>
+                                <td>@invitation.Id</td>
+                                <td>
+                                    @if (invitation.IsIndividual)
+                                    {
+                                        @invitation.Guest?.FirstName @invitation.Guest?.LastName
+                                    }
+                                    else
+                                    {
+                                        @invitation.Guest?.CompanyName
+                                    }
+                                </td>
+                                <td>@invitation.VisitDateTimeStart.ToString("yyyy-MM-dd")</td>
+                                <td>@invitation.VisitDateTimeEnd.ToString("yyyy-MM-dd")</td>                              
+                                <td>
+                                   @invitation.Status
+                                </td>
+                                <td>
+                                    <div class="col-6">
+                                        <a class="btn btn-danger" style="cursor: pointer;" onclick="deleteRequest(@invitation.Id)">@Localizer["delete"]</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        <script>
+            function deleteRequest(id) {
+                $.get('@Url.Action("DeleteOutDatedRequest", "Admin")/' + id, function (data) {
+                    $('#modal-sm .modal-content').html(data);
+                    $('#modal-sm').modal('show');
+                });
+            }
+        </script>
+    }
+}

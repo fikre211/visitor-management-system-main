@@ -1,0 +1,21 @@
+﻿@model GatePass.MS.Domain.ViewModels.EditUserRoleViewModel
+
+<h2>Update Role for @Model.UserName</h2>
+
+<form asp-action="UpdateUserRole" method="post">
+    <input type="hidden" name="userId" value="@Model.UserId" />
+
+    <label>Select New Role:</label>
+    <select name="newRole" class="form-control">
+        @foreach (var role in Model.AvailableRoles)
+        {
+            <option value="@role" selected="@(Model.CurrentRoles.Contains(role) ? "selected" : null)">
+                @role
+            </option>
+        }
+    </select>
+
+    <br />
+
+    <button type="submit" class="btn btn-primary">Update Role</button>
+</form>

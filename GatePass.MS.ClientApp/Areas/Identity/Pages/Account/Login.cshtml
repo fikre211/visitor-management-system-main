@@ -1,0 +1,104 @@
+﻿@page
+@model LoginModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = "Log in";
+    var companyName = ViewContext.RouteData.Values["companyName"]?.ToString().ToUpper();
+
+}
+<br />
+<div class="row justify-content-center ">
+   
+     
+
+    <div class="login-box">
+        <!-- /.login-logo -->
+        <div class="card ">
+            <div class="card-header text-center">
+                    @companyName
+
+
+
+            </div>
+            <div class="card-body">
+                <p class="login-box-msg">@Localizer["loginMessage"]</p>
+
+                <form method="post">
+                     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                    <div class="input-group mb-3">
+                        <input asp-for="Input.Email" type="email" class="form-control" placeholder="Email">
+                       
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    </div>
+                  <div class="input-group mb-3">
+                    <input id="passwordInput" asp-for="Input.Password" type="password" class="form-control" placeholder="Password">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span id="togglePassword" class="fas fa-eye"></span>
+                        </div>
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div> 
+                    </div>
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                    <div class="row">
+                       
+                        <!-- /.col -->
+                        <div class="col-12">
+                            <button id="login-submit" type="submit" class="btn btn-primary btn-block" >@Localizer["signIn"]</button>
+                        </div>
+                       
+                        <!-- /.col -->
+                    </div>
+                </form>
+                
+               
+              
+              
+                <p class="mb-1">
+                    <a id="forgot-password" asp-area="Identity"
+               asp-route-companyName="@companyName"
+asp-page="/Account/ForgotPassword">Forgot/Reset Password?</a>
+                </p>
+                <p class="mb-0">
+                    <a id="resend-confirmation" asp-area="Identity"
+               asp-route-companyName="@companyName"
+asp-page="/Account/ResendEmailConfirmation">@Localizer["confirmAccount"]</a>
+                </p>
+              
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('passwordInput');
+
+        togglePassword.addEventListener('click', function () {
+            // Toggle the type attribute
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+
+            // Toggle the eye icon
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+    });
+</script>
+
+}

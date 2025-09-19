@@ -1,0 +1,1174 @@
+﻿@model GatePass.MS.Domain.ViewModels.RequestInformationViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@{
+    var companyName = ViewContext.RouteData.Values["companyName"]?.ToString();
+    ViewData["Title"] = "Visitor Registration";
+}
+
+<style>
+    :root {
+        --primary: #4a6cf7;
+        --primary-dark: #3a5bd9;
+        --secondary: #6c757d;
+        --light: #f8f9fa;
+        --dark: #212529;
+        --success: #28a745;
+        --danger: #dc3545;
+        --warning: #ffc107;
+        --info: #17a2b8;
+        --border-radius: 8px;
+        --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        --transition: all 0.3s ease;
+    }
+
+    body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+        min-height: 100vh;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .registration-container {
+        max-width: 1000px;
+        margin: 2rem auto;
+        padding: 0 15px;
+    }
+
+    .registration-card {
+        background: white;
+        border: none;
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        overflow: hidden;
+        margin-bottom: 2rem;
+    }
+
+    .card-header {
+        background: linear-gradient(145deg, #1e3c72 0%, #2a5298 100%);
+        color: white;
+        padding: 1.5rem 2rem;
+        border-bottom: none;
+    }
+
+        .card-header img {
+            height: 40px;
+            margin-bottom: 1rem;
+        }
+
+        .card-header h2 {
+            font-weight: 600;
+            margin: 0;
+            font-size: 1.75rem;
+        }
+
+    .card-body {
+        padding: 2rem;
+    }
+
+    .form-section {
+        background: white;
+        padding: 1.5rem;
+        border-radius: var(--border-radius);
+        margin-bottom: 1.5rem;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .section-title {
+        color: var(--primary);
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 2px solid #f0f2f5;
+    }
+
+    .form-group {
+        margin-bottom: 1.25rem;
+    }
+
+    .form-label {
+        font-weight: 500;
+        color: #495057;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-control {
+        height: calc(2.5em + 0.75rem + 2px);
+        padding: 0.375rem 0.75rem;
+        border: 1px solid #dee2e6;
+        border-radius: var(--border-radius);
+        transition: var(--transition);
+    }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.2rem rgba(74, 108, 247, 0.25);
+        }
+
+    .btn {
+        padding: 0.6rem 1.5rem;
+        border-radius: var(--border-radius);
+        font-weight: 500;
+        transition: var(--transition);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .btn i {
+            margin-right: 0.5rem;
+        }
+
+    .btn-primary {
+        background: var(--primary);
+        border: none;
+    }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+    .btn-outline-secondary {
+        border: 1px solid #dee2e6;
+    }
+
+        .btn-outline-secondary:hover {
+            background: #f8f9fa;
+            border-color: #ced4da;
+        }
+
+    .photo-upload {
+        border: 2px dashed #dee2e6;
+        border-radius: var(--border-radius);
+        padding: 1.5rem;
+        text-align: center;
+        cursor: pointer;
+        transition: var(--transition);
+        margin-bottom: 1rem;
+    }
+
+        .photo-upload:hover {
+            border-color: var(--primary);
+            background: rgba(74, 108, 247, 0.05);
+        }
+
+    .preview-image {
+        max-width: 200px;
+        max-height: 200px;
+        border-radius: var(--border-radius);
+        margin: 1rem 0;
+        display: none;
+    }
+
+    .video-preview {
+        width: 100%;
+        max-width: 320px;
+        border-radius: var(--border-radius);
+        margin: 1rem 0;
+        display: none;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .required-field::after {
+        content: " *";
+        color: var(--danger);
+    }
+
+    .visitor-stats {
+        background: #f8f9fa;
+        border-radius: var(--border-radius);
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .stat-item {
+        text-align: center;
+        padding: 1rem;
+    }
+
+    .stat-number {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary);
+        line-height: 1.2;
+    }
+
+    .stat-label {
+        color: var(--secondary);
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+
+    /* Responsive adjustments */
+    @@media (max-width: 768px) {
+        .registration-container {
+            padding: 0 10px;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            width: 100%;
+        }
+    }
+
+    /* Animation for form sections */
+    .form-section {
+        animation: fadeInUp 0.5s ease-out;
+    }
+
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<div class="registration-container">
+    <div class="registration-card">
+        <div class="card-header text-center">
+          
+            <h2>Visitor Self-Registration</h2>
+            <p class="mb-0">Please fill out the form below to register your visit.</p>
+        </div>
+        <div class="card-body">
+            <form asp-action="Invite" id="inviteForm" class="form-horizontal" enctype="multipart/form-data">
+                <div id="requests-container">
+                    <div class="request-block">
+
+
+                        <!-- Personal Information Section -->
+                        <div class="form-section mt-4">
+                            <h5 class="section-title">
+                                <i class="fas fa-user"></i> Personal Identification
+                            </h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="photo-upload" id="photoUploadArea">
+                                        <i class="fas fa-cloud-upload-alt fa-3x text-muted mb-2"></i>
+                                        <p class="mb-2">Click to upload a photo or drag and drop</p>
+                                        <p class="text-muted small mb-0">JPG, PNG up to 5MB</p>
+                                        <input type="file" id="photoUpload" name="GuestPhoto" accept="image/*" class="d-none">
+                                    </div>
+                                    <div class="action-buttons">
+                                        <button type="button" class="btn btn-outline-primary" id="capturePhoto">
+                                            <i class="fas fa-camera"></i> @Localizer["capturePhoto"]
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 text-center">
+                                    <video id="video" class="video-preview" autoplay muted></video>
+                                    <canvas id="canvas" class="d-none"></canvas>
+                                    <img id="capturedImage" src="#" class="preview-image">
+                                    <input name="GuestPhotoPath" type="hidden" id="capturedImageData">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Personal Information Section -->
+                        <div class="form-section">
+                            <h5 class="section-title">
+                                <i class="fas fa-user"></i> Personal Information
+                            </h5>
+                            <div class="row justify-content-center">
+    <!-- Title -->
+<div class="col-md-3">
+                                    <div class="form-group mb-3 text-center">
+        <label class="form-label required-field d-block mb-1"
+                                               style="font-weight: 600; font-size: 16px; color: #333; text-align: left;">@Localizer["Title"]</label>
+
+        <select name="Requests[0].Title" asp-for="Title" class="form-select w-100"
+                style="padding: 10px; border-radius: 6px; border: 1px solid #ced4da; font-size: 15px; color: #495057;">
+           
+            <option value="Mr.">@Localizer["Mr."]</option>
+            <option value="Ms.">@Localizer["Ms."]</option>
+            <option value="Mrs.">@Localizer["Mrs."]</option>
+            <option value="Dr.">@Localizer["Dr."]</option>
+            <option value="Prof.">@Localizer["Prof."]</option>
+            <option value="Eng.">@Localizer["Eng."]</option>
+            <option value="Hon.">@Localizer["Hon."]</option>
+            <option value="HE.">@Localizer["HE."]</option>
+            <option value="Sir.">@Localizer["Sir."]</option>
+            <option value="Madam.">@Localizer["Madam"]</option>
+        </select>
+    </div>
+</div>
+
+
+    <!-- First Name -->
+    <div class="col-md-4">
+        <div class="form-group mb-3 text-center">
+                                        <label class="form-label required-field d-block mb-1" style="text-align: left;">@Localizer["Given Name"] </label>
+            <input name="GuestFirstName" asp-for="GuestFirstName" class="form-control w-100" placeholder="@Localizer["Given name"]">
+            <span asp-validation-for="GuestFirstName" class="text-danger small d-block mt-1"></span>
+        </div>
+    </div>
+
+    <!-- Last Name -->
+    <div class="col-md-4">
+        <div class="form-group mb-3 text-center">
+                                        <label class="form-label d-block mb-1" style="text-align: left;">@Localizer["LastName"]</label>
+            <input name="GuestLastName" asp-for="GuestLastName" class="form-control w-100"  placeholder="@Localizer["Last name"]">
+            <span asp-validation-for="GuestLastName" class="text-danger small d-block mt-1"></span>
+        </div>
+    </div>
+</div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">@Localizer["Email"]</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                            <input name="GuestEmail" asp-for="GuestEmail" class="form-control" placeholder="email@example.com" type="email">
+                                        </div>
+                                        <span asp-validation-for="GuestEmail" class="text-danger small"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label required-field">@Localizer["PhoneNumber"]</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                            <input name="GuestPhoneNumber" asp-for="GuestPhoneNumber" class="form-control" placeholder="09XXXXXXXX" type="tel">
+                                        </div>
+                                        <span asp-validation-for="GuestPhoneNumber" class="text-danger small"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">@Localizer["CompanyName"]</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-building"></i></span>
+                                    <input name="CompanyName" asp-for="CompanyName" class="form-control" placeholder="Company name">
+                                </div>
+                                <span asp-validation-for="CompanyName" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <!-- Visit Information Section -->
+                        <div class="form-section">
+                            <h5 class="section-title">
+                                <i class="fas fa-calendar-alt"></i> Visit Information
+                            </h5>
+                            <div class="form-group">
+                                <label class="form-label required-field">@Localizer["PurposeOfVisit"]</label>
+                                <input name="PurposeOfVisit" asp-for="PurposeOfVisit" class="form-control" placeholder="Purpose of your visit">
+                                <span asp-validation-for="PurposeOfVisit" class="text-danger small"></span>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label required-field">@Localizer["department"]</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-building"></i></span>
+                                            <select id="departmentDropdown" class="form-select department-dropdown" asp-for="DepartmentId" asp-items="ViewBag.DepartmentId">
+                                                <option value="">@Localizer["select Department"]</option>
+                                            </select>
+                                        </div>
+                                        <span asp-validation-for="DepartmentId" class="text-danger small"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">@Localizer["Department Supervisors"]</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-user-tie"></i></span>
+                                            <select class="form-select supervisor-dropdown" id="supervisorDropdown" asp-for="EmployeeId">
+                                                <option value="">@Localizer["select Supervisor"]</option>
+                                            </select>
+                                        </div>
+                                        <span asp-validation-for="EmployeeId" class="text-danger small"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label required-field">@Localizer["visitDateRange"]</label>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                            <input class="form-control startDate" type="date"
+                                                   data-val="true"
+                                                   data-val-required="The VisitDateTimeStart field is required."
+                                                   name="VisitDateTimeStart"
+                                                   value="@DateTime.Now.ToString("yyyy-MM-dd")"
+                                                   min="@DateTime.Now.ToString("yyyy-MM-dd")">
+                                            <input name="__Invariant" type="hidden" value="VisitDateTimeStart">
+                                        </div>
+                                        <small class="text-muted">@Localizer["From"]</small>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                            <input class="form-control endDate" type="date"
+                                                   data-val="true"
+                                                   data-val-required="The VisitDateTimeEnd field is required."
+                                                   name="VisitDateTimeEnd"
+                                                   value="@DateTime.Now.ToString("yyyy-MM-dd")">
+                                            <input name="__Invariant" type="hidden" value="VisitDateTimeEnd">
+                                        </div>
+                                        <small class="text-muted">@Localizer["To"]</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Items Section -->
+                        <div class="form-section">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="section-title mb-0">
+                                    <i class="fas fa-laptop"></i> @Localizer["Items"]
+                                </h5>
+                                <button type="button" class="btn btn-outline-primary btn-sm" id="add-device">
+                                    <i class="fas fa-plus"></i> @Localizer["Add Item"]
+                                </button>
+                            </div>
+                            <div id="device-container" class="mb-3">
+                                <!-- Device inputs will be added here -->
+                            </div>
+                            <div class="alert alert-info small">
+                                <i class="fas fa-info-circle"></i> Please list any electronic devices or valuable items you're bringing with you.
+                            </div>
+                        </div>
+
+                        <!-- Additional Guests Section -->
+                        <div class="form-section">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="section-title mb-0">
+                                    <i class="fas fa-users"></i> @Localizer["Additional Guests"]
+                                </h5>
+                                <div class="btn-group" style="gap: 2rem;">
+                                    <button type="button" class="btn btn-outline-primary btn-sm" id="add-guest">
+                                        <i class="fas fa-user-plus"></i> @Localizer["Add Visitor"]
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" id="uploadExcelBtn" style="display: inline-block;">
+                                        <i class="fas fa-file-excel"></i> @Localizer["Upload From Excel"]
+                                    </button>
+                                    <input type="file" id="excelFileInput" accept=".xlsx, .xls" style="display: none;">
+                                </div>
+                            </div>
+                            <div id="guests-container" class="mb-3">
+                                <!-- Guest inputs will be added here -->
+                            </div>
+                            <div id="excel-upload-row" class="mb-3" style="display: block;">
+                                <div class="alert alert-info small d-flex align-items-center">
+                                    <i class="fas fa-file-excel me-2"></i>
+                                    <div>
+                                        <div id="excelFileName" class="fw-bold"></div>
+                                        <small>Upload an Excel file with Guest information (First Name, Second Name, Email, Phone)</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="form-section text-center pt-4">
+                            <button type="submit" class="btn btn-primary btn-lg px-5">
+                                <i class="fas fa-paper-plane me-2"></i> Submit Registration
+                            </button>
+                            <p class="text-muted small mt-2">
+                                <i class="fas fa-lock me-1"></i> Your information is secure and will only be used for visitor management.
+                            </p>
+
+            </form>
+
+        </div>
+
+    </div>
+    <!-- /.tab-content -->
+
+</div><!-- /.card-body -->
+</div>
+<!-- /.card -->
+</div>
+</div>
+<!-- /.col -->
+@section Styles {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"
+            integrity="sha512-…"
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        // Photo Upload and Camera Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const photoUpload = document.getElementById('photoUpload');
+            const photoUploadArea = document.getElementById('photoUploadArea');
+            const video = document.getElementById('video');
+            const canvas = document.getElementById('canvas');
+            const capturedImage = document.getElementById('capturedImage');
+            const captureBtn = document.getElementById('capturePhoto');
+            let stream = null;
+
+            // Handle drag and drop for photo upload
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                photoUploadArea.addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                photoUploadArea.addEventListener(eventName, highlight, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                photoUploadArea.addEventListener(eventName, unhighlight, false);
+            });
+
+            function highlight() {
+                photoUploadArea.classList.add('bg-light');
+            }
+
+            function unhighlight() {
+                photoUploadArea.classList.remove('bg-light');
+            }
+
+            // Handle dropped files
+            photoUploadArea.addEventListener('drop', handleDrop, false);
+
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                handleFiles(files);
+            }
+
+            // Handle file selection
+            photoUpload.addEventListener('change', function() {
+                handleFiles(this.files);
+            });
+
+            // Handle click on upload area
+            photoUploadArea.addEventListener('click', function() {
+                photoUpload.click();
+            });
+
+            function handleFiles(files) {
+                if (files.length > 0) {
+                    const file = files[0];
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            capturedImage.src = e.target.result;
+                            capturedImage.style.display = 'block';
+                            document.getElementById('capturedImageData').value = e.target.result;
+                            // Hide video if it's visible
+                            video.style.display = 'none';
+                            if (stream) {
+                                stopCamera();
+                            }
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                }
+            }
+
+            // Camera functionality
+            captureBtn.addEventListener('click', function() {
+                if (video.style.display === 'none' || video.style.display === '') {
+                    startCamera();
+                    this.innerHTML = '<i class="fas fa-camera"></i> Capture Photo';
+                } else {
+                    capturePhoto();
+                }
+            });
+
+            async function startCamera() {
+                try {
+                    stream = await navigator.mediaDevices.getUserMedia({
+                        video: { width: 320, height: 240, facingMode: 'user' }
+                    });
+                    video.srcObject = stream;
+                    video.style.display = 'block';
+                    capturedImage.style.display = 'none';
+                } catch (err) {
+                    console.error('Error accessing camera:', err);
+                    alert('Could not access the camera. Please check your permissions.');
+                }
+            }
+
+            function stopCamera() {
+                if (stream) {
+                    stream.getTracks().forEach(track => track.stop());
+                    stream = null;
+                }
+                video.style.display = 'none';
+            }
+
+            function capturePhoto() {
+                const context = canvas.getContext('2d');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                const imageDataUrl = canvas.toDataURL('image/png');
+                capturedImage.src = imageDataUrl;
+                capturedImage.style.display = 'block';
+                document.getElementById('capturedImageData').value = imageDataUrl;
+
+                stopCamera();
+                captureBtn.innerHTML = '<i class="fas fa-camera"></i> Take Another';
+            }
+
+            // Clean up camera on page unload
+            window.addEventListener('beforeunload', function() {
+                if (stream) {
+                    stopCamera();
+                }
+            });
+        });
+    </script>
+
+    <script>
+        let guestIndex = 0;
+        let hasUploadVisible = false;
+
+        const addGuestBtn = document.getElementById('add-guest');
+        const guestsContainer = document.getElementById('guests-container');
+
+        const excelRow = document.getElementById('excel-upload-row');
+        const uploadBtn = document.getElementById('uploadExcelBtn');
+        const fileInput = document.getElementById('excelFileInput');
+        const fileNameLabel = document.getElementById('excelFileName');
+
+        // Show "Upload Excel" button immediately
+        document.addEventListener('DOMContentLoaded', () => {
+            const uploadBtn = document.getElementById('uploadExcelBtn');
+            if (uploadBtn) {
+                uploadBtn.style.display = 'inline-block';
+            }
+            const excelRow = document.getElementById('excel-upload-row');
+            if (excelRow) {
+                excelRow.style.display = 'block';
+            }
+        });
+
+        // Add guest when clicking the add button
+        addGuestBtn.addEventListener('click', () => {
+            appendEmptyGuest();
+        });
+
+        // Clicking the upload button triggers the hidden file input
+        uploadBtn.addEventListener('click', () => fileInput.click());
+
+        // Handle file pick and parse
+        fileInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // Update UI to show selected file
+            const fileNameLabel = document.getElementById('excelFileName');
+            if (fileNameLabel) {
+                fileNameLabel.textContent = `Selected: ${file.name}`;
+            }
+
+            try {
+                const data = await file.arrayBuffer();
+                const workbook = XLSX.read(data);
+
+                // Assume first sheet
+                const sheetName = workbook.SheetNames[0];
+                const sheet = workbook.Sheets[sheetName];
+
+                // Convert to JSON array of objects
+                const rows = XLSX.utils.sheet_to_json(sheet, { defval: '' });
+
+                // Clear any existing guest blocks
+                guestsContainer.innerHTML = '';
+                guestIndex = 0;
+
+                // For each row, append a guest block with values
+                rows.forEach(row => {
+                    if (row.Name || row.Email || row.Phone || row.Company) {
+                        appendGuestFromRow(row);
+                    }
+                });
+
+                // Show success message
+                if (rows.length > 0) {
+                    alert(`Successfully imported ${rows.length} guests from the Excel file.`);
+                } else {
+                    alert('No valid guest data found in the Excel file.');
+                }
+            } catch (error) {
+                console.error('Error processing Excel file:', error);
+                alert('Error processing Excel file. Please make sure it is a valid Excel file.');
+            }
+        });
+
+        // helper to append an *empty* block (for manual add)
+        function appendEmptyGuest() {
+            const block = createGuestBlock();
+            guestsContainer.appendChild(block);
+            guestIndex++;
+        }
+
+        // helper to append a block filled from Excel row
+        function appendGuestFromRow(row) {
+            // expect columns: FirstName, LastName, Email, Phone
+            const block = createGuestBlock({
+                FirstName: row.FirstName || '',
+                LastName: row.LastName || '',
+                Email: row.Email || '',
+                Phone: row.Phone || ''
+            });
+            guestsContainer.appendChild(block);
+            guestIndex++;
+        }
+
+        // builds the DOM for one guest-block, optionally prefilled
+        function createGuestBlock(prefill = {}) {
+            const idx = guestIndex;
+            const div = document.createElement('div');
+            div.classList.add('guest-block', 'border', 'rounded', 'p-3', 'mb-3');
+
+            div.innerHTML = `
+                    <div class="form-group">
+                        <input name="AdditionalGuests[${idx}].FirstName"
+                               class="form-control mb-2"
+                               placeholder="Given Name"
+                               required
+                               value="${prefill.FirstName || ''}" />
+
+                        <input name="AdditionalGuests[${idx}].LastName"
+                               class="form-control mb-2"
+                               placeholder="Last Name"
+                               required
+                               value="${prefill.LastName || ''}" />
+
+<!-- Email input (accepts only Gmail or valid email format) -->
+<input name="AdditionalGuests[${idx}].Email"
+       class="form-control mb-2"
+       placeholder="Email"
+       type="email"
+       
+      
+       value="${prefill.Email || ''}" />
+
+
+<input name="AdditionalGuests[${idx}].Phone"
+       class="form-control mb-2"
+       placeholder="Phone Number"
+       type="text"
+       maxlength="15"
+       oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 15);"
+       
+       value="${prefill.Phone || ''}" />
+
+
+
+
+                        <button type="button" class="btn btn-danger remove-guest">
+        @Localizer["Remove Visitor"]
+                        </button>
+                    </div>
+                `;
+            return div;
+        }
+
+        // remove-guest handler
+        document.addEventListener('click', function (e) {
+            if (e.target && e.target.classList.contains('remove-guest')) {
+                e.target.closest('.guest-block').remove();
+            }
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Prevent form submission if invalid
+            $('#inviteForm').on('submit', function (e) {
+                if (!$(this).valid()) {
+                    e.preventDefault();
+                }
+            });
+
+            // Initialize date pickers logic
+            const startDates = document.querySelectorAll('.startDate');
+            const endDates = document.querySelectorAll('.endDate');
+
+            startDates.forEach(startDate => {
+                startDate.addEventListener('change', function () {
+                    const startDateValue = new Date(this.value);
+                    endDates.forEach(endDate => {
+                        const endDateValue = new Date(endDate.value);
+                        if (endDateValue < startDateValue) {
+                            endDate.value = this.value;
+                        }
+                        endDate.min = this.value;
+                        endDate.removeAttribute('readonly');
+                    });
+                });
+            });
+
+            // Department change handler
+            $(document).on('change', '.department-dropdown', function () {
+                var departmentId = $(this).val();
+                var container = $(this).closest('.request-block');
+                var supervisorDropdown = container.find('.supervisor-dropdown');
+
+                supervisorDropdown.empty();
+                supervisorDropdown.append('<option value="">-- Select Supervisor --</option>');
+
+                if (departmentId) {
+                    $.ajax({
+                        url: '/@companyName/guest/GetSupervisorsByDepartment',
+                        type: 'GET',
+                        data: { departmentId: departmentId },
+                        success: function (data) {
+                            const addedIds = new Set();
+
+                            $.each(data, function (i, supervisor) {
+                                if (!addedIds.has(supervisor.id)) {
+                                    supervisorDropdown.append(
+                                        $('<option></option>').val(supervisor.id).text(supervisor.firstName)
+                                    );
+                                    addedIds.add(supervisor.id);
+                                }
+                            });
+                        },
+                        error: function () {
+                            alert("Failed to load supervisors.");
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+    <script>
+        let deviceIndex = 0; // Start index from 0
+
+        // Function to update the name attributes of device input fields
+        function updateDeviceIndexes() {
+            const deviceItems = document.querySelectorAll('.device-item');
+            deviceItems.forEach((deviceItem, index) => {
+                // Update each input field's name attribute based on its new index
+                const deviceNameInput = deviceItem.querySelector('input[name$=".DeviceName"]');
+                const identifierInput = deviceItem.querySelector('input[name$=".Identifier"]');
+                const descriptionTextarea = deviceItem.querySelector('textarea[name$=".Description"]');
+
+                if (deviceNameInput) {
+                    deviceNameInput.setAttribute('name', `Devices[${index}].DeviceName`);
+                }
+                if (identifierInput) {
+                    identifierInput.setAttribute('name', `Devices[${index}].Identifier`);
+                }
+                if (descriptionTextarea) {
+                    descriptionTextarea.setAttribute('name', `Devices[${index}].Description`);
+                }
+            });
+
+            // Update deviceIndex for the next addition
+            deviceIndex = deviceItems.length;
+        }
+
+        // Add new device input fields
+        document.getElementById('add-device').addEventListener('click', function () {
+            const container = document.getElementById('device-container');
+            const newDevice = document.createElement('div');
+            newDevice.classList.add('device-item', 'mb-3', 'p-3', 'border', 'rounded', 'shadow-sm', 'd-flex', 'align-items-center');
+
+            newDevice.innerHTML = `
+                                            <div class="form-row flex-grow-1">
+                                                <div class="form-group col-md-3">
+                                                    <input type="text" name="Devices[${deviceIndex}].DeviceName" class="form-control" placeholder="Item Name" required/>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <input type="text" name="Devices[${deviceIndex}].Identifier" class="form-control" placeholder="Identifier" required/>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <textarea name="Devices[${deviceIndex}].Description" class="form-control" placeholder="Description" required></textarea>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn btn-danger remove-device ms-auto" style="margin-top: -10px;">
+                                                <i class="bi bi-trash"></i> Remove
+                                            </button>
+                                        `;
+
+            container.appendChild(newDevice);
+            deviceIndex++; // Increment index for the next added device
+        });
+
+        // Remove device input fields and update indexes
+        document.addEventListener('click', function (e) {
+            if (e.target && e.target.classList.contains('remove-device')) {
+                e.target.closest('.device-item').remove(); // Remove the device item
+                updateDeviceIndexes(); // Re-index the remaining devices
+            }
+        });
+
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const startDates = document.querySelectorAll('.startDate');
+            const endDates = document.querySelectorAll('.endDate');
+
+            startDates.forEach(startDate => {
+                startDate.addEventListener('change', function () {
+                    const startDateValue = new Date(this.value);
+                    endDates.forEach(endDate => {
+                        const endDateValue = new Date(endDate.value);
+                        if (endDateValue < startDateValue) {
+                            endDate.value = this.value;
+                        }
+                        endDate.min = this.value;
+                        endDate.removeAttribute('readonly');
+                    });
+                });
+            });
+
+            endDates.forEach(endDate => {
+                endDate.addEventListener('change', function () {
+                    const endDateValue = new Date(this.value);
+                    startDates.forEach(startDate => {
+                        const startDateValue = new Date(startDate.value);
+                        if (endDateValue < startDateValue) {
+                            startDate.value = this.value;
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const photoUpload = document.getElementById('photoUpload');
+            const video = document.getElementById('video');
+            const canvas = document.getElementById('canvas');
+            const capturedImage = document.getElementById('capturedImage');
+            const capturedImageData = document.getElementById('capturedImageData');
+            const captureBtn = document.getElementById('capturePhoto');
+            let stream = null;
+
+            // Toggle between file upload and camera
+            document.querySelectorAll('[data-toggle="camera"]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const target = this.dataset.target;
+                    document.querySelectorAll('.camera-option').forEach(opt => opt.style.display = 'none');
+                    document.getElementById(target).style.display = 'block';
+
+                    // Stop any existing stream
+                    if (stream) {
+                        stopCamera();
+                    }
+
+                    // Initialize camera if camera option is selected
+                    if (target === 'cameraSection') {
+                        initializeCamera();
+                    }
+                });
+            });
+
+            // Handle file upload
+            photoUpload.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        capturedImage.src = event.target.result;
+                        capturedImage.style.display = 'block';
+                        capturedImageData.value = event.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Initialize camera
+            function initializeCamera() {
+                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                    navigator.mediaDevices.getUserMedia({ video: true })
+                        .then(function(mediaStream) {
+                            stream = mediaStream;
+                            video.srcObject = stream;
+                            video.play();
+                            video.style.display = 'block';
+                            captureBtn.style.display = 'block';
+                        })
+                        .catch(function(error) {
+                            console.error('Error accessing camera:', error);
+                            alert('Could not access the camera. Please check your permissions.');
+                        });
+                } else {
+                    alert('Your browser does not support camera access.');
+                }
+            }
+
+            // Capture photo from camera
+            captureBtn.addEventListener('click', function() {
+                if (!stream) return;
+
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                const imageData = canvas.toDataURL('image/png');
+                capturedImage.src = imageData;
+                capturedImage.style.display = 'block';
+                capturedImageData.value = imageData;
+
+                // Stop camera after capturing
+                stopCamera();
+                video.style.display = 'none';
+                captureBtn.style.display = 'none';
+            });
+
+            // Stop camera function
+            function stopCamera() {
+                if (stream) {
+                    stream.getTracks().forEach(track => track.stop());
+                    stream = null;
+                    video.srcObject = null;
+                }
+            }
+
+            // Clean up camera on page unload
+            window.addEventListener('beforeunload', function() {
+                if (stream) {
+                    stopCamera();
+                }
+            });
+    </script>
+    <script>
+        document.querySelector("form").addEventListener("submit", function () {
+            let title = document.getElementById("GuestTitle").value;
+            let givenName = document.getElementById("GuestFirstName").value;
+            document.getElementById("GuestFullName").value = title + " " + givenName;
+        });
+    </script>
+    // <script>
+    //     $(document).on('change', '.department-dropdown', function () {
+    //         var departmentId = $(this).val();
+    //         var container = $(this).closest('.request-block');
+    //         var supervisorDropdown = container.find('.supervisor-dropdown');
+
+    //         supervisorDropdown.empty();
+    //         supervisorDropdown.append('<option value="">-- Select Supervisor --</option>');
+
+    //         if (departmentId) {
+    //             $.ajax({
+    //                 url: '/@companyName/guest/GetSupervisorsByDepartment',
+    //                 type: 'GET',
+    //                 data: { departmentId: departmentId },
+    //                 success: function (data) {
+    //                     $.each(data, function (i, supervisor) {
+    //                         supervisorDropdown.append(
+    //                             $('<option></option>').val(supervisor.id).text(supervisor.firstName)
+    //                         );
+    //                     });
+    //                 },
+    //                 error: function () {
+    //                     alert("Failed to load supervisors.");
+    //                 }
+    //             });
+    //         }
+    //     });
+    // </script>
+    <script>
+        let requestIndex = 1;
+
+        document.getElementById('add-request').addEventListener('click', function () {
+            const container = document.getElementById('requests-container');
+            const firstRequest = container.querySelector('.request-block').cloneNode(true);
+
+            // Clean up cloned request block
+            firstRequest.querySelectorAll('[name]').forEach(el => {
+                let oldName = el.name;
+                if (!oldName) return;
+
+                // Update index in name
+                el.name = oldName.replace(/\[\d+\]/, `[${requestIndex}]`);
+
+                // Reset values only for input/textarea (except file/image)
+                if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
+                    if (el.type !== "file" && el.type !== "hidden") {
+                        el.value = '';
+                    }
+                }
+            });
+
+            // Reset or hide media elements and data
+            const video = firstRequest.querySelector('video');
+            const canvas = firstRequest.querySelector('canvas');
+            const capturedImage = firstRequest.querySelector('img');
+            const capturedImageData = firstRequest.querySelector('input[type="hidden"]');
+            const captureButton = firstRequest.querySelector('.capture-photo-btn');
+
+            if (video) video.style.display = 'none';
+            if (canvas) canvas.style.display = 'none';
+            if (capturedImage) capturedImage.style.display = 'none';
+            if (capturedImageData) capturedImageData.value = '';
+            if (captureButton) captureButton.textContent = '@Localizer["capturePhoto"]'; // Reset button text
+
+            // Remove any existing stream associated with the cloned block
+            firstRequest.stream = null;
+
+            container.appendChild(firstRequest);
+            requestIndex++;
+        });
+    </script>
+    // <script>
+    //     $(document).on('change', '.department-dropdown', function () {
+    //         var departmentId = $(this).val();
+    //         var container = $(this).closest('.request-block');
+    //         var supervisorDropdown = container.find('.supervisor-dropdown');
+
+    //         supervisorDropdown.empty();
+    //         supervisorDropdown.append('<option value="">-- Select Supervisor --</option>');
+
+    //         if (departmentId) {
+    //             $.ajax({
+    //                 url: '/@companyName/guest/GetSupervisorsByDepartment',
+    //                 type: 'GET',
+    //                 data: { departmentId: departmentId },
+    //                 success: function (data) {
+    //                     $.each(data, function (i, supervisor) {
+    //                         supervisorDropdown.append(
+    //                             $('<option></option>').val(supervisor.id).text(supervisor.firstName)
+    //                         );
+    //                     });
+    //                 },
+    //                 error: function () {
+    //                     alert("Failed to load supervisors.");
+    //                 }
+    //             });
+    //         }
+    //     });
+    // </script>
+
+}

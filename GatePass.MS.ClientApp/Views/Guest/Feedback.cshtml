@@ -1,0 +1,136 @@
+﻿@model GatePass.MS.Domain.ViewModels.FeedbackViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
+@{
+    ViewBag.Title = Localizer["Provide Feedback"];
+}
+
+<style>
+    /* Basic CSS for Star Rating - you can customize this heavily */
+    .rating {
+        display: inline-block;
+        font-size: 0; /* Remove extra space between inline-block elements */
+    }
+    .rating input {
+        display: none; /* Hide the radio buttons */
+    }
+    .rating label {
+        font-size: 2.5rem; /* Size of the stars */
+        color: #ccc; /* Default star color */
+        cursor: pointer;
+        padding: 0 5px;
+        transition: color 0.2s ease-in-out;
+    }
+    .rating label:hover,
+    .rating label:hover ~ label,
+    .rating input:checked ~ label {
+        color: #ffc107; /* Gold color for selected/hovered stars */
+    }
+    /* Reverse order to make CSS selector easier (last label is highest rating) */
+    .rating label:hover,
+    .rating label:hover ~ label {
+        color: #ffc107;
+    }
+    .rating label {
+        transform: rotateY(180deg); /* Flip stars to order correctly after CSS trick */
+        display: inline-block;
+    }
+    .rating-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        max-width: 600px;
+        margin: 50px auto;
+    }
+    .feedback-header {
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="rating-container">
+    <div class="feedback-header">
+        <h2>@Localizer["How was your visit,"] @Model.GuestName?</h2>
+        <p>@Localizer["We'd love to hear your feedback!"]</p>
+    </div>
+
+    <form asp-action="SubmitFeedback" method="post">
+        <input type="hidden" asp-for="RequestId" />
+        <input type="hidden" asp-for="GuestName" />
+        <input type="hidden" asp-for="GuestEmail" />
+
+        <div class="form-group text-center mb-4">
+            <label class="d-block mb-2">@Localizer["Your Rating:"]</label>
+            <div class="rating d-flex justify-content-center flex-row-reverse">
+                <input type="radio" id="star5" name="Rating" value="5" @(Model.Rating == 5 ? "checked" : "") /><label for="star5" title="@Localizer["5 stars"]">&#9733;</label>
+                <input type="radio" id="star4" name="Rating" value="4" @(Model.Rating == 4 ? "checked" : "") /><label for="star4" title="@Localizer["4 stars"]">&#9733;</label>
+                <input type="radio" id="star3" name="Rating" value="3" @(Model.Rating == 3 ? "checked" : "") /><label for="star3" title="@Localizer["3 stars"]">&#9733;</label>
+                <input type="radio" id="star2" name="Rating" value="2" @(Model.Rating == 2 ? "checked" : "") /><label for="star2" title="@Localizer["2 stars"]">&#9733;</label>
+                <input type="radio" id="star1" name="Rating" value="1" @(Model.Rating == 1 ? "checked" : "") /><label for="star1" title="@Localizer["1 star"]">&#9733;</label>
+            </div>
+            <span asp-validation-for="Rating" class="text-danger d-block mt-2"></span>
+        </div>
+
+        <div class="form-group mb-3 w-100">
+            <label asp-for="Comment" class="form-label">@Localizer["Any comments or suggestions?"]</label>
+            <textarea asp-for="Comment" class="form-control" rows="5" placeholder="@Localizer["Tell us what you think..."]"></textarea>
+            <span asp-validation-for="Comment" class="text-danger"></span>
+        </div>
+            <input asp-for="Name" value="@Model.GuestName" class="form-control"  hidden readonly />
+            <input asp-for="Email" class="form-control" value="@Model.GuestEmail" hidden readonly />
+
+        <button type="submit" class="btn btn-success btn-lg w-75">@Localizer["Submit Feedback"]</button>
+    </form>
+
+    @if (ViewBag.SuccessMessage != null)
+    {
+        <div class="alert alert-success mt-4 w-100" role="alert">
+            @ViewBag.SuccessMessage
+        </div>
+    }
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-danger mt-4 w-100" role="alert">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        // Optional: Client-side validation for rating (can be done solely by asp-validation)
+        // This makes sure at least one star is selected
+        document.addEventListener('DOMContentLoaded', function () {
+            const feedbackForm = document.querySelector('form[asp-action="SubmitFeedback"]');
+            if (feedbackForm) {
+                feedbackForm.addEventListener('submit', function (event) {
+                    const ratingInputs = document.querySelectorAll('.rating input[name="Rating"]');
+                    let isRatingSelected = false;
+                    for (let i = 0; i < ratingInputs.length; i++) {
+                        if (ratingInputs[i].checked) {
+                            isRatingSelected = true;
+                            break;
+                        }
+                    }
+
+                    if (!isRatingSelected) {
+                        event.preventDefault(); // Stop form submission
+                        const ratingSpan = document.querySelector('span[data-valmsg-for="Rating"]');
+                        if (ratingSpan) {
+                            ratingSpan.textContent = '@Localizer["Please select a rating."].Value';
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+}

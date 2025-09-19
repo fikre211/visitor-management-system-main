@@ -1,0 +1,210 @@
+﻿@model GatePass.MS.Domain.ViewModels.RequestInformationViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
+@{
+    ViewBag.Title = "Request Search";
+}
+ <br />
+ <br />
+
+<!-- Search Form -->
+<form asp-action="CheckIn" method="post"
+      style="display: flex; justify-content: center; align-items: center; gap: 12px; margin: 50px auto; padding: 20px; background: #ffffff; border: 1px solid #e0e0e0; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); width: fit-content;">
+
+    <input type="number" id="requestId" name="requestId" required autofocus
+           placeholder="Enter Request ID"
+           style="padding: 10px 14px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; outline: none; transition: border 0.2s ease; width: 220px;"
+           onfocus="this.style.border='1px solid #1A73E8'"
+           onblur="this.style.border='1px solid #ccc'" />
+
+    <button class="btn btn-primary" type="submit"
+            style="padding: 10px 18px; background: #1A73E8; border: none; border-radius: 8px; color: #fff; font-size: 14px; font-weight: 500; cursor: pointer; transition: background 0.3s ease;">
+        Search
+    </button>
+</form>
+
+
+<!-- Display Request Details -->
+@if (ViewBag.FirstName != null)
+{
+        <div class="card-body">
+            <div class="tab-content">
+                <div class="active tab-pane" id="individual">
+                    <form asp-action="Check" class="form-horizontal" enctype="multipart/form-data">
+                    <input type="number" id="checkId" name="checkId" value="@ViewBag.requestId" hidden />
+                        <div class="form-group row">
+                            <label asp-for="GuestFirstName" class="col-sm-2 col-form-label">@Localizer["First Name"]</label>
+                            <div class="col-sm-10">
+                                <input asp-for="GuestFirstName" class="form-control" value="@ViewBag.FirstName" readonly>
+                            </div>
+                            <span asp-validation-for="GuestFirstName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="GuestLastName" class="col-sm-2 col-form-label">@Localizer["Last Name"]</label>
+                            <div class="col-sm-10">
+                                <input asp-for="GuestLastName" class="form-control" value="@ViewBag.LastName" readonly>
+                            </div>
+                            <span asp-validation-for="GuestLastName" class="text-danger" ></span>
+                        </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">@Localizer["Guest Company"]</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" value="@ViewBag.Company" readonly />
+                        </div>
+                    </div>
+
+                        <div class="form-group row">
+                            <label asp-for="GuestEmail" class="col-sm-2 col-form-label">@Localizer["Email"]</label>
+                            <div class="col-sm-10">
+                            <input asp-for="GuestEmail" class="form-control" value="@ViewBag.Email" readonly>
+                            </div>
+                            <span asp-validation-for="GuestEmail" class="text-danger"></span>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="GuestPhoneNumber" class="col-sm-2 col-form-label">@Localizer["Phone Number"]</label>
+                            <div class="col-sm-10">
+                            <input asp-for="GuestPhoneNumber" class="form-control" type="tel" value="@ViewBag.Phone" readonly>
+                            </div>
+                            <span asp-validation-for="GuestPhoneNumber" class="text-danger"></span>
+                        </div>
+                    <div class="form-group row">
+                        <label asp-for="Department" class="col-sm-2 col-form-label">@Localizer["Department"]</label>
+                        <div class="col-sm-10">
+                            <input asp-for="Department" class="form-control" value="@ViewBag.Department" readonly>
+                        </div>
+                        <span asp-validation-for="Department" class="text-danger"></span>
+                    </div>
+                        <div class="form-group row">
+                            <label asp-for="PurposeOfVisit" class="col-sm-2 col-form-label">@Localizer["Purpose Of Visit"]</label>
+                            <div class="col-sm-10">
+                            <textarea class="form-control" disabled>@ViewBag.PurposeOfVisit</textarea>
+                            </div>
+                            <span asp-validation-for="PurposeOfVisit" class="text-danger"></span>
+                        </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">@Localizer["Feedback"]</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" disabled>@ViewBag.Feedback</textarea>
+                        </div>
+                        <span  class="text-danger"></span>
+                    </div>
+                        <div class="form-group row">
+                            <label class="col col-form-label">@Localizer["Approved Time Window"]</label>
+                            <div class="col-sm-10 d-flex flex-wrap">
+                                <div class="mr-md-2 mb-2 mb-md-0 col">
+                                <label for="startDateIndividual" style="color: green"> @Localizer["From: "] &nbsp; @ViewBag.ApprovedTimeStart</label>
+                                </div>
+                                <div class="col">
+                                <label for="endDateIndividual" style="color: green">@Localizer["To: "] &nbsp; @ViewBag.ApprovedTimeEnd</label>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                  <div class="row mb-3">
+        <label class="col-12 col-md-12 col-form-label">Devices: </label>
+        <div class="col-6 col-md-8">
+                            @if (ViewBag.Devices != null && ((ICollection<GatePass.MS.Domain.Device>)ViewBag.Devices).Any()) // Cast to ICollection for .Any()
+                            {
+                    <ul class="list-group">
+                                    @foreach (var device in (ICollection<GatePass.MS.Domain.Device>)ViewBag.Devices) // Cast ViewBag.Devices to ICollection<Device>
+                                    {
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <strong>@Localizer["Item Name"]:</strong> @device.DeviceName <br />
+                                        <strong>@Localizer["Identifier"]:</strong> @device.Identifier <br />
+                                        <strong>@Localizer["Description"]:</strong> @device.Description
+                                    </div>
+                                    <div class="fw-bold">
+                                                @if (device.IsGranted == true)
+                                                {
+                                                <span class="text-success">@Localizer["Granted"]</span>
+                                                }
+                                                else if (device.IsDenied == true)
+                                                {
+                                                <span class="text-danger">@Localizer["Denied"]</span>
+                                                }
+                                                else
+                                                {
+                                                <span class="text-muted">@Localizer["Pending"]</span>
+                                                }
+                                    </div>
+                                </li>
+                                    }
+                    </ul>
+                            }
+                            else
+                            {
+                    <p>@Localizer["No devices available."]</p>
+                            }
+        </div>
+    </div>
+                    <div class="row mb-3">
+                        <label class="col-12 col-md-12 col-form-label"> Additional Guests: </label>
+                        <div class="col-6 col-md-8">
+                            @if (ViewBag.AdditionalGuests != null)
+                            {
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>@Localizer["First Name"]</th>
+                                            <th>@Localizer["Last Name"]</th>
+                                            <th>@Localizer["Email"]</th>
+                                            <th>@Localizer["Phone"]</th>
+                                            <th>@Localizer["Company Name"]</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var guest in ViewBag.AdditionalGuests)
+                                        {
+                                            <tr>
+                                                <td>@guest.FirstName</td>
+                                                                                                <td>@guest.LastName</td>
+                                                <td>@guest.Email</td>
+                                                                                                <td>@guest.Phone</td>
+
+                                                <td>@guest.CompanyName</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                            else
+                            {
+                                <p>@Localizer["No Addtional Guests available."]</p>
+                            }
+                        </div>
+                    </div>
+
+
+                    @if (ViewBag.IsCheckedIn)
+                    {
+                        <div class="form-group row">
+                            <div class="col-sm-12 d-flex justify-content-center">
+                                <button type="submit" style="width: 20%;" disabled><strong>@Localizer["Checked In Already"]</strong></button>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-group row">
+                            <div class="col-sm-12 d-flex justify-content-center">
+                                <button type="submit" class="btn btn-primary" style="width: 20%;"><strong>@Localizer["Check In"]</strong></button>
+                            </div>
+                        </div>
+                    }
+                    </form>
+                </div>
+               
+            </div>
+            <!-- /.tab-content -->
+        </div><!-- /.card-body -->
+}
+
+<!-- Display Error Message -->
+@if (ViewBag.ErrorMessage != null)
+{
+    <p style="color: red;padding-left:80px">@ViewBag.ErrorMessage</p>
+}

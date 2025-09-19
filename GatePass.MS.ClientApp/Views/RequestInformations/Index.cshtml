@@ -1,0 +1,189 @@
+﻿@using GatePass.MS.Domain;
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@using Microsoft.AspNetCore.Identity
+
+@model List<RequestInformation>
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Index";
+    var user = await UserManager.GetUserAsync(User);
+
+    var companyName = ViewContext.RouteData.Values["companyName"]?.ToString();
+    var isInAdminRole = await UserManager.IsInRoleAsync(user, "ADMIN");
+
+
+}
+
+<!-- /.row -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <a asp-action="Invite"><button class="btn btn-primary">@Localizer["inviteNew"]</button></a>
+                <div class="card-tools">
+                    <div class="input-group input-group-sm" style="width: 150px;">
+                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-default">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th> @Localizer["guestEmail"]</th>
+                            <th>@Localizer["guestPhoneNumber"]</th>
+                            <th> @Localizer["Visit Start Date"]</th>
+                            <th> @Localizer["Visit End Date"]</th>
+                            <th> @Localizer["purposeOfVisit"]</th>
+                            <th> @Localizer["responsiblePerson"]</th>
+                            <th>@Localizer["approvalStatus"]</th>
+                            <th>@Localizer["approver"]</th>
+                           <th>Attachments</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Count; i++)
+                        {
+                            
+                            var invitation = Model[i];
+                            @if (invitation.Status == "Pending" || invitation.Status == "Rejected")
+                            {
+                                <tr>
+                                    <td>@(i + 1)</td>
+                                    <td>
+                                        @if (invitation.IsIndividual)
+                                        {
+                                            @(string.Join(" ", invitation.Guest?.FirstName, invitation.Guest?.LastName))
+                                        }
+                                        else
+                                        {
+                                            @invitation.Guest?.CompanyName
+                                        }
+                                    </td>
+
+                                    <td>@invitation.Guest?.Email</td>
+                                    <td>@invitation.Guest?.Phone</td>
+                                    <td>@invitation.VisitDateTimeStart.ToString("MM/dd/yyyy")</td>
+                                    <td>@invitation.VisitDateTimeEnd.ToString("MM/dd/yyyy")</td>
+
+                                    <td>@invitation.PurposeOfVisit</td>
+                                    <td>@(invitation.Employee?.FirstName + " " + invitation.Employee?.LastName)</td>
+                                    <td>
+                                        @if (invitation.Status == "Pending")
+                                        {
+
+                                            <span class="badge badge-warning">
+                                                Pending
+                                            </span>
+                                        }
+                                        @if (invitation.Status == "Approved")
+                                        {
+                                            <span class="badge badge-success">
+                                                Approved
+                                            </span>
+                                        }
+                                        @if (invitation.Status == "Reviewed")
+                                        {
+                                            <span class="badge badge-info">
+                                                Reviewed
+                                            </span>
+                                        }
+                                        @if (invitation.Status == "Rejected")
+                                        {
+                                            <span class="badge badge-danger">
+                                                Rejected
+                                            </span>
+                                        }
+                                    </td>
+                                    <td>@(invitation.Approver?.Employee?.FirstName)</td>
+
+                                    <td>
+                                        <a class="btn btn-primary" asp-action="ApproveDisapprove" asp-route-id="@invitation.Id">View Detail</a>
+                                    </td>
+
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td>@(i + 1)</td>
+                                    <td>
+                                        @if (invitation.IsIndividual)
+                                        {
+                                            @(string.Join(" ", invitation.Guest?.FirstName, invitation.Guest?.LastName))
+                                        }
+                                        else
+                                        {
+                                            @invitation.Guest?.CompanyName
+                                        }
+                                    </td>
+
+                                    <td>@invitation.Guest?.Email</td>
+                                    <td>@invitation.Guest?.Phone</td>
+                                    <td>@invitation.ApprovedDateTimeStart</td>
+                                    <td>@invitation.ApprovedDateTimeEnd</td>
+                                    <td>@invitation.PurposeOfVisit</td>
+                                    <td>@(invitation.Employee?.FirstName + " " + invitation.Employee?.LastName)</td>
+                                    <td>
+                                        @if (invitation.Status == "Pending")
+                                        {
+
+                                            <span class="badge badge-warning">
+                                                Pending
+                                            </span>
+                                        }
+                                        @if (invitation.Status == "Approved")
+                                        {
+                                            <span class="badge badge-success">
+                                                Approved
+                                            </span>
+                                        }
+                                        @if (invitation.Status == "Reviewed")
+                                        {
+                                            <span class="badge badge-info">
+                                                Reviewed
+                                            </span>
+                                        }
+                                        @if (invitation.Status == "Rejected")
+                                        {
+                                            <span class="badge badge-danger">
+                                                Rejected
+                                            </span>
+                                        }
+                                    </td>
+                                    <td>@(invitation.Approver?.Employee?.FirstName)</td>
+
+                                    <td>
+                                        <a class="btn btn-primary" asp-action="ApproveDisapprove" asp-route-id="@invitation.Id">View Detail</a>
+                                    </td>
+
+                                </tr>
+
+
+                            }
+
+                            
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+
+@section Scripts {
+    <!-- Your scripts here -->
+}

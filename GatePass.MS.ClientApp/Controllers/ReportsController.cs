@@ -1,0 +1,88 @@
+﻿using GatePass.MS.Application;
+using GatePass.MS.ClientApp.Data;
+using GatePass.MS.ClientApp.Service;
+using GatePass.MS.Domain;
+using GatePass.MS.Domain.ViewModels;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
+namespace GatePass.MS.ClientApp.Controllers
+{
+    public class ReportsController : Controller
+    {
+        private readonly ReportService _reportService;
+        private readonly UserActivityService _activityService;
+        private readonly GuestActivityService _guestActivityService;
+
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ApplicationDbContext _context;
+
+        public ReportsController(ReportService reportService,ApplicationDbContext context, UserActivityService activityService, GuestActivityService guestActivityService,UserManager<ApplicationUser> userManager)
+        {
+            _reportService = reportService;
+            _activityService = activityService;
+            _guestActivityService = guestActivityService;
+            _userManager = userManager;
+            _context = context;
+        }
+        [HttpGet]
+        public async Task<IActionResult> UserActivityReport( DateTime? startDate, DateTime? endDate, string? SelectedUserId)
+        {
+            var model = await _activityService.GetUserActivitiesAsync(startDate, endDate, SelectedUserId);
+            return View(model);
+        }
+        [HttpGet]
+        [HttpGet]
+        [HttpGet]
+        public async Task<IActionResult> GuestActivityReport(DateTime? startDate, DateTime? endDate, int? SelectedGuestId, string? activityType)
+        {
+            Console.WriteLine($"SelectedGuestId: {SelectedGuestId}");
+
+            var model = await _guestActivityService.GetGuestActivitiesAsync(startDate, endDate, SelectedGuestId, activityType);
+
+       
+            return View(model);
+        }
+
+        public IActionResult VisitReport(DateTime? startDate, DateTime? endDate, string? status, int? employeeId)
+        {
+            // Fetch reports based on filters
+            var reportDtos = _reportService.GetVisitReports(User,startDate, endDate, status, employeeId);
+
+             // Load the current user
+            var currentUser = _userManager.GetUserAsync(User).Result;
+            if (currentUser == null)
+            {
+                return NotFound(); // Handle null user scenario
+            }
+            _context.Entry(currentUser).Reference(x => x.Employee).Load();
+            int? currentUserDepartmentId = currentUser?.Employee?.DepartmentId;
+            // Check if the current user is in the "Supervisor" role
+            var isInSupervisorRole = _userManager.IsInRoleAsync(currentUser, "Superviser").Result;
+            // Fetch employees for dropdown options (or other purposes)
+            var Allemployees = _reportService.GetAllEmployees(); // Adjust as needed based on your service
+
+            // Prepare employee list based on user's role
+            var employees = isInSupervisorRole
+                ? Allemployees.Where(e => e.DepartmentId == currentUserDepartmentId).ToList()
+                : Allemployees.Where(e => e.Id == currentUser.EmployeeId).ToList();
+            // Create the ViewModel
+            var model = new VisitReportModel
+            {
+                StartDate = startDate,
+
+                EndDate = endDate,
+                Status = status,
+                EmployeeId = employeeId,
+                Reports = reportDtos,
+                Employees = employees
+
+            };
+
+            return View(model);
+        }
+
+    }
+
+}

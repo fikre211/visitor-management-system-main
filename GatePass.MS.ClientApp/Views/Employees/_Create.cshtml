@@ -1,0 +1,97 @@
+﻿@model GatePass.MS.Domain.Employee
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="modal-header">
+    <h4 class="modal-title"> @ViewData["Title"]</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <form asp-action="Create" id="createForm">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+                <div class="form-group">
+                    <label asp-for="FirstName" class="control-label">@Localizer["firstName"]</label>
+                    <input asp-for="FirstName" class="form-control" required id="FirstName" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="LastName" class="control-label">@Localizer["fatherName"]</label>
+                    <input asp-for="LastName" class="form-control" required id="LastName" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label">@Localizer["email"]</label>
+                    <input asp-for="Email" class="form-control" type="email" required id="Email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Phone" class="control-label">@Localizer["phone"]</label>
+                    <input asp-for="Phone" class="form-control" type="tel" pattern="\d{10}" required id="Phone" />
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Gender" class="control-label">@Localizer["gender"]</label>
+                    <div>
+                        <input asp-for="Gender" type="radio" value="Male" id="genderMale" class="form-check-input" />
+                        <label for="genderMale" class="form-check-label">Male</label>
+                    </div>
+                    <div>
+                        <input asp-for="Gender" type="radio" value="Female" id="genderFemale" class="form-check-input" required />
+                        <label for="genderFemale" class="form-check-label">Female</label>
+                    </div>
+                    <span asp-validation-for="Gender" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Address" class="control-label">@Localizer["address"]</label>
+                    <input asp-for="Address" class="form-control" required id="Address" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Age" class="control-label">@Localizer["age"]</label>
+                    <input asp-for="Age" class="form-control" type="number" min="18" max="120" required id="Age" />
+                    <span asp-validation-for="Age" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="DepartmentId" class="control-label">@Localizer["department"]</label>
+                    <select asp-for="DepartmentId" class="form-control" asp-items="ViewBag.DepartmentId"></select>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="DesignationId" class="control-label">@Localizer["designation"]</label>
+                    <select asp-for="DesignationId" class="form-control" asp-items="ViewBag.DesignationId"></select>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+            <div>
+                <a asp-action="Index">@Localizer["backToList"]</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+  
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

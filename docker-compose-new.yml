@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+ 
+  gatepass:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      MSSQL_SA_PASSWORD: "Saboka@12"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "8007:1433"
+    volumes:
+      - sql-gatepass-data-new:/var/opt/mssql  # Specify the volume for SQL Server data
+    restart: always
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+    
+  gatepass-app:
+    image: tselot24/gatepassapp:latest
+    ports:
+      - "8078:8080" 
+    depends_on:
+      - gatepass
+    volumes:
+      - app-data-new:/app/data  # Specify the volume for the application data
+    restart: always
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+      labels:
+        swarm.autoscaler: "true"
+        swarm.autoscaler.minimum: "1"
+        swarm.autoscaler.maximum: "5"
+
+volumes:
+  sql-gatepass-data-new:
+  app-data-new:

@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="from" xml:space="preserve">
+    <value>ከ</value>
+  </data>
+  <data name="guestEmail" xml:space="preserve">
+    <value>የእንግዳ ኢሜይል</value>
+  </data>
+  <data name="guestFirstName" xml:space="preserve">
+    <value>የእንግዳ የመጀመሪያ ስም</value>
+  </data>
+  <data name="guestLastName" xml:space="preserve">
+    <value>እንግዳ የአባት ስም</value>
+  </data>
+  <data name="guestPhoneNumber" xml:space="preserve">
+    <value>የእንግዳ ስልክ ቁጥር</value>
+  </data>
+  <data name="invitationForm" xml:space="preserve">
+    <value>የግብዣ ቅጽ</value>
+  </data>
+  <data name="invite" xml:space="preserve">
+    <value>ጋብዝ</value>
+  </data>
+  <data name="purposeOfVisit" xml:space="preserve">
+    <value>የጉብኝት ዓላማ</value>
+  </data>
+  <data name="to" xml:space="preserve">
+    <value>ወደ</value>
+  </data>
+  <data name="visitDateRange" xml:space="preserve">
+    <value>የጉብኝት ቀን ክልል</value>
+  </data>
+  <data name="CompanyName" xml:space="preserve">
+    <value>የድርጅት ስም</value>
+  </data>
+  <data name="department" xml:space="preserve">
+    <value>ክፍል</value>
+  </data>
+  <data name="Dr." xml:space="preserve">
+    <value>ዶ/ር</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>ኢሜይል</value>
+  </data>
+  <data name="Eng." xml:space="preserve">
+    <value>ኢ/ር</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>ስም</value>
+  </data>
+  <data name="from1" xml:space="preserve">
+    <value>ከ</value>
+  </data>
+  <data name="GivenName" xml:space="preserve">
+    <value>ሙሉ ስም</value>
+  </data>
+  <data name="HE." xml:space="preserve">
+    <value>ክቡር</value>
+  </data>
+  <data name="Hon." xml:space="preserve">
+    <value>የተከበሩ</value>
+  </data>
+  <data name="items" xml:space="preserve">
+    <value>እቃዎች/ተጨማሪ መረጃ</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>የአያት ስም</value>
+  </data>
+  <data name="Madam." xml:space="preserve">
+    <value>ክብርት</value>
+  </data>
+  <data name="Mr." xml:space="preserve">
+    <value>አቶ</value>
+  </data>
+  <data name="Mrs." xml:space="preserve">
+    <value>ወ/ሮ</value>
+  </data>
+  <data name="Ms." xml:space="preserve">
+    <value>ወ/ሪት</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>ሌላ</value>
+  </data>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>ስልክ</value>
+  </data>
+  <data name="photo" xml:space="preserve">
+    <value>ፎቶ</value>
+  </data>
+  <data name="Prof." xml:space="preserve">
+    <value>ፕ/ር</value>
+  </data>
+  <data name="PurposeOfVisit" xml:space="preserve">
+    <value>የጉብኝት ምክንያት</value>
+  </data>
+  <data name="requestVisit" xml:space="preserve">
+    <value>ጉብኝት ጠይቅ</value>
+  </data>
+  <data name="Sir." xml:space="preserve">
+    <value>እጅግ የተከበሩ</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>ማዕረግ</value>
+  </data>
+  <data name="to1" xml:space="preserve">
+    <value>ወደ</value>
+  </data>
+  <data name="visitDateRange1" xml:space="preserve">
+    <value>የጉብኝት ቀን </value>
+  </data>
+  <data name="addItem" xml:space="preserve">
+    <value>እቃ/ተጨማሪ መረጃ ጨምር</value>
+  </data>
+</root>

@@ -1,0 +1,339 @@
+﻿@{
+    ViewData["Title"] = "Guest Request Form";
+}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/e1c4b2d342.js" crossorigin="anonymous"></script>
+    <title>@ViewData["Title"]</title>
+
+    <style>
+
+        form {
+            background-color: #F4F6F7;
+            border-radius: 20px;
+            -webkit-box-shadow: 5px 5px 20px 0px rgba(173, 173, 173, 1);
+            -moz-box-shadow: 5px 5px 20px 0px rgba(173, 173, 173, 1);
+            box-shadow: 5px 5px 20px 0px rgba(173, 173, 173, 1);
+            padding: 1.5em;
+            margin: 75px 15px;
+            place-items: center;
+        }
+
+        .colA, .colB {
+            padding: 15px 50px;
+        }
+
+        input {
+            padding: 10px 16px;
+            width: 100%;
+            outline: 0;
+            margin-bottom: 20px;
+            border-radius: 20px;
+            border: 0;
+            background-color: gray;
+            font-size: 14px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-color: lightgrey;
+        }
+
+        select {
+            padding: 16px;
+            width: 100%;
+            outline: 0;
+            margin-bottom: 20px;
+            border-radius: 20px;
+            border: 0;
+            background-color: gray;
+            font-size: 10px;
+            background-color: lightgrey;
+            appearance: auto;
+            -webkit-appearance: auto;
+        }
+
+        .input-file {
+            padding: 16px 16px;
+            width: 100%;
+            outline: 0;
+            margin-bottom: 20px;
+            border-radius: 20px;
+            border: 0;
+            background-color: gray;
+            font-size: 14px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-color: lightgrey;
+            color: indigo;
+        }
+
+        textarea {
+            padding: 10px 16px;
+            width: 100%;
+            height: 95px;
+            outline: 0;
+            margin-bottom: 20px;
+            border-radius: 20px;
+            border: 0;
+            background-color: gray;
+            font-size: 14px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-color: lightgrey;
+        }
+
+        .send {
+            background-color: mediumaquamarine;
+            padding: 8px 2px;
+            width: 100%;
+            border: 1px solid transparent;
+            border-radius: 20px;
+            transition: 0.3s all ease;
+            color: black;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+
+            .send:hover {
+                background-color: lightblue;
+            }
+
+        .input-container {
+            display: flex;
+            width: 100%;
+        }
+
+        .country-code {
+            width: 60px;
+            margin-right: 10px;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        .phone-number {
+            flex-grow: 1;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .id-card-label {
+            cursor: pointer;
+        }
+
+        #id-card {
+            opacity: 0;
+            position: absolute;
+            z-index: 0;
+        }
+
+        #id-card-mobile {
+            opacity: 0;
+            position: absolute;
+            z-index: 0;
+        }
+    </style>
+
+</head>
+<body>
+
+    <div class="container d-none d-lg-block mt-3">
+        <form>
+            <div class="container">
+                <div class="row mb-3" style="background: white; border-radius: 25px;">
+                    <div class="col-9 me-5" style="padding: 50px 50px;">
+                        <h1 class="mb-3">GUEST - REQUEST FORM</h1>
+                    </div>
+                    <div class="col-2" style="padding: 25px 25px;">
+                        <a asp-area="" asp-controller="Home" asp-action="Index">
+                            <img class="img-fluid" src="https://mint.gov.et/wp-content/uploads/2021/06/New-logo-mint-Final.jpg" />
+                        </a>
+                    </div>
+                    <div class="col"></div>
+                </div>
+                <div class="row">
+                    <div class="col-6 colA">
+                        <div class="row">
+                            <input class="full-name" type="text" placeholder="Full Name" id="full-name" required />
+                        </div>
+                        <div class="row">
+                            <input class="e-mail" type="email" placeholder="E-mail" id="e-mail" required />
+                        </div>
+
+                        <div class="row">
+                            <input class="col-4 date me-5" type="date" id="date" />
+
+                            <input class="col-3 time me-2" type="time" id="start-time" name="start-time" style="font-size: 12px;" />
+                            <input class="col-3 time" type="time" id="end-time" name="end-time" style="font-size: 12px;" />
+                        </div>
+
+                        <div class="row">
+                            <input class="duration" type="text" placeholder="Duration" id="duration" />
+                        </div>
+                    </div>
+
+                    <div class="col-6 colB">
+                        <div class="row">
+                            <div class="input-container">
+                                <select class="country-code" id="country-code" required>
+                                    <option value="+251" disabled selected>+251</option>
+                                    <option value="+1">+1</option>
+                                    <option value="+44">+44</option>
+                                </select>
+                                <input class="phone-number" type="tel" placeholder="Enter your phone number" id="phone-number" required />
+                            </div>
+                        </div>
+
+                        <label class="row id-card-label text-center" for="id-card">
+                            <span class="input-file" style="display: flex;">
+                                <i class="col fa-solid fa-thumbtack mt-3 me-5">
+                                </i>
+                                <input class="id-card" type="file" id="id-card" />
+                                <span class="ms-3" style="border: 1px solid yellow; padding: 8px 25px;"><i class="me-3 fa-solid fa-upload"></i> ID <i class="fa-solid fa-address-card"></i></span>
+                            </span>
+                        </label>
+                        <div id="selected-file-info" class="file-info" style="display: none;"></div>
+
+
+                        <div class="row">
+                            <textarea class="purpose-of-visit" type="text" placeholder="Purpose of Visit" id="purpose-of-visit"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="justify-content: center;">
+                    <div class="col-2">
+                        <button id="submit" class="send" type="submit" name="submit">Request<i class="ms-3 fa-solid fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="container d-block d-lg-none mt-3">
+        <form>
+            <div class="container mb-3">
+                <div class="row" style="background: white; border-radius: 12px;">
+                    <div class="col" style="padding: 15px 4px">
+                        <p class="text-center" style="font-weight: bold; font-size: 10px;">GUEST - REQUEST FORM</p>
+                    </div>
+                    <div class="col-4" style="padding: 4px 8px">
+                        <a asp-area="" asp-controller="Home" asp-action="Index">
+                            <img class="img-fluid" src="https://mint.gov.et/wp-content/uploads/2021/06/New-logo-mint-Final.jpg" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <input class="full-name" type="text" placeholder="Full Name" id="full-name" required />
+                </div>
+                <div class="row">
+                    <input class="e-mail" type="email" placeholder="E-mail" id="e-mail" required />
+                </div>
+                <div class="row">
+                    <div class="input-container">
+                        <select class="country-code" id="country-code" required>
+                            <option value="+251" disabled selected>+251</option>
+                            <option value="+1">+1</option>
+                            <option value="+44">+44</option>
+                        </select>
+                        <input class="phone-number" type="tel" placeholder="Phone number" id="phone-number" required />
+                    </div>
+                </div>
+
+                <label class="row id-card-label-mobile text-center" for="id-card">
+                    <span class="input-file" style="display: flex;">
+                        <i class="col fa-solid fa-thumbtack mt-3 me-3">
+                        </i>
+                        <input class="id-card-mobile" type="file" id="id-card-mobile" />
+                        <span class="ms-3" style="border: 1px solid yellow; padding: 8px 4px"><i class="me-3 fa-solid fa-upload"></i> ID <i class="fa-solid fa-address-card"></i></span>
+                    </span>
+                </label>
+                <div id="selected-file-info-mobile" class="file-info-mobile" style="display: none;"></div>
+
+                <div class="row">
+                    <input class="date me-5" type="date" id="date" />
+                    <input class="time me-2" type="time" id="start-time" name="start-time" style="font-size: 12px;" />
+                    <input class="time" type="time" id="end-time" name="end-time" style="font-size: 12px;" />
+                </div>
+
+                <div class="row">
+                    <input class="duration" type="text" placeholder="Duration" id="duration" />
+                </div>
+
+                <div class="row">
+                    <textarea class="purpose-of-visit" type="text" placeholder="Purpose of Visit" id="purpose-of-visit"></textarea>
+                </div>
+
+                <div class="row mt-3" style="justify-content: center;">
+                    <div class="w-75">
+                        <button id="submit" class="btn" type="submit" name="submit">Request<i class="ms-3 fa-solid fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+        document.getElementById('id-card').addEventListener('change', function () {
+            showSelectedFile();
+        });
+
+        function showSelectedFile() {
+            var fileInput = document.getElementById('id-card');
+
+            var idCardLabel = document.querySelector('.id-card-label');
+
+            if (fileInput.files && fileInput.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    idCardLabel.innerHTML = `
+                                    <span class="input-file text-center">
+                                        ID <i class="fa-solid fa-address-card"></i>
+                                        <img class="img-fluid" src="${e.target.result}" alt="Selected Image" style="max-width: 100px; max-height: 100px;">
+                                    </span>
+                                `;
+                };
+
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                idCardLabel.innerHTML = '';
+            }
+
+        }
+
+        document.getElementById('id-card-mobile').addEventListener('change', function () {
+            showSelectedFile_mobile();
+        });
+
+        function showSelectedFile_mobile() {
+            var fileInput = document.getElementById('id-card-mobile');
+
+            var idCardLabel = document.querySelector('.id-card-label-mobile');
+
+            if (fileInput.files && fileInput.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    idCardLabel.innerHTML = `
+                                    <span class="input-file text-center">
+                                        ID <i class="fa-solid fa-address-card"></i>
+                                        <img class="img-fluid" src="${e.target.result}" alt="Selected Image" style="max-width: 100px; max-height: 100px;">
+                                    </span>
+                                `;
+                };
+
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                idCardLabel.innerHTML = '';
+            }
+
+        }
+    </script>
+
+</body>
+</html>

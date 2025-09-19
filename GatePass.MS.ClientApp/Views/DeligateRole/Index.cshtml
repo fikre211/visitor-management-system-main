@@ -1,0 +1,87 @@
+@using Microsoft.AspNetCore.Identity;
+@using GatePass.MS.Domain.ViewModels;
+@model List<ViewUserViewModel>
+
+@{
+    ViewData["Title"] = "User List";
+}
+
+<!-- /.row -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive p-0">
+                <table id="myDataTable" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Full Name</th>
+                            <th>Username</th>
+                            <th>Roles</th>
+                            <th>Deligate Role</th>
+                            <th>Revoke Role</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model)
+                        {
+                            var canRevoke = user.Roles.Count > 1; // Check if the user has more than one role
+                            var canDelegate = !user.Roles.Contains("Superviser") && !user.Roles.Contains("Admin");  // Check if the user does not have the Supervisor role
+
+                            <tr>
+                                <td>@user.FullName</td>
+                                <td>@user.UserName</td>
+
+                                <td>
+                                    @foreach (var role in @user.Roles)
+                                    {
+                                        <span>@role </span>
+                                    }
+    ;
+                                </td>
+                                <td>
+                                    @if (canDelegate)
+                                    {
+                                        <form asp-action="AssignRole" method="post">
+                                            <input type="hidden" name="userId" value="@user.Id" />
+                                            <input type="hidden" name="roleName" value="@ViewBag.role" />
+                                            <button type="submit" class="btn btn-info">Delegate</button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-info" disabled>Delegate</button>
+                                    }
+                                </td>
+                                <td>
+                                    @if (canRevoke)
+                                    {
+                                        <form asp-action="RevokeRole" method="post">
+                                            <input type="hidden" name="userId" value="@user.Id" />
+                                            <input type="hidden" name="roleName" value="@ViewBag.role" />
+                                            <button type="submit" class="btn btn-danger">Revoke</button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger" disabled>Revoke</button>
+                                    }
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+
+@section Scripts {
+    <!-- Include any additional scripts needed here -->
+}

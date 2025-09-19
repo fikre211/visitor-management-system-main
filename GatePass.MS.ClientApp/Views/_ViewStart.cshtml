@@ -1,0 +1,19 @@
+﻿@*{
+    bool IsGuest()
+    {
+        // Check if the user is authenticated
+        if (!User.Identity.IsAuthenticated)
+        {
+            // User is not authenticated, hence a guest
+            return true;
+        }
+
+        // User is authenticated
+        return false;
+    }
+} *@
+
+@{
+    Layout = "_Layout";
+}
+@*  Layout = IsGuest() ? _GuestLayout : "_Layout";*@

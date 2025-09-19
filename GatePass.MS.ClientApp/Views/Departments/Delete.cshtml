@@ -1,0 +1,14 @@
+﻿@model GatePass.MS.Domain.Department
+
+<h1>Delete Department</h1>
+
+<h3>Are you sure you want to delete</h3>
+
+<div>
+    <h4>@Model.Name   all the child departments and employees inside departments will be deleted</h4>
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

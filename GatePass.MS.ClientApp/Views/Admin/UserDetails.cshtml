@@ -1,0 +1,152 @@
+﻿@using GatePass.MS.Domain.ViewModels
+@model ViewUserViewModel
+@{
+    ViewData["Title"] = "User Detail";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Profile</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">User Profile</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <!-- Profile Image -->
+                <div class="card card-primary card-outline">
+                    <div class="card-body box-profile">
+                        <div class="text-center">
+                            <img class="profile-user-img img-fluid img-circle"
+                                 src="../../dist/img/user4-128x128.jpg"
+                                 alt="User profile picture">
+                        </div>
+                        <h3 class="profile-username text-center">@Model.UserName</h3>
+                        <p class="text-muted text-center">Software Engineer</p>
+                        <ul class="list-group list-group-unbordered mb-3">
+                            <li class="list-group-item">
+                                <b>Department</b> <a class="float-right">@Model.Department</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- About Me Box -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Account Status</h3>
+                    </div>
+                    <div class="card-body">
+                        @if (!Model.IsActive)
+                        {
+                            <strong> Current Status of account</strong>
+                            
+                            <p class="btn btn-warning">Deactive</p>
+                            @if (Model.IsLocked)
+                            {
+                                <h6>and</h6>
+
+                                <p class="btn btn-warning">Locked</p>
+                            }
+                            <hr />
+                            <strong> Change Account Status</strong>
+                            <form asp-action="ActivateUser" method="post">
+                                <input type="hidden" asp-for="Id" />
+                                <div class="form-group">
+                                    <input type="submit" value="Activate" class="btn btn-success" />
+                                </div>
+                            </form>
+                        }
+                        else
+                        {
+                            <strong> Current Status of account</strong><br />
+                            <p class="btn btn-success">Active</p>
+                            @if (Model.IsLocked)
+                            {
+                                <h6>and</h6>
+
+                                <p class="btn btn-danger">Locked</p>
+                            }
+                            <hr />
+                            <strong> Change Account Status</strong>
+                            <form asp-action="DeactivateUser" method="post">
+                                <input type="hidden" asp-for="Id" />
+                                <div class="form-group">
+                                    <input type="submit" value="Deactivate" class="btn btn-warning" />
+                                </div>
+                            </form>
+                        }
+                        @if (Model.IsLocked)
+                        {
+                            <strong> Account is locked please review and unlock it</strong>
+                            <form asp-action="UnlockUser" method="post">
+                                <input type="hidden" asp-for="Id" />
+                                <div class="form-group">
+                                    <input type="submit" value="Unlock Account" class="btn btn-warning" />
+                                </div>
+                            </form>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-header p-2">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Activity</a></li>
+                        </ul>
+                    </div><!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="active tab-pane" id="activity">
+                                <!-- Activity Timeline -->
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Timestamp</th>
+                                            <th>Activity Type</th>
+                                            <th>Activity Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var activity in ViewBag.activities)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <span class="badge badge-primary" style="background-color: #007bff; color: #fff; padding: 5px 10px; border-radius: 5px;">
+                                                        @activity.Timestamp.ToString("MMM d, yyyy h:mm tt")
+                                                    </span>
+                                                </td>
+                                                <td style="font-weight: bold;">
+                                                    @activity.ActivityType
+                                                </td>
+                                                <td>
+                                                    @activity.ActivityDescription
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div><!-- /.card-body -->
+                </div><!-- /.card -->
+            </div>
+        </div><!-- /.row -->
+
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section><!-- /.content -->

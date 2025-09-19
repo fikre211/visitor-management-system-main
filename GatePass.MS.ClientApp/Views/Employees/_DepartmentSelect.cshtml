@@ -1,0 +1,27 @@
+﻿@model GatePass.MS.Domain.Department
+
+
+@if (Model.ChildDepartments != null && Model.ChildDepartments.Any())
+{
+    @foreach (var child in Model.ChildDepartments)
+    {
+        <tr data-widget="expandable-table" aria-expanded="false">
+            <td>
+                <i class="expandable-table-caret fas fa-caret-right fa-fw"></i>
+                @child.Name
+            </td>
+
+
+        </tr>
+        <tr class="expandable-body">
+            <td>
+                <div class="p-0">
+                    <table class="table table-hover">
+                        <tbody>
+                            @await Html.PartialAsync("_DepartmentPartial", child)
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+        </tr>
+    }           }

@@ -1,0 +1,164 @@
+﻿@model IEnumerable<GatePass.MS.Domain.Employee>
+@using GatePass.MS.Domain
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<p>
+    &nbsp;&nbsp; &nbsp;&nbsp;   <a id="createNew" class="btn btn-primary" style="cursor: pointer;"> @Localizer["addNewEmployee"]</a>
+
+   
+</p>
+<form method="post" enctype="multipart/form-data">
+    <div class="row">
+        <label> ;&nbsp;&nbsp;Select Excel File</label>
+        <input type="file" name="file" />
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-3">
+            &nbsp;&nbsp;&nbsp;&nbsp;   <input type="submit" asp-controller="Employees" asp-action="UploadExcel" class="btn btn-success" value="Upload Excel File" />
+        </div>
+    </div>
+</form>
+<br />
+
+<!-- Modal for Create/Edit/Details/Delete -->
+<!-- /.modal -->
+<div class="modal fade" id="modal-lg">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- Content will be loaded via AJAX -->
+           
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+@*small modal*@
+<div class="modal fade" id="modal-sm">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <!-- Content will be loaded via AJAX -->
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="card-body table-responsive p-0">
+    <table id="myDataTable" class="table table-bordered table-striped" >
+    <thead>
+        <tr>
+            <th></th>
+            <th>
+                    @Localizer["firstName"]
+            </th>
+            <th>
+                    @Localizer["fatherName"]
+            </th>
+            <th>
+                  @Localizer["email"]
+            </th>
+            <th>
+                   @Localizer["phone"]
+            </th>
+            <th>
+                    @Localizer["gender"]
+            </th>
+            <th>
+                    @Localizer["address"]
+            </th>
+            <th>
+                    @Localizer["age"]
+            </th>
+            <th>
+                     @Localizer["department"]
+            </th>
+            <th>
+                   @Localizer["designation"]
+            </th>
+                <th>@Localizer["action"]</th>
+            </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Age)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Department.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Designation.Name)
+            </td>
+            <td>
+                        <a class="badge badge-info" style="cursor: pointer;" onclick="showDetails(@item.Id)">@Localizer["detail"]</a> |
+                        <a class="badge badge-warning" style="cursor: pointer;" onclick="editEmployee(@item.Id)">@Localizer["edit"]</a> |
+                        <a class="badge badge-danger" style="cursor: pointer;" onclick="deleteEmployee(@item.Id)">@Localizer["delete"]</a>|
+                       
+                    </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#createNew').click(function () {
+                $.get('@Url.Action("Create", "Employees")', function (data) {
+                    $('#modal-lg .modal-content').html(data);
+                    $('#modal-lg').modal('show');
+                });
+            });
+        });
+        function showDetails(id) {
+            $.get('@Url.Action("Details", "Employees")/' + id, function (data) {
+                $('#modal-lg .modal-content').html(data);
+                $('#modal-lg').modal('show');
+            });
+        }
+        function editEmployee(id) {
+            $.get('@Url.Action("Edit", "Employees")/' + id, function (data) {
+                $('#modal-lg .modal-content').html(data);
+                $('#modal-lg').modal('show');
+            });
+        }
+        function deleteEmployee(id) {
+            $.get('@Url.Action("Delete", "Employees")/' + id, function (data) {
+                $('#modal-lg .modal-content').html(data);
+                $('#modal-lg').modal('show');
+            });
+        }
+    </script>
+}

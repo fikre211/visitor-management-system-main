@@ -1,0 +1,1034 @@
+﻿@using GatePass.MS.Domain
+@using GatePass.MS.ClientApp.Service
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject ICurrentCompany CurrentCompany
+
+@{
+    ViewData["Title"] = "Home Page";
+    var company = CurrentCompany.Value;
+}
+@if (SignInManager.IsSignedIn(User))
+{
+
+    var user = await UserManager.GetUserAsync(User);
+    var isInSupervisorRole = await UserManager.IsInRoleAsync(user, "SUPERVISER");
+    var isInAdminRole = await UserManager.IsInRoleAsync(user, "ADMIN");
+    var isInEmployeeRole = await UserManager.IsInRoleAsync(user, "EMPLOYEE");
+    var isInGatekeeperRole = await UserManager.IsInRoleAsync(user, "GATEKEEPER");
+
+
+
+    @if (isInAdminRole)
+    {
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-info">
+                                <div class="inner">
+                                    <h3>@ViewBag.CompanyEmployees</h3>
+                                    <p>@Localizer["All Registered Users"]</p>
+                                </div>
+                                <a asp-controller="Admin" asp-action="Index" class="small-box-footer">
+                                    @Localizer["More Info"] <i class="fas fa-arrow-circle-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-purple">
+                                <div class="inner">
+                                    <h3>@ViewBag.departments</h3>
+                                    <p>@Localizer["Departments"]</p>
+                                </div>
+                                <a asp-controller="Departments" asp-action="Index" class="small-box-footer">
+                                    @Localizer["More Info"] <i class="fas fa-arrow-circle-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-secondary">
+                                <div class="inner">
+                                    <h3>@ViewBag.CompanyEmployees</h3>
+                                    <p>@Localizer["Employees"]</p>
+                                </div>
+                                <a asp-controller="Employees" asp-action="Index" class="small-box-footer">
+                                    @Localizer["More Info"] <i class="fas fa-arrow-circle-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-pink">
+                                <div class="inner">
+                                    <h3>@ViewBag.outDatedRequests</h3>
+                                    <p>@Localizer["OutDated Requests"]</p>
+                                </div>
+                                <a asp-controller="Admin" asp-action="RequestTobeDeleted" class="small-box-footer">
+                                    @Localizer["More Info"] <i class="fas fa-arrow-circle-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Second Row -->
+                    <div class="row mt-4">
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-primary">
+                                <div class="inner">
+                                    <h3>@ViewBag.allRequests</h3>
+                                    <p>@Localizer["All Requests"]</p>
+                                </div>
+                                <a href="@Url.Action("Index", "RequestInformations")" class="small-box-footer">
+                                    @Localizer["More Info"] <i class="fas fa-arrow-circle-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-success">
+                                <div class="inner">
+                                    <h3>@ViewBag.Approvedrequest</h3>
+                                    <p>@Localizer["Approved Requests"]</p>
+                                </div>
+                                <a href="@Url.Action("Index", "RequestInformations", new { status = "approved" })" class="small-box-footer">
+                                    @Localizer["More Info"] <i class="fas fa-arrow-circle-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-warning">
+                                <div class="inner">
+                                    <h3>@ViewBag.Pendingrequest</h3>
+                                    <p>@Localizer["Pending Requests"]</p>
+                                </div>
+                                <a href="@Url.Action("Index", "RequestInformations", new { status = "pending" })" class="small-box-footer">
+                                    @Localizer["More Info"] <i class="fas fa-arrow-circle-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                         @if (company.Slug == "hopr")
+                    {
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-orange">
+                                <!-- Second row color: bg-pink (custom pink) -->
+                                <div class="inner">
+                                    <h3>@(ViewBag.Reviewedrequest ?? 0)</h3>
+                                    <p>@Localizer["Reviewed Requests"]</p>
+                                </div>
+                                <a href="@Url.Action("Index", "RequestInformations", new { status = "reviewed" })" class="small-box-footer">
+                                    @Localizer["More Info"] <i class="fas fa-arrow-circle-right"></i>
+                                </a>
+                            </div>
+                    </div>
+                }
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-danger">
+                                <div class="inner">
+                                    <h3>@ViewBag.Rejectedrequest</h3>
+                                    <p>@Localizer["Rejected Requests"]</p>
+                                </div>
+                                <a href="@Url.Action("Index", "RequestInformations", new { status = "rejected" })" class="small-box-footer">
+                                    @Localizer["More Info"] <i class="fas fa-arrow-circle-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts Section -->
+                    <div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Visitors Overview</h3>
+            </div>
+            <div class="card-body">
+                <canvas id="adminBarChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+            </div>
+        </div>
+    </div>
+                         <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">User Roles Distribution</h3>
+            </div>
+            <div class="card-body">
+                <canvas id="userRolesPieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Requests Trend</h3>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="requestsLineChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (isInSupervisorRole)
+    {
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-6">
+                            <!-- small box -->
+                            <a href="@Url.Action("Index", "RequestInformations")" class="small-box bg-info text-decoration-none">
+                                <div class="inner">
+                                    <h3>@ViewBag.allRequests</h3>
+                                    <p>@Localizer["All Requests"]</p>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- ./col -->
+                        <div class="col-6">
+                            <!-- small box -->
+                            <a href="@Url.Action("Index", "RequestInformations", new { status = "approved" })" class="small-box bg-success text-decoration-none">
+                                <div class="inner">
+                                    <h3>@ViewBag.Approvedrequest</h3>
+                                    <p>@Localizer["approvedRequests"]</p>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- ./col -->
+                        <div class="col-6">
+                            <!-- small box -->
+                            <a href="@Url.Action("Index", "RequestInformations", new { status = "pending" })" class="small-box bg-warning text-decoration-none">
+                                <div class="inner">
+                                    <h3>@ViewBag.Pendingrequest</h3>
+                                    <p>@Localizer["pendingRequests"]</p>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- ./col -->
+                        <div class="col-6">
+                            <!-- small box -->
+                            <a href="@Url.Action("Index", "RequestInformations", new { status = "rejected" })" class="small-box bg-danger text-decoration-none">
+                                <div class="inner">
+                                    <h3>@ViewBag.Rejectedrequest</h3>
+                                    <p>@Localizer["rejectedRequests"]</p>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- ./col -->
+                    </div> <!-- End of inner row -->
+                </div> <!-- End of col-12 -->
+            </div> <!-- End of row -->
+        </div> <!-- End of container-fluid -->
+    }
+    @if (!isInSupervisorRole && isInEmployeeRole)
+    {
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-6">
+                            <a href="@Url.Action("Index", "RequestInformations")" class="small-box bg-info text-decoration-none">
+                                <div class="inner">
+                                    <h3>@ViewBag.allRequests</h3>
+                                    <p>@Localizer["All Requests"]</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-6">
+                            <a href="@Url.Action("Invite", "RequestInformations")" class="small-box bg-success text-decoration-none">
+                                <div class="inner">
+                                    <h3>+</h3>
+                                    <p>@Localizer["New Request"]</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-6">
+                            <a href="@Url.Action("Index", "RequestInformations", new { status = "approved" })" class="small-box bg-success text-decoration-none">
+                                <div class="inner">
+                                    <h3>@ViewBag.ApprovedrequestEmployee</h3>
+                                    <p>@Localizer["approvedRequests"]</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-6">
+                            <!-- small box -->
+                            <a href="@Url.Action("Index", "RequestInformations", new { status = "pending" })" class="small-box bg-warning text-decoration-none">
+                                <div class="inner">
+                                    <h3>@ViewBag.PendingrequestEmployee</h3>
+                                    <p>@Localizer["pendingRequests"]</p>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- ./col -->
+                        <div class="col-6">
+                            <!-- small box -->
+                            <a href="@Url.Action("Index", "RequestInformations", new { status = "rejected" })" class="small-box bg-danger text-decoration-none">
+                                <div class="inner">
+                                    <h3>@ViewBag.RejectedrequestEmployee</h3>
+                                    <p>@Localizer["rejectedRequests"]</p>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- ./col -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+   
+    @if (isInGatekeeperRole)
+    {
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Visitor Requests</h3>
+                        </div>
+                        <div class="card-body table-responsive p-0">
+                            <table id="myDataTable" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>@Localizer["visitDateStart"]</th>
+                                        <th>@Localizer["visitDateEnd"]</th>
+                                        <th>@Localizer["purposeOfVisit"]</th>
+                                        <th>@Localizer["responsiblePerson"]</th>
+                                        <th>Guest Destination Department</th>
+                                        <th>Print</th>
+                                        <th>Check-in Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int i = 0; i < Model.Count; i++)
+                                    {
+                                        var request = Model[i];
+                                        <tr>
+                                            <td>@(i + 1)</td>
+                                            <td>
+                                                @if (request.IsIndividual)
+                                                {
+                                                    @(request.Guest?.FirstName + " " + request.Guest?.LastName)
+                                                }
+                                                else
+                                                {
+                                                    @request.Guest?.CompanyName
+                                                }
+                                            </td>
+                                            <td>@request.VisitDateTimeStart.ToString("yyyy-MM-dd")</td>
+                                            <td>@request.VisitDateTimeEnd.ToString("yyyy-MM-dd")</td>
+                                            <td>@request.PurposeOfVisit</td>
+                                            <td>
+                                                @if (request.Employee != null)
+                                                {
+                                                    @(request.Employee?.FirstName + " " + request.Employee?.LastName)
+                                                }
+                                                else
+                                                {
+                                                    <span>Outer Request</span>
+                                                }
+                                            </td>
+                                            <td>@request?.Department?.Name</td>
+                                            <td>
+                                                @if (request.ImageData != null)
+                                                {
+                                                    <button class="btn btn-secondary print-btn" data-image="@Url.Action("GetDynamicImage", "Guest", new { id = request.Id })">
+                                                        <i class="fas fa-print"></i>
+                                                    </button>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (!request.IsCheckedIn)
+                                                {
+                                                    <form asp-controller="Guest" asp-action="CheckIn" method="post" class="d-inline">
+                                                        <input type="hidden" name="requestId" value="@request.Id" />
+                                                        <button type="submit" class="btn btn-success">@Localizer["checkIn"]</button>
+                                                    </form>
+                                                }
+                                                else
+                                                {
+                                                    <form asp-controller="Guest" asp-action="CheckOut" method="post" class="d-inline">
+                                                        <input type="hidden" name="requestId" value="@request.Id" />
+                                                        <button type="submit" class="btn btn-warning">@Localizer["checkOut"]</button>
+                                                    </form>
+                                                }
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-primary" asp-controller="RequestInformations" asp-action="ApproveDisapprove" asp-route-id="@request.Id">@Localizer["viewDetail"]</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+<div class="container-total">
+
+    <aside class="left-side" id="leftSidebar">
+        <div class="sidebar-content">
+            <div class="logo-container">
+                <img src="~/img/touchless.png" alt="Logo" class="logo-login" />
+            </div>
+
+            <div class="info-text">
+                <h3>Quick Access</h3>
+                <p>Scan the QR Code below for a swift
+Self-Registration!</p>
+            </div>
+
+            <div class="qr-container">
+                <img id="dynamicQRCode" src="" alt="QR Code" />
+            </div>
+        </div>
+    </aside>
+
+    <main class="right-side">
+      
+                    <div class="company-info">
+                <img src="@Url.Content(company.LogoPath)" alt="@company.Name" class="company-logo" />
+                <span class="company-name">@ViewBag.CompanyName</span>
+            </div>
+         <div class="visitor-stats">
+                <div class="stat-item">
+                    <div class="stat-number">@(ViewBag.TodaysVisitorCount ?? 0)</div>
+                    <div class="stat-label">Today's Visitors</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">@(ViewBag.TotalVisitorCount ?? 0)</div>
+                    <div class="stat-label">Total Visitors</div>
+                </div>
+            </div>
+        <div class="welcome-container">
+
+            <div class="welcome-section">
+                <h1 class="welcome-title">Welcome to @company.Name</h1>
+                <p class="welcome-subtitle">
+                    Please Take a Moment for Self-Registration, Check-In or Check-Out Below.
+                </p>
+
+                <div class="action-buttons">
+                    <a asp-controller="guest" asp-action="Invite" class="btn btn-primary">
+                        <i class="fas fa-user-plus"></i> @Localizer["Self-Registration"]
+                    </a>
+                    <a asp-controller="guest" asp-action="CheckIn" class="btn btn-secondary">
+                        <i class="fas fa-sign-in-alt"></i> @Localizer["Check-In"]
+                    </a>
+                    <a asp-controller="guest" asp-action="CheckOut" class="btn btn-third">
+                        <i class="fas fa-sign-out-alt"></i> @Localizer["Check-Out"]
+                    </a>
+                </div>
+            </div>
+
+        </div>
+        
+        <footer class="page-footer">
+            
+        </footer>
+    </main>
+</div>
+
+<style>
+    :root {
+        /* Color Palette */
+        --primary-blue: #0057b3;
+        --primary-blue-dark: #004494;
+        --accent-blue: #e6f0ff;
+        --neutral-light: #f4f6f9;
+        --neutral-white: #ffffff;
+        --text-dark: #212529;
+        --text-light: #495057;
+        --border-color: #dee2e6;
+        --sidebar-bg: #0056b3;
+        --sidebar-width: 300px;
+    }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    /* KEY CHANGE: Ensure the root elements fill the viewport and disable scrolling globally */
+    html, body {
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+        font-family: 'Roboto', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+        background-color: var(--neutral-light);
+        color: var(--text-light);
+        line-height: 1.6;
+    }
+
+    /* --- Layout --- */
+    .container-total {
+        display: flex;
+        /* KEY CHANGE: Force container to fill the entire screen height */
+        height: 100vh;
+        width: 100%;
+        background-color: white;
+    }
+
+    /* --- Left Sidebar --- */
+    .left-side {
+        width: var(--sidebar-width);
+        background-color: #007dff;
+        color: var(--neutral-white);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 2rem;
+        /* KEY CHANGE: flex-shrink: 0 prevents the sidebar from shrinking */
+        flex-shrink: 0;
+    }
+
+    .sidebar-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .logo-container .logo-login {
+        max-width: 140px;
+        margin-bottom: 2rem;
+    }
+
+    .info-text h3 {
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        font-size: 1.25rem;
+    }
+    
+    .info-text p {
+        font-size: 0.95rem;
+        opacity: 0.8;
+        max-width: 220px;
+    }
+
+    .qr-container {
+        background: var(--neutral-white);
+        padding: 10px;
+        border-radius: 8px;
+        margin-top: 2rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .qr-container img {
+        display: block;
+        width: 135px;
+        height: 135px;
+    }
+
+    /* --- Right Side Content --- */
+    .right-side {
+        flex-grow: 1; /* Allows the right side to take up remaining horizontal space */
+        /* KEY CHANGE: Use flexbox to distribute vertical space and ensure no scrolling */
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        overflow: hidden;
+    }
+    
+    .page-header {
+        display: flex;
+        justify-content: center; 
+        align-items: center;
+        padding: 1.5rem 2rem;
+        background-color: var(--neutral-white);
+        border-bottom: 1px solid var(--border-color);
+        flex-shrink: 0; /* Prevent header from shrinking */
+    }
+    
+    .company-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        
+    }
+
+    .company-logo {
+        max-height: 180px; 
+        min-height: 180px; 
+        transition: max-height 0.3s ease;
+    }
+    
+    .company-name {
+        font-size: 0.5rem;
+        font-weight: 500;
+        color: var(--text-dark);
+        flex-direction: row;
+    }
+
+    /* KEY CHANGE: This container will grow to fill all available vertical space */
+    .welcome-container {
+        flex-grow: 1; 
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        background: #135f6f;
+       
+        overflow: hidden; /* Hide any potential overflow within this section */
+         background-color #0056b3
+    }
+
+    .welcome-section {
+        text-align: center;
+       
+    }
+
+    .welcome-title {
+        font-size: 2rem; /* Use clamp for fluid font size */
+        font-weight: 700;
+        color: white;
+        margin-bottom: 0.5rem;
+    }
+
+    .welcome-subtitle {
+        font-size: clamp(1rem, 2.5vw, 1.15rem);
+        max-width: 500px;
+        margin: 0 auto 2.5rem auto;
+        color: white;
+    }
+
+    /* --- Action Buttons --- */
+    .action-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        flex-wrap: wrap; 
+        color:aliceblue;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        padding: 12px 28px;
+        border-radius: 6px;
+        font-weight: 500;
+        font-size: 1rem;
+        text-decoration: none;
+        border: 2px solid transparent;
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+        min-width: 220px;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: var(--neutral-white);
+        border-color: #007bff;
+         text-transform: capitalize;
+
+    }
+
+    .btn-primary:hover {
+        background-color: var(--primary-blue-dark);
+        border-color: var(--primary-blue-dark);
+    }
+
+    .btn-secondary {
+       background-color: 
+#4caf50;
+        color: var(--neutral-white);
+        border-color: 
+#4caf50;
+    }
+
+    .btn-secondary:hover {
+
+
+                  background-color: var(--primary-blue-dark);
+        border-color: var(--primary-blue-dark);
+
+    }
+    .btn-third
+    {
+       
+  background-color: #f44336;
+        color: var(--neutral-white);
+        border-color: #f44336;
+    }
+     .btn-third:hover{
+              background-color: var(--primary-blue-dark);
+        border-color: var(--primary-blue-dark);
+        color: var(--neutral-white);
+     }
+    /* --- Page Footer for Visitor Stats --- */
+    .page-footer {
+        padding: 1.5rem 2rem;
+        background-color: var(--neutral-white);
+        border-top: 1px solid var(--border-color);
+        flex-shrink: 0; /* Prevent footer from shrinking */
+    }
+    
+    .visitor-stats {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+    }
+
+    .stat-item {
+        text-align: center;
+    }
+
+    .stat-number {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary-blue);
+    }
+
+    .stat-label {
+        font-size: 0.7rem;
+        color: var(--text-light);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* --- Responsive Design for Tablets and Mobile --- */
+    @@media (max-width: 992px) {
+        :root {
+            --sidebar-width: 250px;
+        }
+        .welcome-title {
+            margin-bottom: 1rem;
+        }
+        .welcome-subtitle {
+            margin-bottom: 2rem;
+        }
+        .qr-container img {
+            width: 150px;
+            height: 150px;
+        }
+    }
+
+
+    @@media (max-width: 768px) {
+        /* KEY CHANGE: Stack sidebar on top and ensure the total container remains unscrollable */
+        .container-total {
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .left-side {
+            width: 100%;
+            height: auto; /* Height is determined by content */
+            padding: 1rem;
+            flex-direction: row; /* Horizontal layout for sidebar content */
+            justify-content: space-around;
+            gap: 1rem;
+        }
+
+        .sidebar-content {
+            flex-direction: row;
+            gap: 1.5rem;
+        }
+
+        .logo-container {
+            display: none; /* Hide the top logo to save space */
+        }
+
+        .info-text {
+            text-align: left;
+        }
+
+        .info-text h3 { font-size: 1.1rem; }
+        .info-text p { font-size: 0.8rem; max-width: 180px; }
+
+        .qr-container { margin-top: 0; padding: 5px; }
+        .qr-container img {
+            width: 100px;
+            height: 100px;
+        }
+
+        .right-side {
+            height: auto; /* Height will be determined by flex-grow */
+            flex-grow: 1; /* This is crucial for filling remaining space */
+        }
+        
+        .page-header { padding: 1rem; }
+        .company-logo { max-height: 50px; }
+        .welcome-container { padding: 1.5rem 1rem; }
+        .welcome-title { font-size: 1.8rem; }
+        .welcome-subtitle { font-size: 0.95rem; margin-bottom: 2rem; }
+        
+        .action-buttons {
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .btn {
+            width: 90%;
+            max-width: 300px;
+            min-width: unset;
+        }
+        .page-footer { padding: 1rem; }
+        .visitor-stats { gap: 2rem; }
+        .stat-number { font-size: 1.5rem; }
+        .stat-label { font-size: 0.8rem; }
+    }
+</style>
+
+<script>
+    // Generate QR Code
+    function generateQRCode() {
+        const baseUrl = window.location.href;
+        const redirectUrl = `${baseUrl}/guest/Invite`;
+        // Using a reliable QR code generation API
+        const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(redirectUrl)}`;
+        const qrCodeElement = document.getElementById('dynamicQRCode');
+        if(qrCodeElement) {
+           qrCodeElement.src = qrCodeUrl;
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        generateQRCode();
+    });
+</script>
+}
+
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // -------- Bar Chart --------
+            var barCtx = document.getElementById('adminBarChart')?.getContext('2d');
+            if (barCtx) {
+                var Pendingrequest = @ViewBag.Pendingrequest;
+                var Approvedrequest = @ViewBag.Approvedrequest;
+                var Rejectedrequest = @ViewBag.Rejectedrequest;
+                var allRegisteredUser = @ViewBag.allRegisteredUser;
+                new Chart(barCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Registered Users', 'Pending Requests', 'Approved Requests', 'Rejected Requests'],
+                        datasets: [{
+                            label: 'Count',
+                            data: [allRegisteredUser, Pendingrequest, Approvedrequest, Rejectedrequest],
+                            backgroundColor: [
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(255, 99, 132, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(255, 99, 132, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { 
+                                display: true,
+                                position: 'top' 
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(tooltipItem) {
+                                        return tooltipItem.raw + ' users';
+                                    }
+                                }
+                            }
+                        },
+                        scales: { 
+                            y: { 
+                                beginAtZero: true 
+                            } 
+                        }
+                    }
+                });
+            }
+
+            // -------- Doughnut Chart --------
+            var pieCtx = document.getElementById('userRolesPieChart')?.getContext('2d');
+            if (pieCtx) {
+                new Chart(pieCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Admin', 'Supervisor', 'Employee', 'Gate Keepers'],
+                        datasets: [{
+                            label: 'User Roles',
+                            data: [@ViewBag.admins, @ViewBag.supervisors, @ViewBag.employees, @ViewBag.gatekeepers],
+                            backgroundColor: [
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(255, 159, 64, 0.2)',
+                                'rgba(255, 205, 86, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)',
+                                'rgba(255, 205, 86, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: { 
+                            legend: { 
+                                position: 'top' 
+                            }, 
+                            tooltip: { 
+                                callbacks: { 
+                                    label: t => t.raw + ' roles' 
+                                } 
+                            } 
+                        },
+                        scales: { 
+                            y: { 
+                                beginAtZero: true 
+                            } 
+                        }
+                    }
+                });
+            }
+
+            // -------- Line Chart --------
+            var lineCtx = document.getElementById('requestsLineChart');
+            if (lineCtx) {
+                lineCtx = lineCtx.getContext('2d');
+                
+                // Safely get the time data with a fallback to empty array
+                var timeData = @Html.Raw(Json.Serialize(ViewBag.RequestsOverTime ?? new List<object>()));
+                
+                // Debug: Log the data to console
+                console.log('Line chart data:', timeData);
+                
+                // Ensure we have valid data
+                if (!timeData || !Array.isArray(timeData) || timeData.length === 0) {
+                    console.warn('No data available for the line chart');
+                    
+                    // Create a default empty chart with a message
+                    new Chart(lineCtx, {
+                        type: 'line',
+                        data: {
+                            labels: ['No data available'],
+                            datasets: [{
+                                label: 'No Data',
+                                data: [0],
+                                backgroundColor: 'rgba(200, 200, 200, 0.1)',
+                                borderColor: 'rgba(200, 200, 200, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { display: false },
+                                title: {
+                                    display: true,
+                                    text: 'No request data available for the selected period'
+                                }
+                            }
+                        }
+                    });
+                    return;
+                }
+                
+                // If we have data, create the actual chart
+                try {
+                    new Chart(lineCtx, {
+                        type: 'line',
+                        data: {
+                            labels: timeData.map(function(x) { return x.date || ''; }),
+                            datasets: [{
+                                label: 'Number of Requests',
+                                data: timeData.map(function(x) { return x.count || 0; }),
+                                fill: true,
+                                backgroundColor: 'rgba(60, 141, 188, 0.1)',
+                                borderColor: 'rgba(60, 141, 188, 1)',
+                                borderWidth: 2,
+                                pointBackgroundColor: 'rgba(60, 141, 188, 1)',
+                                pointBorderColor: '#fff',
+                                pointHoverBackgroundColor: '#fff',
+                                pointHoverBorderColor: 'rgba(60, 141, 188, 1)',
+                                tension: 0.3
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: { 
+                                legend: { 
+                                    display: true,
+                                    position: 'top'
+                                },
+                                tooltip: {
+                                    mode: 'index',
+                                    intersect: false
+                                }
+                            },
+                            scales: { 
+                                x: { 
+                                    display: true,
+                                    title: {
+                                        display: true,
+                                        text: 'Date'
+                                    }
+                                }, 
+                                y: { 
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: 'Number of Requests'
+                                    },
+                                    ticks: {
+                                        stepSize: 1,
+                                        precision: 0,
+                                        callback: function(value) { 
+                                            if (value % 1 === 0) { return value; } 
+                                        }
+                                    }
+                                } 
+                            }
+                        }
+                    });
+                } catch (error) {
+                    console.error('Error creating line chart:', error);
+                    
+                    // Fallback to a simple message if chart creation fails
+                    lineCtx.font = '16px Arial';
+                    lineCtx.fillStyle = '#666';
+                    lineCtx.textAlign = 'center';
+                    lineCtx.fillText('Unable to display chart', lineCtx.canvas.width / 2, lineCtx.canvas.height / 2);
+                }
+            }
+        });
+    </script>
+}
+

@@ -1,0 +1,62 @@
+﻿@using GatePass.MS.Domain.ViewModels
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model List<ViewUserViewModel>
+@{
+    ViewData["Title"] = "User List";
+}
+
+
+<!-- /.row -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+               
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive p-0">
+                <table id ="myDataTable" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th> @Localizer["username"]</th>
+                            <th> @Localizer["department"]</th>
+                            <th> @Localizer["roles"]</th>
+                            <th> @Localizer["manage"]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var (user, index) in Model.OrderBy(u => u.UserName).Select((u, i) => (u, i)))
+                        {
+                            <tr>
+                                <td>@(index + 1)</td>
+                                <td>@user.UserName</td>
+                                <td>@user.Department</td>
+                                <td>
+                                    @foreach (var role in user.Roles)
+                                    {
+                                        <span>@role </span>
+                                    }
+                                </td>
+                                <td>
+                                    <a class="btn btn-info" asp-action="UserDetails" asp-route-id="@user.Id">@Localizer["detail"]</a>
+                                </td>
+                                <td>
+                                    <a asp-action="EditUserRole" class="btn btn-warning" asp-route-userId="@user.Id">Edit Role</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+
+ @section Scripts {
+   
+}

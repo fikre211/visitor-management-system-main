@@ -1,0 +1,34 @@
+﻿@model GatePass.MS.Domain.Department
+
+@if (Model.ChildDepartments != null && Model.ChildDepartments.Any())
+{
+    @foreach (var child in Model.ChildDepartments)
+    {
+        <tr data-widget="expandable-table" aria-expanded="false">
+            <td>
+                <i class="expandable-table-caret fas fa-caret-right fa-fw"></i>
+                @child.Name
+                <a asp-action="Create" asp-route-parentId="@child.Id" class="btn btn-success btn-sm float-right ml-2" title="Add Sub-department">
+                    <i class="fas fa-plus"></i>
+                </a>
+                <a asp-action="Edit" asp-route-id="@child.Id" class="btn btn-warning btn-sm float-right ml-2" title="Edit">
+                    <i class="fas fa-edit"></i>
+                </a>
+                <a asp-action="Delete" asp-route-id="@child.Id" class="btn btn-danger btn-sm float-right" title="Delete">
+                    <i class="fas fa-trash"></i>
+                </a>
+            </td>
+        </tr>
+        <tr class="expandable-body">
+            <td>
+                <div class="p-0">
+                    <table class="table table-hover">
+                        <tbody>
+                            @await Html.PartialAsync("_DepartmentPartial", child)
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+        </tr>
+    }
+}

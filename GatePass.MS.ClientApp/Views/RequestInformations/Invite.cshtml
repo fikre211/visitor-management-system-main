@@ -1,0 +1,428 @@
+﻿@model GatePass.MS.Domain.ViewModels.RequestInformationViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = "Invite";
+}
+<style>
+    :root {
+        font-family: 'Segoe UI', Arial, sans-serif;
+    }
+
+    .label-style {
+ 
+    }
+
+</style>
+<div class="col-md-12">
+    <div class="card" style="font-family: 'Segoe UI', Arial, sans-serif;">
+        <div class="card-header p-2">
+        </div><!-- /.card-header -->
+        <div class="card-body">
+            <div class="tab-content">
+                <div class="active tab-pane" id="individual">
+                    <form asp-action="Invite" id="inviteForm" class="form-horizontal" enctype="multipart/form-data">
+                        <div id="requests-container">
+                            <div class="request-block">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label label-style">@Localizer["Title"]<span style="color: red;">*</span></label>
+                                    <div class="col-sm-10">
+                                        <select name="Title" asp-for="Title" class="form-control">
+                                            <option value="Mr.">@Localizer["Mr."]</option>
+                                            <option value="Ms.">@Localizer["Ms."]</option>
+                                            <option value="Mrs.">@Localizer["Mrs."]</option>
+                                            <option value="Hon.">@Localizer["Hon."]</option>
+                                            <option value="HE.">@Localizer["HE."]</option>
+                                            <option value="Sir.">@Localizer["Sir."]</option>
+                                            <option value="Madam.">@Localizer["Madam."]</option>
+                                            <option value="Dr.">@Localizer["Dr."]</option>
+                                            <option value="Prof.">@Localizer["Prof."]</option>
+                                            <option value="Eng.">@Localizer["Eng."]</option>
+                                        </select>
+                                    </div>
+                                    <span asp-validation-for="Title" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label label-style">@Localizer["GivenName"]<span style="color: red;">*</span></label>
+                                    <div class="col-sm-10">
+                                        <input name="GuestFirstName" asp-for="GuestFirstName" class="form-control">
+                                    </div>
+                                    <span asp-validation-for="GuestFirstName" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label label-style">@Localizer["LastName"]</label>
+                                    <div class="col-sm-10">
+                                        <input name="GuestLastName" asp-for="GuestLastName" class="form-control">
+                                    </div>
+                                    <span asp-validation-for="GuestLastName" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label label-style">@Localizer["Email"]</label>
+                                    <div class="col-sm-10">
+                                        <input name="GuestEmail" asp-for="GuestEmail" class="form-control" type="email" >
+                                    </div>
+                                    <span asp-validation-for="GuestEmail" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label label-style">@Localizer["PhoneNumber"]<span style="color: red;">*</span></label>
+                                    <div class="col-sm-10">
+                                        <input name="GuestPhoneNumber"
+                                               asp-for="GuestPhoneNumber"
+                                               class="form-control"
+                                               type="text"
+                                               maxlength="15"
+                                               inputmode="numeric"
+                                               oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 15);"
+                                               required />
+                                    </div>
+                                    <span asp-validation-for="GuestPhoneNumber" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label label-style">@Localizer["CompanyName"]</label>
+                                    <div class="col-sm-10">
+                                        <input name="CompanyName" asp-for="CompanyName" class="form-control">
+                                    </div>
+                                    <span asp-validation-for="CompanyName" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label label-style">@Localizer["PurposeOfVisit"]<span style="color: red;">*</span></label>
+                                    <div class="col-sm-10">
+                                        <input name="PurposeOfVisit" asp-for="PurposeOfVisit" class="form-control" />
+                                    </div>
+                                    <span asp-validation-for="PurposeOfVisit" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col col-form-label label-style">@Localizer["visitDateRange"]<span style="color: red;">*</span></label>
+                                    <div class="col-sm-10 d-flex flex-wrap">
+                                        <div class="mr-md-2 mb-2 mb-md-0 col">
+                                            <label for="startDateIndividual" style="color: green">@Localizer["from"]</label>
+                                            <input class="form-control startDate" type="date" data-val="true" data-val-required="The VisitDateTimeStart field is required." name="VisitDateTimeStart"
+                                                   min="@DateTime.Now.ToString("yyyy-MM-dd")" required>
+                                            <input name="__Invariant" type="hidden" value="VisitDateTimeStart">
+                                        </div>
+                                        <div class="col">
+                                            <label for="endDateIndividual" style="color: green">@Localizer["to"]</label>
+                                            <input class="form-control endDate" type="date" data-val="true" data-val-required="The VisitDateTimeEnd field is required." name="VisitDateTimeEnd"
+                                                   required>
+                                            <input name="__Invariant" type="hidden" value="VisitDateTimeEnd">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label label-style">@Localizer["items"]</label>
+                                    <div class="col-sm-10">
+                                        <div id="device-container"></div>
+                                        <button type="button" class="btn btn-primary" id="add-device">@Localizer["addItem"]</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row" id="excel-upload-row" style="display:none;">
+                            <label class="col-sm-2 col-form-label label-style">@Localizer["Upload from Excel"]</label>
+                            <div class="col-sm-10 d-flex align-items-center">
+                                <input type="file" id="excelFileInput" accept=".xlsx, .xls" style="display:none;" />
+                                <button type="button" class="btn btn-secondary me-2" id="uploadExcelBtn">
+                                    @Localizer["Upload Excel"]
+                                </button>
+                                <span id="excelFileName" class="text-muted"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label label-style">@Localizer["Additional Guests"]</label>
+                            <div class="col-sm-10">
+                                <div id="guests-container"></div>
+                                <button type="button" class="btn btn-primary" id="add-guest">@Localizer["add Visitor"]</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group row submit-button-group">
+                            <div class="col-sm-12 d-flex justify-content-center">
+                                <button type="submit" class="btn btn-primary request-visit-btn" style="width: 20%;">
+                                    <strong>@Localizer["Invite"]</strong>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.tab-content -->
+        </div><!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+</div>
+
+<!-- /.col -->
+
+
+@section Scripts {
+
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"
+            integrity="sha512-…"
+            crossorigin="anonymous" referrerpolicy="no-referrer">
+    </script>
+    <script>
+        let guestIndex = 0;
+        let hasUploadVisible = false;
+
+        const addGuestBtn = document.getElementById('add-guest');
+        const guestsContainer = document.getElementById('guests-container');
+
+        const excelRow = document.getElementById('excel-upload-row');
+        const uploadBtn = document.getElementById('uploadExcelBtn');
+        const fileInput = document.getElementById('excelFileInput');
+        const fileNameLabel = document.getElementById('excelFileName');
+
+        // Show "Upload Excel" once when first visitor is added
+        addGuestBtn.addEventListener('click', () => {
+            if (!hasUploadVisible) {
+                excelRow.style.display = 'flex';
+                hasUploadVisible = true;
+            }
+            appendEmptyGuest();
+        });
+
+        // Clicking the upload button triggers the hidden file input
+        uploadBtn.addEventListener('click', () => fileInput.click());
+
+        // Handle file pick and parse
+        fileInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            fileNameLabel.textContent = file.name;
+
+            const data = await file.arrayBuffer();
+            const workbook = XLSX.read(data);
+            // assume first sheet
+            const sheetName = workbook.SheetNames[0];
+            const sheet = workbook.Sheets[sheetName];
+            // convert to JSON array of objects
+            const rows = XLSX.utils.sheet_to_json(sheet, { defval: '' });
+
+            // clear any existing guest blocks
+            guestsContainer.innerHTML = '';
+            guestIndex = 0;
+
+            // for each row, append a guest block with values
+            rows.forEach(row => {
+                appendGuestFromRow(row);
+            });
+        });
+
+        // helper to append an *empty* block (for manual add)
+        function appendEmptyGuest() {
+            const block = createGuestBlock();
+            guestsContainer.appendChild(block);
+            guestIndex++;
+        }
+
+        // helper to append a block filled from Excel row
+        function appendGuestFromRow(row) {
+            // expect columns: FirstName, LastName, Email, Phone
+            const block = createGuestBlock({
+                FirstName: row.FirstName || '',
+                LastName: row.LastName || '',
+                Email: row.Email || '',
+                Phone: row.Phone || ''
+            });
+            guestsContainer.appendChild(block);
+            guestIndex++;
+        }
+
+        // builds the DOM for one guest-block, optionally prefilled
+        function createGuestBlock(prefill = {}) {
+            const idx = guestIndex;
+            const div = document.createElement('div');
+            div.classList.add('guest-block', 'border', 'rounded', 'p-3', 'mb-3');
+
+            div.innerHTML = `
+                    <div class="form-group">
+                        <input name="AdditionalGuests[${idx}].FirstName"
+                               class="form-control mb-2"
+                               placeholder="First Name"
+                               required
+                               value="${prefill.FirstName || ''}" />
+
+                        <input name="AdditionalGuests[${idx}].LastName"
+                               class="form-control mb-2"
+                               placeholder="Last Name"
+                               required
+                               value="${prefill.LastName || ''}" />
+
+        <!-- Email input (accepts only Gmail or valid email format) -->
+        <input name="AdditionalGuests[${idx}].Email"
+               class="form-control mb-2"
+               placeholder="Email"
+               type="email"
+
+
+               value="${prefill.Email || ''}" />
+
+
+        <input name="AdditionalGuests[${idx}].Phone"
+               class="form-control mb-2"
+               placeholder="Phone Number"
+               type="text"
+               maxlength="15"
+               oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 15);"
+
+               value="${prefill.Phone || ''}" />
+
+
+                        <button type="button" class="btn btn-danger remove-guest">
+        @Localizer["Remove Visitor"]
+                        </button>
+                    </div>
+                `;
+            return div;
+        }
+
+        // remove-guest handler
+        document.addEventListener('click', function (e) {
+            if (e.target && e.target.classList.contains('remove-guest')) {
+                e.target.closest('.guest-block').remove();
+            }
+        });
+    </script>
+
+    <script>
+        let deviceIndex = 0; // Start index from 0
+
+        // Function to update the name attributes of device input fields
+        function updateDeviceIndexes() {
+            const deviceItems = document.querySelectorAll('.device-item');
+            deviceItems.forEach((deviceItem, index) => {
+                // Update each input field's name attribute based on its new index
+                const deviceNameInput = deviceItem.querySelector('input[name$=".DeviceName"]');
+                const identifierInput = deviceItem.querySelector('input[name$=".Identifier"]');
+                const descriptionTextarea = deviceItem.querySelector('textarea[name$=".Description"]');
+
+                if (deviceNameInput) {
+                    deviceNameInput.setAttribute('name', `Devices[${index}].DeviceName`);
+                }
+                if (identifierInput) {
+                    identifierInput.setAttribute('name', `Devices[${index}].Identifier`);
+                }
+                if (descriptionTextarea) {
+                    descriptionTextarea.setAttribute('name', `Devices[${index}].Description`);
+                }
+            });
+
+            // Update deviceIndex for the next addition
+            deviceIndex = deviceItems.length;
+        }
+
+        // Add new device input fields
+        document.getElementById('add-device').addEventListener('click', function () {
+            const container = document.getElementById('device-container');
+            const newDevice = document.createElement('div');
+            newDevice.classList.add('device-item', 'mb-3', 'p-3', 'border', 'rounded', 'shadow-sm', 'd-flex', 'align-items-center');
+
+            newDevice.innerHTML = `
+                                                    <div class="form-row flex-grow-1">
+                                                        <div class="form-group col-md-3">
+                                                                    <input type="text" name="Devices[${deviceIndex}].DeviceName" class="form-control" placeholder="Item Name" required />
+                                                        </div>
+                                                        <div class="form-group col-md-3">
+                                                                    <input type="text" name="Devices[${deviceIndex}].Identifier" class="form-control" placeholder="Identifier" required />
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <textarea name="Devices[${deviceIndex}].Description" class="form-control" placeholder="Description" required ></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <button type="button" class="btn btn-danger remove-device ms-auto" style="margin-top: -10px;">
+                                                        <i class="bi bi-trash"></i> Remove
+                                                    </button>
+                                                `;
+
+            container.appendChild(newDevice);
+            deviceIndex++; // Increment index for the next added device
+        });
+
+        // Remove device input fields and update indexes
+        document.addEventListener('click', function (e) {
+            if (e.target && e.target.classList.contains('remove-device')) {
+                e.target.closest('.device-item').remove(); // Remove the device item
+                updateDeviceIndexes(); // Re-index the remaining devices
+            }
+        });
+
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const startDates = document.querySelectorAll('.startDate');
+            const endDates = document.querySelectorAll('.endDate');
+
+            startDates.forEach(startDate => {
+                startDate.addEventListener('change', function () {
+                    const startDateValue = new Date(this.value);
+                    endDates.forEach(endDate => {
+                        const endDateValue = new Date(endDate.value);
+                        if (endDateValue < startDateValue) {
+                            endDate.value = this.value;
+                        }
+                        endDate.min = this.value;
+                        endDate.removeAttribute('readonly');
+                    });
+                });
+            });
+
+            endDates.forEach(endDate => {
+                endDate.addEventListener('change', function () {
+                    const endDateValue = new Date(this.value);
+                    startDates.forEach(startDate => {
+                        const startDateValue = new Date(startDate.value);
+                        if (endDateValue < startDateValue) {
+                            startDate.value = this.value;
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
+
+    <script>
+
+        let requestIndex = 1;
+
+        document.getElementById('add-request').addEventListener('click', function () {
+            const container = document.getElementById('requests-container');
+            const firstRequest = container.querySelector('.request-block').cloneNode(true);
+
+            // Clean up cloned request block
+            firstRequest.querySelectorAll('[name]').forEach(el => {
+                let oldName = el.name;
+                if (!oldName) return;
+
+                // Update index in name
+                el.name = oldName.replace(/\[\d+\]/, `[${requestIndex}]`);
+
+                // Reset values only for input/textarea (except file/image)
+                if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
+                    if (el.type !== "file" && el.type !== "hidden") {
+                        el.value = '';
+                    }
+                }
+            });
+        })
+
+    </script>
+}
+

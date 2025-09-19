@@ -1,0 +1,19 @@
+﻿@page
+@model AccessDeniedModel
+@using Microsoft.AspNetCore.Mvc.Localization;
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = @Localizer["accessDenied"];
+}
+
+<header class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h1 class="display-4 text-danger">@ViewData["Title"]</h1>
+            <p class="lead text-danger">You do not have access to this resource.</p>
+            <p class="text-muted">Please contact your administrator if you believe this is a mistake.</p>
+            <a href="javascript:history.back()" class="btn btn-outline-primary mt-3">Go Back</a>
+            <a href="/" class="btn btn-primary mt-3">Home Page</a>
+        </div>
+    </div>
+</header>

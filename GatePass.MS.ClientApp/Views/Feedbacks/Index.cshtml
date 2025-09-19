@@ -1,0 +1,95 @@
+﻿@model IEnumerable<GatePass.MS.Domain.Feedback>
+@using GatePass.MS.Domain
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<!-- Modal for Create/Edit/Details/Delete -->
+<!-- /.modal -->
+<div class="modal fade" id="modal-lg">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- Content will be loaded via AJAX -->
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+@*small modal*@
+<div class="modal fade" id="modal-sm">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <!-- Content will be loaded via AJAX -->
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="card-body table-responsive p-0">
+    <table id="myDataTable" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th></th>
+                <th>
+                    @Localizer["Name"]
+                </th>
+                <th>
+                    @Localizer["Email"]
+                </th>
+                <th>
+                    @Localizer["Rating"]
+                </th>
+                <th>
+                    @Localizer["Comment"]
+                </th>
+                <th>@Localizer["action"]</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Rating)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Comment)
+                    </td>
+            
+                    <td>
+                        <a class="badge badge-info" style="cursor: pointer;" onclick="showDetails(@item.Id)">@Localizer["detail"]</a> |
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script>
+        function showDetails(id) {
+            $.get('@Url.Action("Details", "Feedbacks")/' + id, function (data) {
+                $('#modal-lg .modal-content').html(data);
+                $('#modal-lg').modal('show');
+            });
+        }
+    </script>
+}

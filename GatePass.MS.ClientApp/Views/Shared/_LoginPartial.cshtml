@@ -1,0 +1,51 @@
+﻿@using GatePass.MS.Domain
+@using GatePass.MS.ClientApp.Data
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper HtmlHelper
+@inject ApplicationDbContext context
+
+@{
+    var companyName = ViewContext.RouteData.Values["companyName"]?.ToString();
+    var currentPath = HtmlHelper.ViewContext.HttpContext.Request.Path;
+    var isLoginPage = currentPath.Equals("/Identity/Account/Login", StringComparison.OrdinalIgnoreCase);
+   
+
+}
+
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        // Fetch first name from claims
+        var user = await UserManager.GetUserAsync(User);
+        var employeId = user?.EmployeeId;
+        var employee = context.Employee.FirstOrDefault(e => e.Id == employeId);
+        var firstname = employee?.FirstName;
+        var firstNameClaim = User.Claims.FirstOrDefault(c => c.Type == "FirstName")?.Value;
+
+        <li class="nav-item">
+            <span class="nav-link text-dark"> Hi, @firstname</span>
+        </li>
+        <li class="nav-item">
+            <form class="form-inline"
+            asp-area="Identity"
+            asp-page="/Account/Logout"
+                  asp-route-companyName="@companyName"
+                  asp-route-returnUrl="@Url.Action("Index","Home", new { companyName })">
+                <button type="submit" class="nav-link btn btn-link text-dark">@Localizer["logout"]</button>
+            </form>
+        </li>
+    }
+    else if (!isLoginPage)
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" 
+asp-area="Identity"
+               asp-route-companyName="@companyName"
+asp-page="/Account/Login">@Localizer["login"]</a>
+        </li>
+    }
+</ul>
