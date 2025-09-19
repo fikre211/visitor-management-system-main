@@ -1,14 +1,37 @@
 ﻿@model GatePass.MS.Domain.Department
 
-<h1>Delete Department</h1>
+@{
+    ViewData["Title"] = "Delete Department";
+}
 
-<h3>Are you sure you want to delete</h3>
+<div class="modal-content shadow-lg border-0 rounded-3">
+    <div class="modal-header bg-danger text-white rounded-top">
+        <h5 class="modal-title">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            @ViewData["Title"]
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
 
-<div>
-    <h4>@Model.Name   all the child departments and employees inside departments will be deleted</h4>
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <button type="submit" class="btn btn-danger">Delete</button>
-        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-    </form>
+    <div class="modal-body text-center">
+        <p class="fs-5 text-muted">
+            Are you sure you want to delete <strong>@Model.Name</strong>?
+            <br />
+            <span class="text-danger">
+                All child departments and employees inside this department will also be deleted.
+            </span>
+        </p>
+        <hr class="my-3" />
+
+        <form asp-action="Delete" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="btn btn-danger btn-lg px-4 me-2">
+                <i class="bi bi-trash3-fill me-1"></i> Delete
+            </button>
+            <button type="button" class="btn btn-outline-secondary btn-lg px-4" data-bs-dismiss="modal">
+                <i class="bi bi-x-circle me-1"></i> Cancel
+            </button>
+        </form>
+    </div>
 </div>

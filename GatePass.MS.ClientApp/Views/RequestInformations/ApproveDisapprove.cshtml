@@ -307,7 +307,7 @@
                         }
 
                         @* "Review" button conditional display (ONLY for Supervisors AND companyName is "hopr") *@
-                        @if (isInSupervisorRole && companyName == "hopr")
+                        @if (isInSupervisorRole && companyName.ToLower() == "hopr")
                         {
                             <div class="form-group row">
                                 <div class="col">
