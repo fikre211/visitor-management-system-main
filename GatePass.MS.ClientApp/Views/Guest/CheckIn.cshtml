@@ -143,10 +143,15 @@
     </div>
                     <div class="row mb-3">
                         <label class="col-12 col-md-12 col-form-label"> Additional Guests: </label>
-                        <div class="col-6 col-md-8">
+                        <div class="col-12">
+                            <!-- 🔎 Search bar -->
+                            <input type="text" id="guestSearch" class="form-control mb-3" placeholder="Search by First Name..." />
+                        </div>
+
+                        <div class="col-12">
                             @if (ViewBag.AdditionalGuests != null)
                             {
-                                <table class="table table-bordered">
+                                <table class="table table-bordered" id="guestsTable">
                                     <thead>
                                         <tr>
                                             <th>@Localizer["First Name"]</th>
@@ -157,14 +162,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach (var guest in ViewBag.AdditionalGuests)
+                                        @foreach (var guest in ((IEnumerable<dynamic>)ViewBag.AdditionalGuests).OrderBy(g => g.FirstName))
                                         {
                                             <tr>
                                                 <td>@guest.FirstName</td>
-                                                                                                <td>@guest.LastName</td>
+                                                <td>@guest.LastName</td>
                                                 <td>@guest.Email</td>
-                                                                                                <td>@guest.Phone</td>
-
+                                                <td>@guest.Phone</td>
                                                 <td>@guest.CompanyName</td>
                                             </tr>
                                         }
@@ -173,10 +177,30 @@
                             }
                             else
                             {
-                                <p>@Localizer["No Addtional Guests available."]</p>
+                                <p>@Localizer["No Additional Guests available."]</p>
                             }
                         </div>
                     </div>
+
+                    <!-- ✅ JavaScript for search & highlight -->
+                    <script>
+                        document.getElementById("guestSearch").addEventListener("keyup", function () {
+                            let input = this.value.toLowerCase();
+                            let rows = document.querySelectorAll("#guestsTable tbody tr");
+
+                            rows.forEach(row => {
+                                let firstName = row.cells[0].textContent.toLowerCase();
+
+                                // Reset previous highlight
+                                row.style.backgroundColor = "";
+
+                                if (input && firstName.includes(input)) {
+                                    row.style.backgroundColor = "yellow"; // Highlight match
+                                }
+                            });
+                        });
+                    </script>
+
 
 
                     @if (ViewBag.IsCheckedIn)
