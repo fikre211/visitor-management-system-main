@@ -2,9 +2,17 @@
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 
+@using GatePass.MS.Domain
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 @{
     ViewData["Title"] = "Invite";
+    var companyName = ViewContext.RouteData.Values["companyName"]?.ToString();
 }
+
 <style>
     :root {
         font-family: 'Segoe UI', Arial, sans-serif;
@@ -98,24 +106,55 @@
                                     </div>
                                     <span asp-validation-for="PurposeOfVisit" class="text-danger"></span>
                                 </div>
-
-                                <div class="form-group row">
-                                    <label class="col col-form-label label-style">@Localizer["visitDateRange"]<span style="color: red;">*</span></label>
-                                    <div class="col-sm-10 d-flex flex-wrap">
-                                        <div class="mr-md-2 mb-2 mb-md-0 col">
-                                            <label for="startDateIndividual" style="color: green">@Localizer["from"]</label>
-                                            <input class="form-control startDate" type="date" data-val="true" data-val-required="The VisitDateTimeStart field is required." name="VisitDateTimeStart"
-                                                   min="@DateTime.Now.ToString("yyyy-MM-dd")" required>
-                                            <input name="__Invariant" type="hidden" value="VisitDateTimeStart">
-                                        </div>
-                                        <div class="col">
-                                            <label for="endDateIndividual" style="color: green">@Localizer["to"]</label>
-                                            <input class="form-control endDate" type="date" data-val="true" data-val-required="The VisitDateTimeEnd field is required." name="VisitDateTimeEnd"
-                                                   required>
-                                            <input name="__Invariant" type="hidden" value="VisitDateTimeEnd">
+                                @if (companyName.ToLower() == "hopr")
+                                {
+                                    <div class="form-group row">
+                                        <label class="col col-form-label label-style">@Localizer["visitDateRange"]<span style="color: red;">*</span></label>
+                                        <div class="col-sm-10 d-flex flex-wrap">
+                                            <div class="mr-md-2 mb-2 mb-md-0 col">
+                                                <label for="startDateIndividual" style="color: green">@Localizer["from"]</label>
+                                                <input class="form-control startDate" type="datetime-local"
+                                                       data-val="true"
+                                                       data-val-required="The VisitDateTimeStart field is required."
+                                                       name="VisitDateTimeStart"
+                                                       value="@DateTime.Now.ToString("yyyy-MM-dd")"
+                                                       min="@DateTime.Now.ToString("yyyy-MM-dd")">
+                                                <input name="__Invariant" type="hidden" value="VisitDateTimeStart">
+                                            </div>
+                                            <div class="col">
+                                                <label for="endDateIndividual" style="color: green">@Localizer["to"]</label>
+                                                <input class="form-control endDate" type="datetime-local"
+                                                       data-val="true"
+                                                       data-val-required="The VisitDateTimeEnd field is required."
+                                                       name="VisitDateTimeEnd"
+                                                       value="@DateTime.Now.ToString("yyyy-MM-dd")">
+                                                <input name="__Invariant" type="hidden" value="VisitDateTimeEnd">
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                }
+                                else
+                                {
+
+                                    <div class="form-group row">
+                                        <label class="col col-form-label label-style">@Localizer["visitDateRange"]<span style="color: red;">*</span></label>
+                                        <div class="col-sm-10 d-flex flex-wrap">
+                                            <div class="mr-md-2 mb-2 mb-md-0 col">
+                                                <label for="startDateIndividual" style="color: green">@Localizer["from"]</label>
+                                                <input class="form-control startDate" type="date" data-val="true" data-val-required="The VisitDateTimeStart field is required." name="VisitDateTimeStart"
+                                                       min="@DateTime.Now.ToString("yyyy-MM-dd")" required>
+                                                <input name="__Invariant" type="hidden" value="VisitDateTimeStart">
+                                            </div>
+                                            <div class="col">
+                                                <label for="endDateIndividual" style="color: green">@Localizer["to"]</label>
+                                                <input class="form-control endDate" type="date" data-val="true" data-val-required="The VisitDateTimeEnd field is required." name="VisitDateTimeEnd"
+                                                       required>
+                                                <input name="__Invariant" type="hidden" value="VisitDateTimeEnd">
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                              
 
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label label-style">@Localizer["items"]</label>
