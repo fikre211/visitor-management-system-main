@@ -117,8 +117,8 @@
                                                        data-val="true"
                                                        data-val-required="The VisitDateTimeStart field is required."
                                                        name="VisitDateTimeStart"
-                                                       value="@DateTime.Now.ToString("yyyy-MM-dd")"
-                                                       min="@DateTime.Now.ToString("yyyy-MM-dd")">
+                                                       value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")"
+                                                       min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")">
                                                 <input name="__Invariant" type="hidden" value="VisitDateTimeStart">
                                             </div>
                                             <div class="col">
@@ -127,7 +127,7 @@
                                                        data-val="true"
                                                        data-val-required="The VisitDateTimeEnd field is required."
                                                        name="VisitDateTimeEnd"
-                                                       value="@DateTime.Now.ToString("yyyy-MM-dd")">
+                                                       value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")">
                                                 <input name="__Invariant" type="hidden" value="VisitDateTimeEnd">
                                             </div>
                                         </div>

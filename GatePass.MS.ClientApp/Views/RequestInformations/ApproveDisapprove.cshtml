@@ -279,36 +279,40 @@
                             <div class="form-group row">
                                 <div class="col-md-6 mb-3">
                                     <label asp-for="ApprovedDateTimeStart">@Localizer["Approval Start"]</label>
-                                    <input id="startDate" class="form-control" type="datetime-local"
-                                           data-val="true"
-                                           data-val-required="The VisitDateTimeStart field is required."
-                                           name="VisitDateTimeStart"
-                                           min="@DateTime.Now.ToString("yyyy-MM-dd")"
-                                           required>
+                                    <input id="startDate"
+                                           class="form-control"
+                                           type="datetime-local"
+                                           name="ApprovedDateTimeStart"
+                                           value="@Model.VisitDateTimeStart.ToString("yyyy-MM-ddTHH:mm")"
+                                           min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")"
+                                           required />
                                     <span asp-validation-for="ApprovedDateTimeStart" class="text-danger"></span>
                                 </div>
 
                                 <div class="col-md-6 mb-3">
                                     <label asp-for="ApprovedDateTimeEnd">@Localizer["Approval End"]</label>
-                                    <input id="endDate" class="form-control" type="datetime-local"
-                                           data-val="true"
-                                           data-val-required="The VisitDateTimeEnd field is required."
-                                           name="VisitDateTimeEnd"
-                                           min="@DateTime.Now.ToString("yyyy-MM-dd")"
-                                           required>
+                                    <input id="endDate"
+                                           class="form-control"
+                                           type="datetime-local"
+                                           name="ApprovedDateTimeEnd"
+                                           value="@Model.VisitDateTimeEnd.ToString("yyyy-MM-ddTHH:mm")"
+                                           min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")"
+                                           required />
                                     <span asp-validation-for="ApprovedDateTimeEnd" class="text-danger"></span>
                                 </div>
                             </div>
 
-                            @* Approve button (ONLY for Admins OR Supervisors NOT of "hopr") *@
                             <div class="form-group row">
                                 <div class="col">
-                                    <button type="submit" name="Approve" value="true" class="btn btn-success" onclick="setApprovalRequired(true)">
+                                    <button type="submit" name="Approve" value="true"
+                                            class="btn btn-success"
+                                            onclick="setApprovalRequired(true)">
                                         @Localizer["approve"]
                                     </button>
                                 </div>
                             </div>
                         }
+
 
                         @* "Review" button conditional display (ONLY for Supervisors AND companyName is "hopr") *@
                         @if (isInSupervisorRole && companyName.ToLower() == "hopr")
