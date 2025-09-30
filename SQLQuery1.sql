@@ -1,0 +1,2 @@
+﻿ALTER TABLE Company
+ADD website NVARCHAR(MAX) NULL;

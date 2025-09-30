@@ -79,7 +79,7 @@
                         <div class="row mb-3">
                             <label class="col col-md-4 col-form-label">@Localizer["visitDateRange"]: </label>
                             <div class="col-6 col-md-8">
-                                <p class="form-control-plaintext">@Model.VisitDateTimeStart.ToString("yyyy-MM-dd") @Localizer["to"] @Model.VisitDateTimeEnd.ToString("yyyy-MM-dd") </p>
+                                <p class="form-control-plaintext">@Model.VisitDateTimeStart.ToString("yyyy-MM-ddTHH:mm") @Localizer["to"] @Model.VisitDateTimeEnd.ToString("yyyy-MM-ddTHH:mm") </p>
 
                             </div>
                         </div>
@@ -284,7 +284,7 @@
                                            type="datetime-local"
                                            name="ApprovedDateTimeStart"
                                            value="@Model.VisitDateTimeStart.ToString("yyyy-MM-ddTHH:mm")"
-                                           min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")"
+                                           min="@DateTime.Now.ToString("yyyy-MM-dd")"
                                            required />
                                     <span asp-validation-for="ApprovedDateTimeStart" class="text-danger"></span>
                                 </div>
@@ -296,7 +296,7 @@
                                            type="datetime-local"
                                            name="ApprovedDateTimeEnd"
                                            value="@Model.VisitDateTimeEnd.ToString("yyyy-MM-ddTHH:mm")"
-                                           min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")"
+                                           min="@DateTime.Now.ToString("yyyy-MM-dd")"
                                            required />
                                     <span asp-validation-for="ApprovedDateTimeEnd" class="text-danger"></span>
                                 </div>
@@ -330,22 +330,29 @@
                         <div class="row mb-3">
                             <label class="col col-md-4 col-form-label">Select only if you reject the request: </label>
                             <div class="col-6 col-md-8">
-                                <select asp-for="SelectedReason" class="form-control">
+                                <select asp-for="SelectedReason" class="form-control" id="rejectReason">
                                     <option value="">-- Select a reason --</option>
                                     <option value="Unavailable Schedule!">Unavailable Schedule!</option>
                                     <option value="Office Closed">Office Closed</option>
                                     <option value="Meeting">Meeting</option>
                                     <option value="unknown reason">unknown reason</option>
                                 </select>
+                                <span asp-validation-for="SelectedReason" class="text-danger"></span>
+
                             </div>
                         </div>
 
                         @* Reject button (for Admins, Supervisors, and Supervisors of "hopr") *@
                         <div class="form-group row">
                             <div class="col">
-                                <button type="submit" name="Disapprove" value="true" class="btn btn-danger" onclick="setApprovalRequired(false)">
+                                <button type="submit"
+                                        name="Disapprove"
+                                        value="true"
+                                        class="btn btn-danger"
+                                        onclick="return validateRejection()">
                                     @Localizer["reject"]
                                 </button>
+
                             </div>
                         </div>
                     }
@@ -392,6 +399,22 @@
                 });
             }
         </script>
+        <script>
+            function validateRejection() {
+                const reasonSelect = document.getElementById("rejectReason");
+
+                if (reasonSelect.value === "") {
+                    // Add red border highlight
+                    reasonSelect.style.border = "2px solid Blue";
+                    return false; // prevent form submit
+                }
+
+                // Reset border if valid
+                reasonSelect.style.border = "";
+                return true;
+            }
+        </script>
+
         <script>
             document.getElementById("startDate").addEventListener("change", function () {
                 let startDate = this.value;

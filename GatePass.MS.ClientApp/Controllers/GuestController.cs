@@ -523,6 +523,7 @@ namespace GatePass.MS.ClientApp.Controllers
     .Include(r => r.AdditionalGuests)
     .Include(r => r.Devices)
     .Include(r=>r.Department)
+
     .SingleOrDefault(r => r.Id == requestId);
             
             if (request != null && (request.VisitDateTimeEnd >= DateTime.Today) && (request.Status == "Approved"))
@@ -537,6 +538,7 @@ namespace GatePass.MS.ClientApp.Controllers
                 }
                 ViewBag.FirstName = guest.FirstName;
                 ViewBag.LastName = guest.LastName;
+                ViewBag.Company = guest.CompanyName;
                 ViewBag.Email = guest.Email;
                 ViewBag.Phone = guest.Phone;
                 ViewBag.requestId = requestId;
@@ -549,10 +551,7 @@ namespace GatePass.MS.ClientApp.Controllers
                 ViewBag.AdditionalGuests = request.AdditionalGuests;
                 ViewBag.Devices = request.Devices;
                 ViewBag.ApprovedTimeStart = request.ApprovedDateTimeStart;
-                ViewBag.ApprovedTimeEnd = request.ApprovedDateTimeEnd;
-
-
-            }
+                ViewBag.ApprovedTimeEnd = request.ApprovedDateTimeEnd;     }
             else if (request?.VisitDateTimeEnd < DateTime.Today)
             {
                 ViewBag.ErrorMessage = "your visit date is expired.";
@@ -607,7 +606,8 @@ namespace GatePass.MS.ClientApp.Controllers
                 .Include(r => r.AdditionalGuests)
                 .Include(r => r.Department)
                 .Include(r => r.Devices)
-                .Include(r => r.Guest) // Include Guest to access guest details directly
+                .Include(r => r.Guest)
+                .Include(r => r.Company)// Include Guest to access guest details directly
                 .SingleOrDefaultAsync(r => r.Id == requestId);
 
             // Reset feedback form visibility for initial search
@@ -635,7 +635,8 @@ namespace GatePass.MS.ClientApp.Controllers
                 ViewBag.Department = request.Department?.Name;
                 ViewBag.AdditionalGuests = request.AdditionalGuests;
                 ViewBag.Devices = request.Devices;
-                ViewBag.IsCheckedIn = request.IsCheckedIn; // Pass the actual IsCheckedIn status
+                ViewBag.IsCheckedIn = request.IsCheckedIn;
+                ViewBag.Company = request.Company?.Name; // Pass the actual IsCheckedIn status
 
                 // If the request is already checked out, set appropriate message
                 if (!request.IsCheckedIn)

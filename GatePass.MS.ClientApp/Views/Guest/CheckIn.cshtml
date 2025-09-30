@@ -35,7 +35,7 @@
                     <form asp-action="Check" class="form-horizontal" enctype="multipart/form-data">
                     <input type="number" id="checkId" name="checkId" value="@ViewBag.requestId" hidden />
                         <div class="form-group row">
-                            <label asp-for="GuestFirstName" class="col-sm-2 col-form-label">@Localizer["First Name"]</label>
+                            <label asp-for="GuestFirstName" class="col-sm-2 col-form-label">@Localizer["Given Name"]</label>
                             <div class="col-sm-10">
                                 <input asp-for="GuestFirstName" class="form-control" value="@ViewBag.FirstName" readonly>
                             </div>
@@ -48,12 +48,7 @@
                             </div>
                             <span asp-validation-for="GuestLastName" class="text-danger" ></span>
                         </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">@Localizer["Guest Company"]</label>
-                        <div class="col-sm-10">
-                            <input class="form-control" value="@ViewBag.Company" readonly />
-                        </div>
-                    </div>
+                   
 
                         <div class="form-group row">
                             <label asp-for="GuestEmail" class="col-sm-2 col-form-label">@Localizer["Email"]</label>
@@ -169,7 +164,7 @@
                                                 <td>@guest.LastName</td>
                                                 <td>@guest.Email</td>
                                                 <td>@guest.Phone</td>
-                                                <td>@guest.CompanyName</td>
+                                                <td>@guest.CompanyName.ToUpper()</td>
                                             </tr>
                                         }
                                     </tbody>
