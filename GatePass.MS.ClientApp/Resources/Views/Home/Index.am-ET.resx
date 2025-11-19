@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="allRegisteredUser" xml:space="preserve">
+  <data name="All Registered Users" xml:space="preserve">
     <value>ሁሉም የተመዘገቡ ተጠቃሚዎች</value>
   </data>
   <data name="allRequests" xml:space="preserve">
@@ -129,17 +129,11 @@
   <data name="guestFullName" xml:space="preserve">
     <value>የእንግዳ ሙሉ ስም</value>
   </data>
-  <data name="moreInfo" xml:space="preserve">
-    <value>More Info</value>
-  </data>
   <data name="pendingRequests" xml:space="preserve">
     <value>በመጠባበቅ ላይ ያሉ ጥያቄዎች</value>
   </data>
   <data name="purposeOfVisit" xml:space="preserve">
     <value>የጉብኝት ዓላማ</value>
-  </data>
-  <data name="rejectedRequests" xml:space="preserve">
-    <value>ውድቅ የተደረጉ ጥያቄዎች</value>
   </data>
   <data name="responsiblePerson" xml:space="preserve">
     <value>ኃላፊነት ያለው ሰው</value>
@@ -170,5 +164,92 @@
   </data>
   <data name="CheckOut" xml:space="preserve">
     <value>መውጫ</value>
+  </data>
+  <data name="Employees" xml:space="preserve">
+    <value>ሰራተኞች</value>
+  </data>
+  <data name="OutDated Requests" xml:space="preserve">
+    <value>ጊዜ ያለፈባቸው ጥያቄዎች</value>
+  </data>
+  <data name="Reviewed Requests" xml:space="preserve">
+    <value>የተገመገሙ ጥያቄዎች</value>
+  </data>
+  <data name="Visitors Overview" xml:space="preserve">
+    <value>የጎብኝዎች አጠቃላይ እይታ</value>
+  </data>
+  <data name="User Roles Distribution" xml:space="preserve">
+    <value>የተጠቃሚ ሚናዎች ስርጭት</value>
+  </data>
+  <data name="Requests Trend" xml:space="preserve">
+    <value>የጥያቄዎች አዝማሚያ</value>
+  </data>
+  <data name="New Request" xml:space="preserve">
+    <value>አዲስ ጥያቄ</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>ስም</value>
+  </data>
+  <data name="Guest Destination Department" xml:space="preserve">
+    <value>የእንግዳ ማረፊያ ክፍል</value>
+  </data>
+  <data name="Print" xml:space="preserve">
+    <value>አትም</value>
+  </data>
+  <data name="Check-in Status" xml:space="preserve">
+    <value>የመግቢያ ሁኔታ</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>ድርጊቶች</value>
+  </data>
+  <data name="Quick Access" xml:space="preserve">
+    <value>ፈጣን መዳረሻ</value>
+  </data>
+  <data name="Scan the QR Code below for a swift Self-Registration" xml:space="preserve">
+    <value>ፈጣን ራስን መመዝገብ ለማግኘት ከታች ያለውን የQR ኮድ ይቃኙ</value>
+  </data>
+  <data name="Today's Visitors" xml:space="preserve">
+    <value>የዛሬ ጎብኝዎች</value>
+  </data>
+  <data name="Total Visitors" xml:space="preserve">
+    <value>ጠቅላላ ጎብኝዎች</value>
+  </data>
+  <data name="Please Take a Moment for Self-Registration, Check-In or Check-Out Below" xml:space="preserve">
+    <value>እባኮትን ለራስ-ምዝገባ፣ ተመዝግበው ይግቡ ወይም ከታች ይመልከቱ</value>
+  </data>
+  <data name="More Info" xml:space="preserve">
+    <value>ተጨማሪ መረጃ</value>
+  </data>
+  <data name="Rejected Requests" xml:space="preserve">
+    <value>ውድቅ የተደረጉ ጥያቄዎች</value>
+  </data>
+  <data name="All Requests" xml:space="preserve">
+    <value>ሁሉም ጥያቄዎች</value>
+  </data>
+  <data name="rejectedRequests" xml:space="preserve">
+    <value>ውድቅ የተደረጉ ጥያቄዎች</value>
+  </data>
+  <data name="Visitor Requests" xml:space="preserve">
+    <value>የጎብኚዎች ጥያቄዎች</value>
+  </data>
+  <data name="Welcome to" xml:space="preserve">
+    <value> እንኳን በደህና መጡ ወደ </value>
+  </data>
+  <data name="Self-Registration" xml:space="preserve">
+    <value>መመዝገቢያ</value>
+  </data>
+  <data name="Check-In" xml:space="preserve">
+    <value>መግቢያ</value>
+  </data>
+  <data name="Check-Out" xml:space="preserve">
+    <value>መውጫ</value>
+  </data>
+  <data name="Approved Requests" xml:space="preserve">
+    <value>የጸደቁ ጥያቄዎች</value>
+  </data>
+  <data name="Pending Requests" xml:space="preserve">
+    <value>በመጠባበቅ ላይ ያሉ ጥያቄዎች</value>
+  </data>
+  <data name="Departments" xml:space="preserve">
+    <value>ክፍሎች</value>
   </data>
 </root>

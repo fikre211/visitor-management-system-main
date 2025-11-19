@@ -139,7 +139,7 @@
     <value>ጋብዝ</value>
   </data>
   <data name="purposeOfVisit" xml:space="preserve">
-    <value>የጉብኝት ዓላማ</value>
+    <value>የጉብኝት ምክንያት</value>
   </data>
   <data name="to" xml:space="preserve">
     <value>ወደ</value>
@@ -207,9 +207,6 @@
   <data name="Prof." xml:space="preserve">
     <value>ፕ/ር</value>
   </data>
-  <data name="PurposeOfVisit" xml:space="preserve">
-    <value>የጉብኝት ምክንያት</value>
-  </data>
   <data name="requestVisit" xml:space="preserve">
     <value>ጉብኝት ጠይቅ</value>
   </data>
@@ -227,5 +224,23 @@
   </data>
   <data name="addItem" xml:space="preserve">
     <value>እቃ/ተጨማሪ መረጃ ጨምር</value>
+  </data>
+  <data name="Upload from Excel" xml:space="preserve">
+    <value>ከኤክሴል ስቀል</value>
+  </data>
+  <data name="Upload Excel" xml:space="preserve">
+    <value>ኤክሴልን ይጫኑ</value>
+  </data>
+  <data name="Additional Guests" xml:space="preserve">
+    <value>ተጨማሪ እንግዶች</value>
+  </data>
+  <data name="add Visitor" xml:space="preserve">
+    <value>ጎብኝን ጨምር</value>
+  </data>
+  <data name="Remove Visitor" xml:space="preserve">
+    <value>ጎብኝን አስወግድ</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>አስወግድ</value>
   </data>
 </root>

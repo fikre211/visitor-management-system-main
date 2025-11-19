@@ -139,7 +139,7 @@
     <value>Affeeri</value>
   </data>
   <data name="purposeOfVisit" xml:space="preserve">
-    <value>Kaayyoo Dawwannaa</value>
+    <value>Sababni daawwannaa </value>
   </data>
   <data name="to" xml:space="preserve">
     <value>Hanga</value>
@@ -207,9 +207,6 @@
   <data name="Prof." xml:space="preserve">
     <value>Piroofeesara</value>
   </data>
-  <data name="PurposeOfVisit" xml:space="preserve">
-    <value>Sababni daawwannaa </value>
-  </data>
   <data name="requestVisit" xml:space="preserve">
     <value>Daawwannaa gaafadhaa .</value>
   </data>
@@ -227,5 +224,24 @@
   </data>
   <data name="addItem" xml:space="preserve">
     <value>Meeshaa itti dabali / Odeeffannoo dabalataa</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Upload from Excel" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="Upload Excel" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="Additional Guests" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="add Visitor" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="Remove Visitor" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="Remove" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
   </data>
 </root>

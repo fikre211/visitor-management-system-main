@@ -171,4 +171,7 @@
   <data name="phone" xml:space="preserve">
     <value>ስልክ</value>
   </data>
+  <data name="Select Excel File" xml:space="preserve">
+    <value>የ Excel ፋይልን ይምረጡ</value>
+  </data>
 </root>

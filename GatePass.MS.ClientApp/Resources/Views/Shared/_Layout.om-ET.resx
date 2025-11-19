@@ -120,6 +120,9 @@
   <data name="account" xml:space="preserve">
     <value>Akaawuntii</value>
   </data>
+  <data name="Content Management" xml:space="preserve">
+    <value />
+  </data>
   <data name="dashboard" xml:space="preserve">
     <value>Daashboordii</value>
   </data>
@@ -132,19 +135,43 @@
   <data name="employees" xml:space="preserve">
     <value>Hojjettoota</value>
   </data>
+  <data name="Feedbacks" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Guest Report" xml:space="preserve">
+    <value />
+  </data>
   <data name="manageUser" xml:space="preserve">
     <value>Fayyadamtoota hoggani</value>
+  </data>
+  <data name="Organizations" xml:space="preserve">
+    <value />
   </data>
   <data name="outDatedRequest" xml:space="preserve">
     <value>Gaaffiwwan irra darban</value>
   </data>
+  <data name="Register New User" xml:space="preserve">
+    <value />
+  </data>
   <data name="registerNewUser" xml:space="preserve">
     <value>Fayyadamaa haara galmeessi</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Request Report" xml:space="preserve">
+    <value />
   </data>
   <data name="requests" xml:space="preserve">
     <value>Gaaffiwwan</value>
   </data>
+  <data name="Role Deligations" xml:space="preserve">
+    <value />
+  </data>
   <data name="setting" xml:space="preserve">
     <value>Sirreeffamoota</value>
+  </data>
+  <data name="User Report" xml:space="preserve">
+    <value />
   </data>
 </root>

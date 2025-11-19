@@ -139,13 +139,13 @@
     <value>Invite</value>
   </data>
   <data name="purposeOfVisit" xml:space="preserve">
-    <value>Purpose Of Visit</value>
+    <value>PurposeOfVisit</value>
   </data>
   <data name="to" xml:space="preserve">
     <value>To</value>
   </data>
   <data name="visitDateRange" xml:space="preserve">
-    <value>Visit Date Range</value>
+    <value>visitDateRange</value>
   </data>
   <data name="CompanyName" xml:space="preserve">
     <value>Company Name</value>
@@ -207,9 +207,6 @@
   <data name="Prof." xml:space="preserve">
     <value>Prof.</value>
   </data>
-  <data name="PurposeOfVisit" xml:space="preserve">
-    <value>Purpose Of Visit</value>
-  </data>
   <data name="requestVisit" xml:space="preserve">
     <value>Request Visit</value>
   </data>
@@ -227,5 +224,23 @@
   </data>
   <data name="addItem" xml:space="preserve">
     <value>Add Item/Other Details</value>
+  </data>
+  <data name="Upload from Excel" xml:space="preserve">
+    <value>Upload from Excel</value>
+  </data>
+  <data name="Upload Excel" xml:space="preserve">
+    <value>Upload Excel</value>
+  </data>
+  <data name="Additional Guests" xml:space="preserve">
+    <value>Additional Guests</value>
+  </data>
+  <data name="add Visitor" xml:space="preserve">
+    <value>add Visitor</value>
+  </data>
+  <data name="Remove Visitor" xml:space="preserve">
+    <value>Remove Visitor</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Remove</value>
   </data>
 </root>

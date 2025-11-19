@@ -201,4 +201,55 @@
   <data name="Sir." xml:space="preserve">
     <value>እጅግ የተከበሩ</value>
   </data>
+  <data name="Visitor Self-Registration" xml:space="preserve">
+    <value>የጎብኚዎች ራስን መመዝገብ</value>
+  </data>
+  <data name="Please fill out the form below to register your visit" xml:space="preserve">
+    <value>እባክዎ ጉብኝትዎን ለመመዝገብ ከዚህ በታች ያለውን ቅጽ ይሙሉ</value>
+  </data>
+  <data name="Personal Identification" xml:space="preserve">
+    <value>የግል መለያ</value>
+  </data>
+  <data name="Click to upload a photo or drag and drop" xml:space="preserve">
+    <value>ፎቶ ለመጫን ወይም ለመጎተት እና ለመጣል ጠቅ ያድርጉ</value>
+  </data>
+  <data name="Personal Information" xml:space="preserve">
+    <value>የግል መረጃ</value>
+  </data>
+  <data name="Visit Information" xml:space="preserve">
+    <value>መረጃን ይጎብኙ</value>
+  </data>
+  <data name="select Department" xml:space="preserve">
+    <value>ክፍል ይምረጡ</value>
+  </data>
+  <data name="Department Supervisors" xml:space="preserve">
+    <value>የመምሪያው ተቆጣጣሪዎች</value>
+  </data>
+  <data name="select Supervisor" xml:space="preserve">
+    <value>ተቆጣጣሪን ይምረጡ</value>
+  </data>
+  <data name="Add Item" xml:space="preserve">
+    <value>እቃ  ጨምር</value>
+  </data>
+  <data name="Please list any electronic devices or valuable items you're bringing with you" xml:space="preserve">
+    <value>እባክህ ከአንተ ጋር የምታመጣቸውን ማንኛውንም የኤሌክትሮኒክስ መሳሪያዎች ወይም ጠቃሚ እቃዎች ይዘርዝሩ</value>
+  </data>
+  <data name="Additional Guests" xml:space="preserve">
+    <value>ተጨማሪ እንግዶች</value>
+  </data>
+  <data name="Add Visitor" xml:space="preserve">
+    <value>ጎብኝን ጨምር</value>
+  </data>
+  <data name="Upload From Excel" xml:space="preserve">
+    <value>ከ Excel ስቀል</value>
+  </data>
+  <data name="Submit Registration" xml:space="preserve">
+    <value>ምዝገባ አስገባ</value>
+  </data>
+  <data name="Your information is secure and will only be used for visitor management" xml:space="preserve">
+    <value>የእርስዎ መረጃ ደህንነቱ የተጠበቀ ነው እና ለጎብኚዎች አስተዳደር ብቻ ጥቅም ላይ ይውላል</value>
+  </data>
+  <data name="Remove Visitor" xml:space="preserve">
+    <value>ጎብኝን አስወግድ</value>
+  </data>
 </root>

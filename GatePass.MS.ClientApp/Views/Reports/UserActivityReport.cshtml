@@ -1,5 +1,6 @@
 @using GatePass.MS.Domain.ViewModels
-
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model UserActivityReportModel
 
 @{
@@ -14,17 +15,17 @@
 
                     <form asp-action="UserActivityReport" method="get" class="row mb-4">
                         <div class="col-md-3 form-group">
-                            <label for="startDate">Start Date:</label>
+                            <label for="startDate">@Localizer["Start Date"]:</label>
                             <input type="date" id="startDate" name="startDate" value="@Model.StartDate?.ToString("yyyy-MM-dd")" class="form-control" />
                         </div>
                         <div class="col-md-3 form-group">
-                            <label for="endDate">End Date:</label>
+                            <label for="endDate">@Localizer["End Date"]:</label>
                             <input type="date" id="endDate" name="endDate" value="@Model.EndDate?.ToString("yyyy-MM-dd")" class="form-control" />
                         </div>
                         <div class="form-group">
-                            <label asp-for="SelectedUserId">Select User</label>
+                            <label asp-for="SelectedUserId">@Localizer["Select User"]</label>
                             <select asp-for ="SelectedUserId" class="form-control" asp-items="Model.Users">
-                                <option value="">All Users</option>
+                                <option value="">@Localizer["All Users"]</option>
                             </select>
                         </div>
                         <div class="col-md-2 form-group">
@@ -39,10 +40,10 @@
                     <table id="myDataTable" class="table table-bordered table-striped table-head-fixed">
                         <thead>
                             <tr>
-                                <th>Timestamp</th>
-                                <th>User Id</th>
-                                <th>Activity Type</th>
-                                <th>Activity Description</th>
+                                <th>@Localizer["Timestamp"]</th>
+                                <th>@Localizer["User Id"]</th>
+                                <th>@Localizer["Activity Type"]</th>
+                                <th>@Localizer["Activity Description"]</th>
                             </tr>
                         </thead>
                         <tbody>

@@ -126,6 +126,12 @@
   <data name="detail" xml:space="preserve">
     <value>Gadi fageenya</value>
   </data>
+  <data name="Edit Role" xml:space="preserve">
+    <value />
+  </data>
+  <data name="manage" xml:space="preserve">
+    <value />
+  </data>
   <data name="roles" xml:space="preserve">
     <value>Gahee hojii</value>
   </data>

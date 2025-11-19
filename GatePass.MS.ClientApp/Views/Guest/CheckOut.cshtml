@@ -100,7 +100,7 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label class="col-12 col-md-12 col-form-label">Devices: </label>
+                        <label class="col-12 col-md-12 col-form-label">@Localizer["Devices"]: </label>
                         <div class="col-6 col-md-8">
                             @if (ViewBag.Devices != null && ((ICollection<GatePass.MS.Domain.Device>)ViewBag.Devices).Any()) // Cast to ICollection for .Any()
                             {
@@ -138,7 +138,7 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label class="col-12 col-md-12 col-form-label"> Additional Guests: </label>
+                        <label class="col-12 col-md-12 col-form-label"> @Localizer["Additional Guests"]: </label>
                         <div class="col-6 col-md-8">
                             @if (ViewBag.AdditionalGuests != null)
                             {

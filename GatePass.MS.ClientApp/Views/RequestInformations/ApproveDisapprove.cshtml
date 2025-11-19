@@ -46,7 +46,7 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label class="col col-md-4 col-form-label">Guest Last Name:</label>
+                        <label class="col col-md-4 col-form-label">@Localizer["Guest Last Name"]:</label>
                         <div class="col-6 col-md-8">
                             <p class="form-control-plaintext">@Model.GuestLastName</p>
                         </div>
@@ -54,7 +54,7 @@
 
 
                     <div class="row mb-3">
-                        <label class="col col-md-4 col-form-label">Company Name: </label>
+                        <label class="col col-md-4 col-form-label">@Localizer["Company Name"]: </label>
                         <div class="col-6 col-md-8">
                             <p class="form-control-plaintext">@Model.CompanyName</p>
                         </div>
@@ -87,7 +87,7 @@
                     else
                     {
                         <div class="row mb-3">
-                            <label class="col col-md-4 col-form-label">Approved Time Window</label>
+                            <label class="col col-md-4 col-form-label">@Localizer["Approved Time Window"]</label>
                             <div class="col-6 col-md-8">
                                 <p class="form-control-plaintext">@Model.ApprovedDateTimeStart @Localizer["to"] @Model.ApprovedDateTimeEnd </p>
 
@@ -111,7 +111,7 @@
                     @if (isGateKeeperRole)
                     {
                         <div class="row mb-3">
-                            <label class="col col-md-4 col-form-label">Guest Destination Department: </label>
+                            <label class="col col-md-4 col-form-label">@Localizer["Guest Destination Department"]: </label>
                             <div class="col-6 col-md-8">
                                 <p class="form-control-plaintext">@Model.GuestDestinationDepartment</p>
                             </div>
@@ -126,7 +126,7 @@
                     @if (!Model.IsIndividual)
                     {
                         <div class="row mb-3">
-                            <label class="col col-md-4 col-form-label">Attachements: </label>
+                            <label class="col col-md-4 col-form-label">@Localizer["Attachements"]: </label>
                             <div class="col-6 col-md-8">
                                 @foreach (var attachment in Model.Attachments)
                                 {
@@ -142,14 +142,14 @@
                     @if (Model.IsCheckedIn)
                     {
                         <div class="row mb-3">
-                            <label class="col col-md-4 col-form-label">Check in Status: </label>
+                            <label class="col col-md-4 col-form-label">@Localizer["Check in Status"]: </label>
                             <div class="col-6 col-md-8">
-                                <p class="form-control-plaintext">Guest is Checked in!</p>
+                                <p class="form-control-plaintext">@Localizer["Guest is Checked in"]!</p>
                             </div>
                         </div>
                     }
                     <div class="row mb-3">
-                        <label class="col-12 col-md-12 col-form-label">Devices: </label>
+                        <label class="col-12 col-md-12 col-form-label">@Localizer["Devices"]: </label>
                         <div class="col-6 col-md-8">
                             @if (Model.Devices != null && Model.Devices.Any())
                             {
@@ -228,7 +228,7 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label class="col-12 col-md-12 col-form-label">Guests: </label>
+                        <label class="col-12 col-md-12 col-form-label">@Localizer["Guests"]: </label>
                         <div class="col-6 col-md-8">
                             @if (Model.AdditionalGuests != null)
                             {
@@ -266,7 +266,7 @@
                     {
                         @* Feedback (visible for all who can approve/reject) *@
                         <div class="form-group">
-                            <label asp-for="Feedback">Feedback</label>
+                            <label asp-for="Feedback">@Localizer["Feedback"]</label>
                             <textarea asp-for="Feedback" class="form-control"></textarea>
                             <span asp-validation-for="Feedback" class="text-danger"></span>
                         </div>
@@ -328,14 +328,14 @@
 
                         @* Reject Reason Dropdown *@
                         <div class="row mb-3">
-                            <label class="col col-md-4 col-form-label">Select only if you reject the request: </label>
+                            <label class="col col-md-4 col-form-label">@Localizer["Select only if you reject the request"]: </label>
                             <div class="col-6 col-md-8">
                                 <select asp-for="SelectedReason" class="form-control" id="rejectReason">
-                                    <option value="">-- Select a reason --</option>
-                                    <option value="Unavailable Schedule!">Unavailable Schedule!</option>
-                                    <option value="Office Closed">Office Closed</option>
-                                    <option value="Meeting">Meeting</option>
-                                    <option value="unknown reason">unknown reason</option>
+                                    <option value="">-- @Localizer["Select a reason"] --</option>
+                                    <option value="Unavailable Schedule!">@Localizer["Unavailable Schedule"]!</option>
+                                    <option value="Office Closed">@Localizer["Office Closed"]</option>
+                                    <option value="Meeting">@Localizer["Meeting"]</option>
+                                    <option value="unknown reason">@Localizer["unknown reason"]</option>
                                 </select>
                                 <span asp-validation-for="SelectedReason" class="text-danger"></span>
 

@@ -120,8 +120,14 @@
   <data name="approvalStatus" xml:space="preserve">
     <value>የማጽደቅ ሁኔታ</value>
   </data>
+  <data name="Approved" xml:space="preserve">
+    <value>ጸድቋል</value>
+  </data>
   <data name="approver" xml:space="preserve">
     <value>አረጋጋጭ</value>
+  </data>
+  <data name="Attachments" xml:space="preserve">
+    <value>አባሪዎች</value>
   </data>
   <data name="guestEmail" xml:space="preserve">
     <value>የእንግዳ ኢሜይል</value>
@@ -135,16 +141,31 @@
   <data name="inviteNew" xml:space="preserve">
     <value>አዲስ ጋብዝ</value>
   </data>
+  <data name="Name" xml:space="preserve">
+    <value>ስም</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>በመጠባበቅ ላይ</value>
+  </data>
   <data name="purposeOfVisit" xml:space="preserve">
     <value>የጉብኝት ዓላማ</value>
+  </data>
+  <data name="Rejected" xml:space="preserve">
+    <value>ውድቅ ተደርጓል</value>
   </data>
   <data name="responsiblePerson" xml:space="preserve">
     <value>ኃላፊነት ያለው ሰው</value>
   </data>
-  <data name="visitDateEnd" xml:space="preserve">
+  <data name="Reviewed" xml:space="preserve">
+    <value>ተገምግሟል</value>
+  </data>
+  <data name="View Detail" xml:space="preserve">
+    <value>ዝርዝር ይመልከቱ</value>
+  </data>
+  <data name="Visit End Date" xml:space="preserve">
     <value>የጉብኝት ቀን ሚያልቅበት</value>
   </data>
-  <data name="visitDateStart" xml:space="preserve">
+  <data name="Visit Start Date" xml:space="preserve">
     <value>የጉብኝት ቀን ሚጀምርብት</value>
   </data>
 </root>

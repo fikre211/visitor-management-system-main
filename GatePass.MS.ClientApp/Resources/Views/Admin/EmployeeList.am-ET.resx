@@ -120,6 +120,9 @@
   <data name="action" xml:space="preserve">
     <value>ድርጊት</value>
   </data>
+  <data name="already Registered" xml:space="preserve">
+    <value>አስቀድሞ ተመዝግቧል</value>
+  </data>
   <data name="createAccount" xml:space="preserve">
     <value>መለያ ፍጠር</value>
   </data>
@@ -131,6 +134,9 @@
   </data>
   <data name="email" xml:space="preserve">
     <value>ኢሜይል</value>
+  </data>
+  <data name="EployeeList" xml:space="preserve">
+    <value>የሰራተኞች ዝርዝር</value>
   </data>
   <data name="fullName" xml:space="preserve">
     <value>ሙሉ ስም</value>

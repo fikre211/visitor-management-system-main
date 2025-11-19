@@ -129,4 +129,10 @@
   <data name="parentDepartment" xml:space="preserve">
     <value>ወላጅ/ከፍተኛ ክፍል</value>
   </data>
+  <data name="Create Department" xml:space="preserve">
+    <value>ክፍል ይፍጠሩ</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>ሰርዝ</value>
+  </data>
 </root>

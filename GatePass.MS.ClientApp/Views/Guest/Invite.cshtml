@@ -253,8 +253,8 @@
     <div class="registration-card">
         <div class="card-header text-center">
           
-            <h2>Visitor Self-Registration</h2>
-            <p class="mb-0">Please fill out the form below to register your visit.</p>
+            <h2>@Localizer["Visitor Self-Registration"]</h2>
+            <p class="mb-0">@Localizer["Please fill out the form below to register your visit"].</p>
         </div>
         <div class="card-body">
             <form asp-action="Invite" id="inviteForm" class="form-horizontal" enctype="multipart/form-data">
@@ -265,13 +265,13 @@
                         <!-- Personal Information Section -->
                         <div class="form-section mt-4">
                             <h5 class="section-title">
-                                <i class="fas fa-user"></i> Personal Identification
+                                <i class="fas fa-user"></i> @Localizer["Personal Identification"]
                             </h5>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="photo-upload" id="photoUploadArea">
                                         <i class="fas fa-cloud-upload-alt fa-3x text-muted mb-2"></i>
-                                        <p class="mb-2">Click to upload a photo or drag and drop</p>
+                                        <p class="mb-2">@Localizer["Click to upload a photo or drag and drop"]</p>
                                         <p class="text-muted small mb-0">JPG, PNG up to 5MB</p>
                                         <input type="file" id="photoUpload" name="GuestPhoto" accept="image/*" class="d-none">
                                     </div>
@@ -292,7 +292,7 @@
                         <!-- Personal Information Section -->
                         <div class="form-section">
                             <h5 class="section-title">
-                                <i class="fas fa-user"></i> Personal Information
+                                <i class="fas fa-user"></i> @Localizer["Personal Information"]
                             </h5>
                             <div class="row justify-content-center">
     <!-- Title -->
@@ -373,7 +373,7 @@
                         <!-- Visit Information Section -->
                         <div class="form-section">
                             <h5 class="section-title">
-                                <i class="fas fa-calendar-alt"></i> Visit Information
+                                <i class="fas fa-calendar-alt"></i> @Localizer["Visit Information"]
                             </h5>
                             <div class="form-group">
                                 <label class="form-label required-field">@Localizer["PurposeOfVisit"]</label>
@@ -455,7 +455,7 @@
                                 <!-- Device inputs will be added here -->
                             </div>
                             <div class="alert alert-info small">
-                                <i class="fas fa-info-circle"></i> Please list any electronic devices or valuable items you're bringing with you.
+                                <i class="fas fa-info-circle"></i> @Localizer["Please list any electronic devices or valuable items you're bringing with you"].
                             </div>
                         </div>
 
@@ -492,10 +492,10 @@
                         <!-- Submit Button -->
                         <div class="form-section text-center pt-4">
                             <button type="submit" class="btn btn-primary btn-lg px-5">
-                                <i class="fas fa-paper-plane me-2"></i> Submit Registration
+                                <i class="fas fa-paper-plane me-2"></i> @Localizer["Submit Registration"]
                             </button>
                             <p class="text-muted small mt-2">
-                                <i class="fas fa-lock me-1"></i> Your information is secure and will only be used for visitor management.
+                                <i class="fas fa-lock me-1"></i> @Localizer["Your information is secure and will only be used for visitor management"].
                             </p>
 
             </form>

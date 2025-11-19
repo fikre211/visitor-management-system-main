@@ -120,8 +120,14 @@
   <data name="approvalStatus" xml:space="preserve">
     <value>Haala Raggaasifamuu</value>
   </data>
+  <data name="Approved" xml:space="preserve">
+    <value />
+  </data>
   <data name="approver" xml:space="preserve">
     <value>Mirkaneessaa</value>
+  </data>
+  <data name="Attachments" xml:space="preserve">
+    <value />
   </data>
   <data name="guestEmail" xml:space="preserve">
     <value>Imeeli keessummaa</value>
@@ -135,16 +141,31 @@
   <data name="inviteNew" xml:space="preserve">
     <value>Haaraa Affeeri</value>
   </data>
+  <data name="Name" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value />
+  </data>
   <data name="purposeOfVisit" xml:space="preserve">
     <value>Kaayyoo daawwannaa</value>
+  </data>
+  <data name="Rejected" xml:space="preserve">
+    <value />
   </data>
   <data name="responsiblePerson" xml:space="preserve">
     <value>Nama itt gaafatamu</value>
   </data>
-  <data name="visitDateEnd" xml:space="preserve">
+  <data name="Reviewed" xml:space="preserve">
+    <value />
+  </data>
+  <data name="View Detail" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Visit End Date" xml:space="preserve">
     <value>Guyyaa daawwannaan dhumu</value>
   </data>
-  <data name="visitDateStart" xml:space="preserve">
+  <data name="Visit Start Date" xml:space="preserve">
     <value>Guyyaa Daawwanaan jalqabu</value>
   </data>
 </root>

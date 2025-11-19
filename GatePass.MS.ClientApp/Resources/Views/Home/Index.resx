@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="allRegisteredUser" xml:space="preserve">
+  <data name="All Registered Users" xml:space="preserve">
     <value />
   </data>
   <data name="allRequests" xml:space="preserve">
@@ -129,16 +129,10 @@
   <data name="guestFullName" xml:space="preserve">
     <value />
   </data>
-  <data name="moreInfo" xml:space="preserve">
-    <value />
-  </data>
   <data name="pendingRequests" xml:space="preserve">
     <value />
   </data>
   <data name="purposeOfVisit" xml:space="preserve">
-    <value />
-  </data>
-  <data name="rejectedRequests" xml:space="preserve">
     <value />
   </data>
   <data name="responsiblePerson" xml:space="preserve">
@@ -169,6 +163,93 @@
     <value />
   </data>
   <data name="CheckOut" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Employees" xml:space="preserve">
+    <value />
+  </data>
+  <data name="OutDated Requests" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Reviewed Requests" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Visitors Overview" xml:space="preserve">
+    <value />
+  </data>
+  <data name="User Roles Distribution" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Requests Trend" xml:space="preserve">
+    <value />
+  </data>
+  <data name="New Request" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Guest Destination Department" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Print" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Check-in Status" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Quick Access" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Scan the QR Code below for a swift Self-Registration" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Today's Visitors" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Total Visitors" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Please Take a Moment for Self-Registration, Check-In or Check-Out Below" xml:space="preserve">
+    <value />
+  </data>
+  <data name="More Info" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Rejected Requests" xml:space="preserve">
+    <value />
+  </data>
+  <data name="All Requests" xml:space="preserve">
+    <value />
+  </data>
+  <data name="rejectedRequests" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Visitor Requests" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Welcome to" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Self-Registration" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Check-In" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Check-Out" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Approved Requests" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Pending Requests" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Departments" xml:space="preserve">
     <value />
   </data>
 </root>

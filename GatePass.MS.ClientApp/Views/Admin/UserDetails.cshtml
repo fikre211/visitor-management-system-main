@@ -1,4 +1,6 @@
 ﻿@using GatePass.MS.Domain.ViewModels
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model ViewUserViewModel
 @{
     ViewData["Title"] = "User Detail";
@@ -9,12 +11,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Profile</h1>
+                <h1>@Localizer["Profile"]</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">User Profile</li>
+                    <li class="breadcrumb-item"><a href="#">@Localizer["Home"]</a></li>
+                    <li class="breadcrumb-item active">@Localizer["User Profile"]</li>
                 </ol>
             </div>
         </div>
@@ -35,10 +37,10 @@
                                  alt="User profile picture">
                         </div>
                         <h3 class="profile-username text-center">@Model.UserName</h3>
-                        <p class="text-muted text-center">Software Engineer</p>
+                        <p class="text-muted text-center">@Localizer["Software Engineer"]</p>
                         <ul class="list-group list-group-unbordered mb-3">
                             <li class="list-group-item">
-                                <b>Department</b> <a class="float-right">@Model.Department</a>
+                                <b>@Localizer["Department"]</b> <a class="float-right">@Model.Department</a>
                             </li>
                         </ul>
                     </div>
@@ -46,22 +48,22 @@
                 <!-- About Me Box -->
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Account Status</h3>
+                        <h3 class="card-title">@Localizer["Account Status"]</h3>
                     </div>
                     <div class="card-body">
                         @if (!Model.IsActive)
                         {
-                            <strong> Current Status of account</strong>
+                            <strong> @Localizer["Current Status of account"]</strong>
                             
                             <p class="btn btn-warning">Deactive</p>
                             @if (Model.IsLocked)
                             {
-                                <h6>and</h6>
+                                <h6>@Localizer["and"]</h6>
 
-                                <p class="btn btn-warning">Locked</p>
+                                <p class="btn btn-warning">@Localizer["Locked"]</p>
                             }
                             <hr />
-                            <strong> Change Account Status</strong>
+                            <strong> @Localizer["Change Account Status"]</strong>
                             <form asp-action="ActivateUser" method="post">
                                 <input type="hidden" asp-for="Id" />
                                 <div class="form-group">
@@ -71,16 +73,18 @@
                         }
                         else
                         {
-                            <strong> Current Status of account</strong><br />
-                            <p class="btn btn-success">Active</p>
+                            <strong> @Localizer["Current Status of account"]</strong>
+                        
+                            <br />
+                            <p class="btn btn-success">@Localizer["Active"]</p>
                             @if (Model.IsLocked)
                             {
-                                <h6>and</h6>
+                                <h6>@Localizer["and"]</h6>
 
-                                <p class="btn btn-danger">Locked</p>
+                                <p class="btn btn-danger">@Localizer["Locked"]</p>
                             }
                             <hr />
-                            <strong> Change Account Status</strong>
+                            <strong> @Localizer["Change Account Status"]</strong>
                             <form asp-action="DeactivateUser" method="post">
                                 <input type="hidden" asp-for="Id" />
                                 <div class="form-group">
@@ -90,7 +94,7 @@
                         }
                         @if (Model.IsLocked)
                         {
-                            <strong> Account is locked please review and unlock it</strong>
+                            <strong> @Localizer["Account is locked please review and unlock it"]</strong>
                             <form asp-action="UnlockUser" method="post">
                                 <input type="hidden" asp-for="Id" />
                                 <div class="form-group">
@@ -105,7 +109,7 @@
                 <div class="card">
                     <div class="card-header p-2">
                         <ul class="nav nav-pills">
-                            <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Activity</a></li>
+                            <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">@Localizer["Activity"]</a></li>
                         </ul>
                     </div><!-- /.card-header -->
                     <div class="card-body">
@@ -115,9 +119,9 @@
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th>Timestamp</th>
-                                            <th>Activity Type</th>
-                                            <th>Activity Description</th>
+                                            <th>@Localizer["Timestamp"]</th>
+                                            <th>@Localizer["Activity Type"]</th>
+                                            <th>@Localizer["Activity Description"]</th>
                                         </tr>
                                     </thead>
                                     <tbody>

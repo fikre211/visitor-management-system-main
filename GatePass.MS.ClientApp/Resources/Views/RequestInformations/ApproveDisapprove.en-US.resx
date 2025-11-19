@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="approvalStatus" xml:space="preserve">
-    <value>Approval Status</value>
+    <value>approvalStatus</value>
   </data>
   <data name="approve" xml:space="preserve">
     <value>Approve</value>
@@ -133,33 +133,129 @@
     <value>Delete</value>
   </data>
   <data name="guestEmail" xml:space="preserve">
-    <value>Guest Email</value>
+    <value>guestEmail</value>
   </data>
   <data name="guestFirstName" xml:space="preserve">
-    <value>Guest First Name</value>
+    <value>guestFirstName</value>
   </data>
-  <data name="guestLastName" xml:space="preserve">
-    <value>Guest First Name</value>
+  <data name="Guest Last Name" xml:space="preserve">
+    <value>Guest Last Name</value>
   </data>
   <data name="guestPhoneNumber" xml:space="preserve">
-    <value>Guest Phone Number</value>
+    <value>guestPhoneNumber</value>
   </data>
   <data name="purposeOfVisit" xml:space="preserve">
-    <value>Purpose Of Visit</value>
+    <value>purposeOfVisit</value>
   </data>
   <data name="reject" xml:space="preserve">
-    <value>Reject</value>
+    <value>reject</value>
   </data>
   <data name="requestDetails" xml:space="preserve">
-    <value>Request Details</value>
+    <value>requestDetails</value>
   </data>
   <data name="responsiblePerson" xml:space="preserve">
-    <value>Responsible Person</value>
+    <value>responsiblePerson</value>
   </data>
   <data name="to" xml:space="preserve">
     <value>To</value>
   </data>
   <data name="visitDateRange" xml:space="preserve">
-    <value>Visit Date Range</value>
+    <value>visitDateRange</value>
+  </data>
+  <data name="Company Name" xml:space="preserve">
+    <value>Company Name</value>
+  </data>
+  <data name="Approved Time Window" xml:space="preserve">
+    <value>Approved Time Window</value>
+  </data>
+  <data name="Guest Destination Department" xml:space="preserve">
+    <value>Guest Destination Department</value>
+  </data>
+  <data name="Attachements" xml:space="preserve">
+    <value>Attachements</value>
+  </data>
+  <data name="Devices" xml:space="preserve">
+    <value>Devices</value>
+  </data>
+  <data name="Guest is Checked in" xml:space="preserve">
+    <value>Guest is Checked in</value>
+  </data>
+  <data name="Check in Status" xml:space="preserve">
+    <value>Check in Status</value>
+  </data>
+  <data name="Item Name" xml:space="preserve">
+    <value>Item Name</value>
+  </data>
+  <data name="Identifier" xml:space="preserve">
+    <value>Identifier</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Allow" xml:space="preserve">
+    <value>Allow</value>
+  </data>
+  <data name="Deny" xml:space="preserve">
+    <value>Deny</value>
+  </data>
+  <data name="Granted" xml:space="preserve">
+    <value>Granted</value>
+  </data>
+  <data name="Denied" xml:space="preserve">
+    <value>Denied</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Pending</value>
+  </data>
+  <data name="No devices available" xml:space="preserve">
+    <value>No devices available</value>
+  </data>
+  <data name="Guests" xml:space="preserve">
+    <value>Guests</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>First Name</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>Last Name</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="No Addtional Guests available" xml:space="preserve">
+    <value>No Addtional Guests available</value>
+  </data>
+  <data name="Feedback" xml:space="preserve">
+    <value>Feedback</value>
+  </data>
+  <data name="Approval Start" xml:space="preserve">
+    <value>Approval Start</value>
+  </data>
+  <data name="Approval End" xml:space="preserve">
+    <value>Approval End</value>
+  </data>
+  <data name="Send to Admin" xml:space="preserve">
+    <value>Send to Admin</value>
+  </data>
+  <data name="Select only if you reject the request" xml:space="preserve">
+    <value>Select only if you reject the request</value>
+  </data>
+  <data name="Select a reason" xml:space="preserve">
+    <value>Select a reason</value>
+  </data>
+  <data name="Unavailable Schedule" xml:space="preserve">
+    <value>Unavailable Schedule</value>
+  </data>
+  <data name="Office Closed" xml:space="preserve">
+    <value>Office Closed</value>
+  </data>
+  <data name="Meeting" xml:space="preserve">
+    <value>Meeting</value>
+  </data>
+  <data name="unknown reason" xml:space="preserve">
+    <value>unknown reason</value>
   </data>
 </root>

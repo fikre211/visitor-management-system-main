@@ -43,7 +43,7 @@
                                     <a class="btn btn-info" asp-action="UserDetails" asp-route-id="@user.Id">@Localizer["detail"]</a>
                                 </td>
                                 <td>
-                                    <a asp-action="EditUserRole" class="btn btn-warning" asp-route-userId="@user.Id">Edit Role</a>
+                                    <a asp-action="EditUserRole" class="btn btn-warning" asp-route-userId="@user.Id">@Localizer["Edit Role"]</a>
                                 </td>
                             </tr>
                         }

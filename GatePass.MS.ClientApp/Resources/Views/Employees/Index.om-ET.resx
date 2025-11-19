@@ -171,4 +171,7 @@
   <data name="phone" xml:space="preserve">
     <value>Bilbila</value>
   </data>
+  <data name="Select Excel File" xml:space="preserve">
+    <value />
+  </data>
 </root>

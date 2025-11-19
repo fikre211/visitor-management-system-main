@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="allRegisteredUser" xml:space="preserve">
+  <data name="All Registered Users" xml:space="preserve">
     <value>Fayyadamtoota galma'an hunda</value>
   </data>
   <data name="allRequests" xml:space="preserve">
@@ -129,17 +129,11 @@
   <data name="guestFullName" xml:space="preserve">
     <value>Maqaa keessummaa guutuu</value>
   </data>
-  <data name="moreInfo" xml:space="preserve">
-    <value>Ibsa Dabalataa</value>
-  </data>
   <data name="pendingRequests" xml:space="preserve">
     <value>Gaaffiiwan Eeggannoo jala jiran</value>
   </data>
   <data name="purposeOfVisit" xml:space="preserve">
     <value>Kaayyoo Daawwannaa</value>
-  </data>
-  <data name="rejectedRequests" xml:space="preserve">
-    <value>Gaaffiwan Kuffisaman</value>
   </data>
   <data name="responsiblePerson" xml:space="preserve">
     <value>Nama Itti Gaafatamu</value>
@@ -170,5 +164,93 @@
   </data>
   <data name="CheckOut" xml:space="preserve">
     <value>Ba'uu</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Employees" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="OutDated Requests" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="Reviewed Requests" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="Visitors Overview" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="User Roles Distribution" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="Requests Trend" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="New Request" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="Name" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="Guest Destination Department" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="Print" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="Check-in Status" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="Actions" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="Quick Access" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="Scan the QR Code below for a swift Self-Registration" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="Today's Visitors" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="Total Visitors" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="Please Take a Moment for Self-Registration, Check-In or Check-Out Below" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="More Info" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="Rejected Requests" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="All Requests" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="rejectedRequests" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="Visitor Requests" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="Welcome to" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="Self-Registration" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="Check-In" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="Check-Out" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="Approved Requests" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="Pending Requests" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="Departments" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
   </data>
 </root>

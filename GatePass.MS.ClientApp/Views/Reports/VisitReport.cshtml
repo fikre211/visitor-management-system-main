@@ -1,4 +1,6 @@
 ﻿@using GatePass.MS.Domain.ViewModels;
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model VisitReportModel
 @{
     ViewData["Title"] = "Visit Report";
@@ -18,17 +20,17 @@
                     <form method="get" action="@Url.Action("VisitReport", "Reports")" class="row g-3 align-items-center">
                         
                         <div class="col-md-2 form-group">
-                            <label for="startDate" class="form-label">Start Date:</label>
+                            <label for="startDate" class="form-label">@Localizer["Start Date"]:</label>
                             <input type="date" id="startDate" name="startDate" class="form-control" value="@Model.StartDate?.ToString("yyyy-MM-dd")" />
                         </div>
                         <div class="col-md-2 form-group">
-                            <label for="endDate" class="form-label">End Date:</label>
+                            <label for="endDate" class="form-label">@Localizer["End Date"]:</label>
                             <input type="date" id="endDate" name="endDate" class="form-control" value="@Model.EndDate?.ToString("yyyy-MM-dd")" />
                         </div>
                         <div class="col-md-2 form-group">
-                            <label for="status" class="form-label">Status:  </label><br />
+                            <label for="status" class="form-label">@Localizer["Status"]:  </label><br />
                             <select id="status" name="status" class="form-control">
-                                <option value="">All</option>
+                                <option value="">@Localizer["All"]</option>
                                 @foreach (var status in statusOptions)
                                 {
                                     <option value="@status">@status</option>
@@ -36,9 +38,9 @@
                             </select>
                         </div>
                         <div class="col-md-2 form-group">
-                            <label for="employee" class="form-label">Employee:</label>
+                            <label for="employee" class="form-label">@Localizer["Employee"]:</label>
                             <select id="employee" name="employeeId" class="form-control">
-                                <option value="">All</option>
+                                <option value="">@Localizer["All"]</option>
                                 @foreach (var employee in employees)
                                 {
                                     <option value="@employee.Id">@employee.FirstName</option>
@@ -46,7 +48,7 @@
                             </select>
                         </div>
                         <div class="col">
-                            <button type="submit" class="btn btn-success float-right"> <i class="fas fa-filter"></i> Filter</button>
+                            <button type="submit" class="btn btn-success float-right"> <i class="fas fa-filter"></i> @Localizer["Filter"]</button>
                         </div>
                     </form>
 
@@ -57,18 +59,18 @@
                     <table id="myDataTable" class="table table-bordered table-striped table-head-fixed">
                         <thead>
                             <tr>
-                                <th>Request ID</th>
-                                <th>Visitor Name</th>
-                                <th>Visitor Phone</th>
-                                <th>Visitor Email</th>
+                                <th>@Localizer["Request ID"]</th>
+                                <th>@Localizer["Visitor Name"]</th>
+                                <th>@Localizer["Visitor Phone"]</th>
+                                <th>@Localizer["Visitor Email"]</th>
                                
-                                <th>Approved Time Start</th>
-                                <th>Approved Time End</th>
-                                <th>Purpose</th>
-                                <th>Inviter</th>
-                                <th>Request Date</th>
-                                <th>Approved or Rejected By</th>
-                                <th>Status</th>
+                                <th>@Localizer["Approved Time Start"]</th>
+                                <th>@Localizer["Approved Time End"]</th>
+                                <th>@Localizer["Purpose"]</th>
+                                <th>@Localizer["Inviter"]</th>
+                                <th>@Localizer["Request Date"]</th>
+                                <th>@Localizer["Approved or Rejected By"]</th>
+                                <th>@Localizer["Status"]</th>
                              
                             </tr>
                         </thead>

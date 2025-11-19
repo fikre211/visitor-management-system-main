@@ -1,6 +1,7 @@
 ﻿@model GatePass.MS.Domain.Department
-
-<h1>Create Department</h1>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+<h1>@Localizer["Create Department"]</h1>
 
 <form asp-action="Create" method="post">
     
@@ -11,7 +12,7 @@
     </div>
     <input type="hidden" asp-for="ParentDepartmentId" />
     <div class="form-group">
-        <button type="submit" class="btn btn-primary">Create</button>
-        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-primary">@Localizer["Create"]</button>
+        <a asp-action="Index" class="btn btn-secondary">@Localizer["Cancel"]</a>
     </div>
 </form>

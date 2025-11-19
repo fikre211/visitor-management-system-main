@@ -121,7 +121,7 @@
     <value>Action</value>
   </data>
   <data name="addNewEmployee" xml:space="preserve">
-    <value>Add Employee</value>
+    <value>addNewEmployee</value>
   </data>
   <data name="address" xml:space="preserve">
     <value>Address</value>
@@ -170,5 +170,8 @@
   </data>
   <data name="phone" xml:space="preserve">
     <value>Phone</value>
+  </data>
+  <data name="Select Excel File" xml:space="preserve">
+    <value>Select Excel File</value>
   </data>
 </root>

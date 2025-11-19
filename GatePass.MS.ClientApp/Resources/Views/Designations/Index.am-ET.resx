@@ -117,13 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="actions" xml:space="preserve">
+    <value>ድርጊቶች</value>
+  </data>
   <data name="createNewDesignation" xml:space="preserve">
     <value>አዲስ ስያሜ ፍጠር</value>
+  </data>
+  <data name="designationName" xml:space="preserve">
+    <value>ስያሜ ስም</value>
   </data>
   <data name="designationtLists" xml:space="preserve">
     <value>ስያሜዎች ዝርዝር</value>
   </data>
-  <data name="String1" xml:space="preserve">
-    <value />
+  <data name="noDesignationsFound" xml:space="preserve">
+    <value>ምንም ስያሜዎች አልተገኙም።</value>
   </data>
 </root>

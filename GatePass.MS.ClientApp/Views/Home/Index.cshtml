@@ -142,7 +142,7 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Visitors Overview</h3>
+                <h3 class="card-title">@Localizer["Visitors Overview"]</h3>
             </div>
             <div class="card-body">
                 <canvas id="adminBarChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
@@ -152,7 +152,7 @@
                          <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">User Roles Distribution</h3>
+                <h3 class="card-title">@Localizer["User Roles Distribution"]</h3>
             </div>
             <div class="card-body">
                 <canvas id="userRolesPieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
@@ -164,7 +164,7 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title">Requests Trend</h3>
+                                    <h3 class="card-title">@Localizer["Requests Trend"]</h3>
                                 </div>
                                 <div class="card-body">
                                     <canvas id="requestsLineChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
@@ -292,22 +292,22 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Visitor Requests</h3>
+                            <h3 class="card-title">@Localizer["Visitor Requests"]</h3>
                         </div>
                         <div class="card-body table-responsive p-0">
                             <table id="myDataTable" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Name</th>
+                                        <th>@Localizer["Name"]</th>
                                         <th>@Localizer["visitDateStart"]</th>
                                         <th>@Localizer["visitDateEnd"]</th>
                                         <th>@Localizer["purposeOfVisit"]</th>
                                         <th>@Localizer["responsiblePerson"]</th>
-                                        <th>Guest Destination Department</th>
-                                        <th>Print</th>
-                                        <th>Check-in Status</th>
-                                        <th>Actions</th>
+                                        <th>@Localizer["Guest Destination Department"]</th>
+                                        <th>@Localizer["Print"]</th>
+                                        <th>@Localizer["Check-in Status"]</th>
+                                        <th>@Localizer["Actions"]</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -389,9 +389,8 @@ else
             </div>
 
             <div class="info-text">
-                <h3>Quick Access</h3>
-                <p>Scan the QR Code below for a swift
-Self-Registration!</p>
+                <h3>@Localizer["Quick Access"]</h3>
+                <p>@Localizer["Scan the QR Code below for a swift Self-Registration"]!</p>
             </div>
 
             <div class="qr-container">
@@ -409,11 +408,11 @@ Self-Registration!</p>
          <div class="visitor-stats">
                 <div class="stat-item">
                     <div class="stat-number">@(ViewBag.TodaysVisitorCount ?? 0)</div>
-                    <div class="stat-label">Today's Visitors</div>
+                    <div class="stat-label">@Localizer["Today's Visitors"]</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-number">@(ViewBag.TotalVisitorCount ?? 0)</div>
-                    <div class="stat-label">Total Visitors</div>
+                    <div class="stat-label">@Localizer["Total Visitors"]</div>
                 </div>
             </div>
         <div class="welcome-container">
@@ -421,7 +420,7 @@ Self-Registration!</p>
             <div class="welcome-section">
                 <h1 class="welcome-title">Welcome to @company.Name</h1>
                 <p class="welcome-subtitle">
-                    Please Take a Moment for Self-Registration, Check-In or Check-Out Below.
+                    @Localizer["Please Take a Moment for Self-Registration, Check-In or Check-Out Below"].
                 </p>
 
                 <div class="action-buttons">

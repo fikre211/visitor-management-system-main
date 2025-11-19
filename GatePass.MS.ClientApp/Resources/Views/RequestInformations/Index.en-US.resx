@@ -118,10 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="approvalStatus" xml:space="preserve">
-    <value>Approval Status</value>
+    <value>approvalStatus</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Approved</value>
   </data>
   <data name="approver" xml:space="preserve">
-    <value>Approver</value>
+    <value>approver</value>
+  </data>
+  <data name="Attachments" xml:space="preserve">
+    <value>Attachments</value>
   </data>
   <data name="guestEmail" xml:space="preserve">
     <value>Guest Email</value>
@@ -133,18 +139,33 @@
     <value>Guest Phone Number</value>
   </data>
   <data name="inviteNew" xml:space="preserve">
-    <value>Invite New</value>
+    <value>inviteNew</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>በመጠባበቅ ላይ</value>
   </data>
   <data name="purposeOfVisit" xml:space="preserve">
-    <value>Purpose Of Visit</value>
+    <value>purposeOfVisit</value>
+  </data>
+  <data name="Rejected" xml:space="preserve">
+    <value>Rejected</value>
   </data>
   <data name="responsiblePerson" xml:space="preserve">
     <value>Responsible Person</value>
   </data>
-  <data name="visitDateEnd" xml:space="preserve">
+  <data name="Reviewed" xml:space="preserve">
+    <value>Reviewed</value>
+  </data>
+  <data name="View Detail" xml:space="preserve">
+    <value>View Detail</value>
+  </data>
+  <data name="Visit End Date" xml:space="preserve">
     <value>Visit Date End</value>
   </data>
-  <data name="visitDateStart" xml:space="preserve">
-    <value>Visit Date Start</value>
+  <data name="Visit Start Date" xml:space="preserve">
+    <value>Visit End Date</value>
   </data>
 </root>

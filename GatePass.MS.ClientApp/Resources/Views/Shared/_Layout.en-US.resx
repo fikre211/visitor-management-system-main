@@ -120,6 +120,9 @@
   <data name="account" xml:space="preserve">
     <value>Account</value>
   </data>
+  <data name="Content Management" xml:space="preserve">
+    <value>Content Management</value>
+  </data>
   <data name="dashboard" xml:space="preserve">
     <value>Dashboard</value>
   </data>
@@ -130,21 +133,45 @@
     <value>Designations</value>
   </data>
   <data name="employees" xml:space="preserve">
-    <value>Employees</value>
+    <value>employees</value>
+  </data>
+  <data name="Feedbacks" xml:space="preserve">
+    <value>Feedbacks</value>
+  </data>
+  <data name="Guest Report" xml:space="preserve">
+    <value>Guest Report</value>
   </data>
   <data name="manageUser" xml:space="preserve">
     <value>Manage User</value>
   </data>
+  <data name="Organizations" xml:space="preserve">
+    <value>Organizations</value>
+  </data>
   <data name="outDatedRequest" xml:space="preserve">
     <value>Out Dated Request</value>
+  </data>
+  <data name="Register New User" xml:space="preserve">
+    <value>Register New User</value>
   </data>
   <data name="registerNewUser" xml:space="preserve">
     <value>Register New User</value>
   </data>
+  <data name="Reports" xml:space="preserve">
+    <value>Reports</value>
+  </data>
+  <data name="Request Report" xml:space="preserve">
+    <value>Request Report</value>
+  </data>
   <data name="requests" xml:space="preserve">
     <value>Requests</value>
   </data>
+  <data name="Role Deligations" xml:space="preserve">
+    <value>Role Deligations</value>
+  </data>
   <data name="setting" xml:space="preserve">
     <value>Setting</value>
+  </data>
+  <data name="User Report" xml:space="preserve">
+    <value>User Report</value>
   </data>
 </root>

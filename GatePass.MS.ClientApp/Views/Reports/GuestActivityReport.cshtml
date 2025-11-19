@@ -1,5 +1,6 @@
 ﻿@using GatePass.MS.Domain.ViewModels
-
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model GuestActivityReportModel
 
 @{
@@ -14,17 +15,17 @@
 
                     <form asp-action="GuestActivityReport" method="get" class="row mb-4">
                         <div class="col-md-3 form-group">
-                            <label for="startDate">Start Date:</label>
+                            <label for="startDate">@Localizer["Start Date"]:</label>
                             <input type="date" id="startDate" name="startDate" value="@Model.StartDate?.ToString("yyyy-MM-dd")" class="form-control" />
                         </div>
                         <div class="col-md-3 form-group">
-                            <label for="endDate">End Date:</label>
+                            <label for="endDate">@Localizer["End Date"]:</label>
                             <input type="date" id="endDate" name="endDate" value="@Model.EndDate?.ToString("yyyy-MM-dd")" class="form-control" />
                         </div>
                         <div class="form-group">
-                            <label asp-for="SelectedGuestId">Select User</label>
+                            <label asp-for="SelectedGuestId">@Localizer["Select User"]</label>
                             <select asp-for="SelectedGuestId" class="form-control" asp-items="Model.Guests">
-                                <option value="">All Guests</option>
+                                <option value="">@Localizer["All Guests"]</option>
                             </select>
                         </div>
                         <div class="col-md-2 form-group">
@@ -39,11 +40,12 @@
                     <table id="myDataTable" class="table table-bordered table-striped table-head-fixed">
                         <thead>
                             <tr>
-                                <th>Visitor Name</th>
-                                <th>Visitor Email</>
-                                <th>Timestamp</th>
-                                <th>Activity Type</th>
-                                <th>Activity Description</th>
+                                <th>@Localizer["Visitor Name"]</th>
+                                <th>@Localizer["Visitor Email"]
+                                <th />
+                                <th>@Localizer["Timestamp"]</th>
+                                <th>@Localizer["Activity Type"]</th>
+                                <th>@Localizer['Activity Description']</th>
                             </tr>
                         </thead>
                         <tbody>

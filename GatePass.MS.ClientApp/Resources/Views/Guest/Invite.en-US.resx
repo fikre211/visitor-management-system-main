@@ -133,10 +133,10 @@
     <value>Company Name</value>
   </data>
   <data name="PurposeOfVisit" xml:space="preserve">
-    <value>Purpose Of Visit</value>
+    <value>PurposeOfVisit</value>
   </data>
   <data name="department" xml:space="preserve">
-    <value>Department</value>
+    <value>department</value>
   </data>
   <data name="visitDateRange" xml:space="preserve">
     <value>Visit Date Range</value>
@@ -160,7 +160,7 @@
     <value>to</value>
   </data>
   <data name="capturePhoto" xml:space="preserve">
-    <value>Capture Photo</value>
+    <value>capturePhoto</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>Title</value>
@@ -200,5 +200,56 @@
   </data>
   <data name="Sir." xml:space="preserve">
     <value>Sir.</value>
+  </data>
+  <data name="Visitor Self-Registration" xml:space="preserve">
+    <value>Visitor Self-Registration</value>
+  </data>
+  <data name="Please fill out the form below to register your visit" xml:space="preserve">
+    <value>Please fill out the form below to register your visit</value>
+  </data>
+  <data name="Personal Identification" xml:space="preserve">
+    <value>Personal Identification</value>
+  </data>
+  <data name="Click to upload a photo or drag and drop" xml:space="preserve">
+    <value>Click to upload a photo or drag and drop</value>
+  </data>
+  <data name="Personal Information" xml:space="preserve">
+    <value>Personal Information</value>
+  </data>
+  <data name="Visit Information" xml:space="preserve">
+    <value>Visit Information</value>
+  </data>
+  <data name="select Department" xml:space="preserve">
+    <value>select Department</value>
+  </data>
+  <data name="Department Supervisors" xml:space="preserve">
+    <value>Department Supervisors</value>
+  </data>
+  <data name="select Supervisor" xml:space="preserve">
+    <value>select Supervisor</value>
+  </data>
+  <data name="Add Item" xml:space="preserve">
+    <value>Add Item</value>
+  </data>
+  <data name="Please list any electronic devices or valuable items you're bringing with you" xml:space="preserve">
+    <value>Please list any electronic devices or valuable items you're bringing with you</value>
+  </data>
+  <data name="Additional Guests" xml:space="preserve">
+    <value>Additional Guests</value>
+  </data>
+  <data name="Add Visitor" xml:space="preserve">
+    <value>Add Visitor</value>
+  </data>
+  <data name="Upload From Excel" xml:space="preserve">
+    <value>Upload From Excel</value>
+  </data>
+  <data name="Submit Registration" xml:space="preserve">
+    <value>Submit Registration</value>
+  </data>
+  <data name="Your information is secure and will only be used for visitor management" xml:space="preserve">
+    <value>Your information is secure and will only be used for visitor management</value>
+  </data>
+  <data name="Remove Visitor" xml:space="preserve">
+    <value>Remove Visitor</value>
   </data>
 </root>

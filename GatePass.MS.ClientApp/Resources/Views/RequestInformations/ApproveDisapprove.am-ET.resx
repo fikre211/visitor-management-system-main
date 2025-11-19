@@ -138,7 +138,7 @@
   <data name="guestFirstName" xml:space="preserve">
     <value>የእንግዳ የመጀመሪያ ስም</value>
   </data>
-  <data name="guestLastName" xml:space="preserve">
+  <data name="Guest Last Name" xml:space="preserve">
     <value>እንግዳ የአባት ስም</value>
   </data>
   <data name="guestPhoneNumber" xml:space="preserve">
@@ -161,5 +161,101 @@
   </data>
   <data name="visitDateRange" xml:space="preserve">
     <value>የቀን ክልልን ይጎብኙ</value>
+  </data>
+  <data name="Company Name" xml:space="preserve">
+    <value>የኩባንያ ስም</value>
+  </data>
+  <data name="Approved Time Window" xml:space="preserve">
+    <value>የተፈቀደ የጊዜ መስኮት</value>
+  </data>
+  <data name="Guest Destination Department" xml:space="preserve">
+    <value>የእንግዳ ማረፊያ ክፍል</value>
+  </data>
+  <data name="Attachements" xml:space="preserve">
+    <value>አባሪዎች</value>
+  </data>
+  <data name="Devices" xml:space="preserve">
+    <value>መሳሪያዎች</value>
+  </data>
+  <data name="Guest is Checked in" xml:space="preserve">
+    <value>እንግዳ ተመዝግቧል</value>
+  </data>
+  <data name="Check in Status" xml:space="preserve">
+    <value>ሁኔታን ያረጋግጡ</value>
+  </data>
+  <data name="Item Name" xml:space="preserve">
+    <value>የእቃ  ስም</value>
+  </data>
+  <data name="Identifier" xml:space="preserve">
+    <value>መለያ</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>መግለጫ</value>
+  </data>
+  <data name="Allow" xml:space="preserve">
+    <value>ፍቀድ</value>
+  </data>
+  <data name="Deny" xml:space="preserve">
+    <value>መካድ</value>
+  </data>
+  <data name="Granted" xml:space="preserve">
+    <value>ተሰጥቷል</value>
+  </data>
+  <data name="Denied" xml:space="preserve">
+    <value>ተከልክሏል</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>በመጠባበቅ ላይ</value>
+  </data>
+  <data name="No devices available" xml:space="preserve">
+    <value>ምንም መሣሪያዎች የሉም</value>
+  </data>
+  <data name="Guests" xml:space="preserve">
+    <value>እንግዶች</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>የመጀመሪያ ስም</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>የአያት ስም</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>ኢሜይል</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>ስልክ</value>
+  </data>
+  <data name="No Addtional Guests available" xml:space="preserve">
+    <value>ምንም ተጨማሪ እንግዶች የሉም</value>
+  </data>
+  <data name="Feedback" xml:space="preserve">
+    <value>ግብረ መልስ</value>
+  </data>
+  <data name="Approval Start" xml:space="preserve">
+    <value>ማጽደቅ ጅምር</value>
+  </data>
+  <data name="Approval End" xml:space="preserve">
+    <value>ማጽደቅ ያበቃል</value>
+  </data>
+  <data name="Send to Admin" xml:space="preserve">
+    <value>ወደ አስተዳዳሪ ላክ</value>
+  </data>
+  <data name="Select only if you reject the request" xml:space="preserve">
+    <value>ጥያቄውን ውድቅ ካደረጉ ብቻ ይምረጡ</value>
+  </data>
+  <data name="Select a reason" xml:space="preserve">
+    <value>ምክንያት ይምረጡ</value>
+  </data>
+  <data name="Unavailable Schedule" xml:space="preserve">
+    <value>የማይገኝ መርሐግብር</value>
+  </data>
+  <data name="Office Closed" xml:space="preserve">
+    <value>ቢሮ ተዘግቷል።</value>
+  </data>
+  <data name="Meeting" xml:space="preserve">
+    <value>ስብሰባ</value>
+  </data>
+  <data name="unknown reason" xml:space="preserve">
+    <value>unknown reason</value>
   </data>
 </root>

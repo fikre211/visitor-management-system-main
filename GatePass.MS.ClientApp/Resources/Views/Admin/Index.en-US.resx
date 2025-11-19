@@ -126,6 +126,12 @@
   <data name="detail" xml:space="preserve">
     <value>Detail</value>
   </data>
+  <data name="Edit Role" xml:space="preserve">
+    <value>Edit Role</value>
+  </data>
+  <data name="manage" xml:space="preserve">
+    <value>manage</value>
+  </data>
   <data name="roles" xml:space="preserve">
     <value>Roles</value>
   </data>

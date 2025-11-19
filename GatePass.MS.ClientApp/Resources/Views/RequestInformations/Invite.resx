@@ -208,9 +208,6 @@
   <data name="Prof." xml:space="preserve">
     <value />
   </data>
-  <data name="PurposeOfVisit" xml:space="preserve">
-    <value />
-  </data>
   <data name="requestVisit" xml:space="preserve">
     <value />
   </data>
@@ -227,6 +224,24 @@
     <value />
   </data>
   <data name="addItem" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Upload from Excel" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Upload Excel" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Additional Guests" xml:space="preserve">
+    <value />
+  </data>
+  <data name="add Visitor" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Remove Visitor" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Remove" xml:space="preserve">
     <value />
   </data>
 </root>

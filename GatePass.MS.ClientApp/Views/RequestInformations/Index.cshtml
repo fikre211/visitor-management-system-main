@@ -39,7 +39,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Name</th>
+                            <th>@Localizer["Name"]</th>
                             <th> @Localizer["guestEmail"]</th>
                             <th>@Localizer["guestPhoneNumber"]</th>
                             <th> @Localizer["Visit Start Date"]</th>
@@ -48,7 +48,7 @@
                             <th> @Localizer["responsiblePerson"]</th>
                             <th>@Localizer["approvalStatus"]</th>
                             <th>@Localizer["approver"]</th>
-                           <th>Attachments</th>
+                            <th>@Localizer["Attachments"]</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -84,32 +84,32 @@
                                         {
 
                                             <span class="badge badge-warning">
-                                                Pending
+                                                @Localizer["Pending"]
                                             </span>
                                         }
                                         @if (invitation.Status == "Approved")
                                         {
                                             <span class="badge badge-success">
-                                                Approved
+                                                @Localizer["Approved"]
                                             </span>
                                         }
                                         @if (invitation.Status == "Reviewed")
                                         {
                                             <span class="badge badge-info">
-                                                Reviewed
+                                                @Localizer["Reviewed"]
                                             </span>
                                         }
                                         @if (invitation.Status == "Rejected")
                                         {
                                             <span class="badge badge-danger">
-                                                Rejected
+                                                @Localizer["Rejected"]
                                             </span>
                                         }
                                     </td>
                                     <td>@(invitation.Approver?.Employee?.FirstName)</td>
 
                                     <td>
-                                        <a class="btn btn-primary" asp-action="ApproveDisapprove" asp-route-id="@invitation.Id">View Detail</a>
+                                        <a class="btn btn-primary" asp-action="ApproveDisapprove" asp-route-id="@invitation.Id">@Localizer["View Detail"] </a>
                                     </td>
 
                                 </tr>
@@ -140,32 +140,32 @@
                                         {
 
                                             <span class="badge badge-warning">
-                                                Pending
+                                                @Localizer["Pending"]
                                             </span>
                                         }
                                         @if (invitation.Status == "Approved")
                                         {
                                             <span class="badge badge-success">
-                                                Approved
+                                                @Localizer["Approved"]
                                             </span>
                                         }
                                         @if (invitation.Status == "Reviewed")
                                         {
                                             <span class="badge badge-info">
-                                                Reviewed
+                                                @Localizer["Reviewed"]
                                             </span>
                                         }
                                         @if (invitation.Status == "Rejected")
                                         {
                                             <span class="badge badge-danger">
-                                                Rejected
+                                                @Localizer["Rejected"]
                                             </span>
                                         }
                                     </td>
                                     <td>@(invitation.Approver?.Employee?.FirstName)</td>
 
                                     <td>
-                                        <a class="btn btn-primary" asp-action="ApproveDisapprove" asp-route-id="@invitation.Id">View Detail</a>
+                                        <a class="btn btn-primary" asp-action="ApproveDisapprove" asp-route-id="@invitation.Id">@Localizer["View Detail"]</a>
                                     </td>
 
                                 </tr>

@@ -1,12 +1,15 @@
-﻿@model GatePass.MS.Domain.ViewModels.RequestInformationViewDetail
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@model GatePass.MS.Domain.ViewModels.RequestInformationViewDetail
 
 @{
     ViewData["Title"] = "View Detail";
 }
 
-<h1>Detail</h1>
+<h1>@Localizer["Detail"]</h1>
 
-<h4>Request Information</h4>
+<h4>@Localizer["Request Information"]</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -61,7 +64,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">@Localizer["Back to List"]</a>
 </div>
 
 @section Scripts {
