@@ -154,7 +154,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <form asp-controller="Language" asp-action="SetLanguage" method="post">
                             <select name="culture" onchange="this.form.submit()" style="border: none;">
                                 <option value="en-US" selected="@(CultureInfo.CurrentCulture.Name == "en-US")">English</option>
-                                <option value="om-ET" selected="@(CultureInfo.CurrentCulture.Name == "om-ET")">Afaan Oromoo</option>
+                                
                                 <option value="am-ET" selected="@(CultureInfo.CurrentCulture.Name == "am-ET")">አማርኛ</option>
                             </select>
                             <input type="hidden" name="returnUrl" value="@Context.Request.Path" />

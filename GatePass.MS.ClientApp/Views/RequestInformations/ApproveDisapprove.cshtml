@@ -1,4 +1,4 @@
-@model GatePass.MS.Domain.ViewModels.RequestInformationViewDetail
+﻿@model GatePass.MS.Domain.ViewModels.RequestInformationViewDetail
 @using GatePass.MS.Domain
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Mvc.Localization
@@ -33,7 +33,7 @@
             </div>
             <div class="card-body">
 
-             
+
 
 
                 <form asp-action="ApproveDisapprove">
@@ -302,15 +302,40 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
-                                <div class="col">
-                                    <button type="submit" name="Approve" value="true"
-                                            class="btn btn-success"
+                            <div class="form-group row align-items-center mb-3">
+                                <input type="hidden" id="LanguageHidden" name="SelectedLanguageHidden" value="" />
+
+                                <!-- Row: Language Selector Above -->
+                                <div class="col-12 mb-2">
+                                    <div class="d-flex align-items-center">
+                                        <label for="languageSelect" class="form-label mb-0 me-2 fw-semibold text-secondary">
+                                            Send Message In:
+                                        </label>
+
+                                        <select id="languageSelect"
+                                                name="SelectedLanguage"
+                                                class="form-select form-select-sm shadow-sm border-success-subtle"
+                                                style="max-width: 180px;">
+                                            <option value="en">English</option>
+                                            <option value="am">Amharic</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Row: Approve Button -->
+                                <div class="col-12">
+                                    <button type="submit"
+                                            name="Approve"
+                                            value="true"
+                                            class="btn btn-success px-4 fw-semibold"
                                             onclick="setApprovalRequired(true)">
                                         @Localizer["approve"]
                                     </button>
                                 </div>
+
                             </div>
+
+
                         }
 
 
@@ -402,6 +427,8 @@
         <script>
             function validateRejection() {
                 const reasonSelect = document.getElementById("rejectReason");
+                const languageSelect = document.getElementById("languageSelect"); // dropdown
+                const languageHidden = document.getElementById("LanguageHidden"); // hidden field
 
                 if (reasonSelect.value === "") {
                     // Add red border highlight
@@ -410,6 +437,9 @@
                 }
 
                 // Reset border if valid
+                  if (languageSelect && languageHidden) {
+                    languageHidden.value = languageSelect.value;
+                }
                 reasonSelect.style.border = "";
                 return true;
             }
@@ -471,10 +501,12 @@
             }
         </script>
         <script>
-            function setApprovalRequired(isApprove) {
+                        function setApprovalRequired(isApprove) {
                 const startInput = document.getElementById("ApprovedDateTimeStart");
                 const endInput = document.getElementById("ApprovedDateTimeEnd");
-                const reasonSelect = document.querySelector("select[name='SelectedReason']"); // find the select
+                const reasonSelect = document.querySelector("select[name='SelectedReason']");
+                const languageSelect = document.getElementById("languageSelect"); // dropdown
+                const languageHidden = document.getElementById("LanguageHidden"); // hidden field
 
                 if (startInput && endInput && reasonSelect) {
                     if (isApprove) {
@@ -492,6 +524,10 @@
                         // Require reason only when rejecting
                         reasonSelect.setAttribute("required", "required");
                     }
+                }
+                // ✅ Capture and store selected language before submission
+                if (languageSelect && languageHidden) {
+                    languageHidden.value = languageSelect.value;
                 }
             }
 

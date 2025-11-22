@@ -315,16 +315,19 @@ namespace GatePass.MS.ClientApp.Controllers
         // Action on Request Information start from this line
         [HttpGet]
         public async Task<IActionResult> RequestTobeDeleted()
-
         {
             var today = DateTime.Today;
-            var requests = await _context.RequestInformation
-                .Where(r => r.VisitDateTimeStart < today && r.Status == "Pending" && !r.Deleted)
 
+            var requests = await _context.RequestInformation
+                .Where(r => r.CompanyId == _current.Value.Id // Filter by current company
+                            && r.VisitDateTimeStart < today
+                            && r.Status == "Pending"
+                            && !r.Deleted)
                 .Include(r => r.Guest)
                 .ToListAsync();
             return View(requests);
         }
+
         public async Task<IActionResult> DeleteOutDatedRequest(int? id)
         {
             if (id == null)

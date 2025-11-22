@@ -96,20 +96,21 @@ namespace GatePass.MS.ClientApp.Controllers
 
             var employee = _context.Employee.SingleOrDefault(e => e.Id == employeeId);
             var departmentId = employee?.DepartmentId;
-            var query = _context.RequestInformation.Where(r=>r.CompanyId==_current.Value.Id).AsQueryable();
+            var query = _context.RequestInformation.Where(r => r.CompanyId == _current.Value.Id).AsQueryable();
             var isInSupervisorRole = await _userManager.IsInRoleAsync(currentUser, "Superviser");
             var isInAdminRole = await _userManager.IsInRoleAsync(currentUser, "Admin");
             var isInGatekeeperRole = await _userManager.IsInRoleAsync(currentUser, "Gatekeeper");
+
 
             var today = DateTime.Today;
 
 
             query = query.Where(r => ((isInAdminRole) ||
-            (r.Status == "Approved" && isInGatekeeperRole) || 
+            (r.Status == "Approved" && isInGatekeeperRole) ||
             (r.EmployeeId == currentUser.EmployeeId) ||
-            ((r.DepartmentId == departmentId) && isInSupervisorRole)|| 
-            currentUser.UserName=="superUser@gmail.com") && r.VisitDateTimeEnd >= today);
-           
+            ((r.DepartmentId == departmentId) && isInSupervisorRole) ||
+            currentUser.UserName == "superUser@gmail.com") && r.VisitDateTimeEnd >= today);
+
 
             if (!string.IsNullOrEmpty(status))
             {
@@ -205,7 +206,7 @@ namespace GatePass.MS.ClientApp.Controllers
                 CompanyName = model.CompanyName
             };
 
-         
+
             await _context.Guest.AddAsync(guest);
             await _context.SaveChangesAsync();
 
@@ -275,7 +276,7 @@ namespace GatePass.MS.ClientApp.Controllers
             {
                 Id = requestInformation.Id,
                 GuestFirstName = requestInformation.Guest.FirstName,
-                GuestPhotoPath=requestInformation.Guest.GuestPhotoPath,
+                GuestPhotoPath = requestInformation.Guest.GuestPhotoPath,
                 GuestLastName = requestInformation.Guest.LastName,
                 CompanyName = requestInformation.Guest.CompanyName,
                 GuestEmail = requestInformation.Guest.Email,
@@ -284,7 +285,7 @@ namespace GatePass.MS.ClientApp.Controllers
                 ApprovedDateTimeEnd = requestInformation.ApprovedDateTimeEnd,
 
                 PurposeOfVisit = requestInformation.PurposeOfVisit,
-                InviterId=requestInformation.Employee!=null?requestInformation.Employee.Id:null,
+                InviterId = requestInformation.Employee != null ? requestInformation.Employee.Id : null,
                 Status = requestInformation.Status,
                 GuestId = requestInformation.GuestId ?? 0,
                 Approver = requestInformation.Approver?.Employee != null
@@ -584,18 +585,49 @@ namespace GatePass.MS.ClientApp.Controllers
             var start = request.ApprovedDateTimeStart?.ToString("yyyy-MM-dd HH:mm");
             var end = request.ApprovedDateTimeEnd?.ToString("yyyy-MM-dd HH:mm");
             var company = _current.Value.Name;
+            var slug = _current.Value.Slug.ToUpper();
 
-            var message = $@"
-Dear {guest.FirstName} {guest.LastName}, 
-Your visit request to {_current.Value.Slug.ToUpper()} has been approved! 
-• Request ID: {request.Id} 
-• Visit Time: From: {start} To: {end} 
-Best Regards, 
-{_current.Value.Slug.ToUpper()}, Ethiopia!";
+            // ✅ Capture selected language
+            var selectedLanguage = Request.Form["SelectedLanguageHidden"].ToString().Trim().ToLower();
 
+            string message;
+
+            switch (selectedLanguage)
+            {
+                case "am": // 🇪🇹 Amharic
+                    message = $@"
+ውድ {guest.FirstName} {guest.LastName}፣
+በተቋማችን {slug} ለመስተናገድ የመግቢያ ፍቃድ ጥያቄዎ ተቀባይነት አግኝቷል::
+• የፍቃድ ቁጥር፡ {request.Id}
+• የፍቃድ ጊዜ፡ ከ {start} እስከ {end}
+እናመሰግናለን፣
+{slug}, ኢትዮጵያ።";
+                    break;
+
+                case "om": // 🇪🇹 Afan Oromo
+                    message = $@"
+Obboleessa/Obboleetti {guest.FirstName} {guest.LastName},
+Hayyama daawwannaa keessan gara {slug} ni mirkanaa'eera!
+• Lakkoofsa Hayyamaa: {request.Id}
+• Yeroo Daawwannaa: {start} – {end}
+Galatoomaa,
+{slug}, Itoophiyaa!";
+                    break;
+
+                default: // 🇬🇧 English (default fallback)
+                    message = $@"
+Dear {guest.FirstName} {guest.LastName},
+Your visit request to {slug} has been approved!
+• Request ID: {request.Id}
+• Visit Time: From {start} To {end}
+Best Regards,
+{slug}, Ethiopia!";
+                    break;
+            }
 
             await _smsService.SendSmsAsync(phone, message);
         }
+
 
         private async Task SendDisApprovalSms(int requestId, string selectedReason)
         {
@@ -604,26 +636,55 @@ Best Regards,
                                         .FirstOrDefaultAsync(r => r.Id == requestId);
 
             if (request == null)
-            {
                 throw new Exception("Request not found");
+
+            var guest = request.Guest;
+            var phone = guest.Phone;
+            var company = _current.Value.Name;
+            var slug = _current.Value.Slug.ToUpper();
+
+            // ✅ Capture selected language
+            var selectedLanguage = Request.Form["SelectedLanguageHidden"].ToString().Trim().ToLower();
+
+            string message;
+
+            switch (selectedLanguage)
+            {
+                case "am": // 🇪🇹 Amharic
+                    message = $@"
+ውድ {guest.FirstName} {guest.LastName}፣
+በፍቃድ ጥያቄ ቁጥር፡ {request.Id}
+በተቋማችን {slug} ለመስተናገድ ያቀረቡት የመግቢያ ፍቃድ ጥያቄዎ በ ({selectedReason}) ምክንያት ለጊዜው ተቀባይነት አላገኘም።
+እባክዎ ሌላ ጊዜ ይሞክሩ።
+እናመሰግናለን፣
+{slug}, ኢትዮጵያ።";
+                    break;
+
+                case "om": // 🇪🇹 Afan Oromo
+                    message = $@"
+Obboleessa/Obboleetti {guest.FirstName} {guest.LastName},
+Hayyama daawwannaa keessan (Lakkoofsa: {request.Id}) gara {slug} sababa ({selectedReason}) tiin hin mirkanaa'in.
+Mee yeroo biraatti yaalaa.
+Galatoomaa,
+{slug}, Itoophiyaa!";
+                    break;
+
+                default: // 🇬🇧 English (default fallback)
+                    message = $@"
+Dear {guest.FirstName} {guest.LastName},
+Visit request ID: {request.Id}
+Your visit request to {slug} has been rejected because of {selectedReason}.
+Please try another time.
+Best Regards,
+{slug}, Ethiopia!";
+                    break;
             }
 
-            var phoneNumber = request.Guest.Phone;
-            // Construct SMS message
-
-            var message = $@"
-Dear {request.Guest.FirstName} {request.Guest.LastName}, 
-Visit request ID: {request.Id} 
-Your visit request has been rejected because of {selectedReason}. Please try another time! 
-Best Regards, 
-{_current.Value.Slug.ToUpper()}, Ethiopia!";
-
-            // Send SMS using SmsService
-            await _smsService.SendSmsAsync(phoneNumber, message);
-
+            await _smsService.SendSmsAsync(phone, message);
         }
 
-   private async Task SendApprovalEmail(string receiver, int id)
+
+        private async Task SendApprovalEmail(string receiver, int id)
         {
             var request = await _context.RequestInformation.Include(r => r.Guest).FirstOrDefaultAsync(r => r.Id == id);
             if (request == null)
@@ -633,28 +694,50 @@ Best Regards,
 
             var subject = "Your Request has been Approved!";
             var messageBody = $@"
-<div style=""font-family:Arial, sans-serif; max-width:600px; margin:auto; padding:20px; background:#f4f4f4; border-radius:8px;"">
-  <h2 style=""color:#005B5B; margin-bottom:0.5em;"">Good news, {request.Guest.FirstName}!</h2>
-  <p>Your visit request to <strong>#{request.Company}</strong> has been <span style=""color:#28A745;"">approved</span>.</p>
+<div style=""font-family:Arial, Helvetica, sans-serif; max-width:600px; margin:auto; background-color:#f9fafb; border-radius:10px; overflow:hidden; border:1px solid #e0e0e0;"">
 
-  <table style=""width:100%; border-collapse:collapse; margin:1em 0;"">
-    <tr>
-      <td style=""padding:8px; border:1px solid #ddd;""><strong>Purpose of Visit</strong></td>
-      <td style=""padding:8px; border:1px solid #ddd;"">{request.PurposeOfVisit}</td>
-    </tr>
-    <tr>
-      <td style=""padding:8px; border:1px solid #ddd;""><strong>Approved Window</strong></td>
-      <td style=""padding:8px; border:1px solid #ddd;"">
-        {request.ApprovedDateTimeStart:yyyy-MM-dd HH:mm} – {request.ApprovedDateTimeEnd:yyyy-MM-dd HH:mm}
-      </td>
-    </tr>
-  </table>
+  <!-- Header -->
+  <div style=""background-color:#005B5B; color:#ffffff; padding:20px; text-align:center;"">
+    <h2 style=""margin:0; font-size:22px; letter-spacing:0.5px;"">Visit Request Approved</h2>
+  </div>
 
-  <p>Please arrive within this timeframe. Upon arrival, present the attached QR code to reception.</p>
+  <!-- Body -->
+  <div style=""padding:25px; color:#333333; background-color:#ffffff;"">
+    <h3 style=""color:#008C7A; margin-top:0;"">Dear, {request.Guest.FirstName}!</h3>
+    <p style=""font-size:15px; line-height:1.6; margin-bottom:20px;"">
+      Your visit request to <strong>{_current.Value.Slug.ToUpper()}</strong> has been 
+      <span style=""color:#28A745; font-weight:bold;"">approved</span>.
+    </p>
 
-  <p style=""margin-top:2em;"">We look forward to welcoming you!</p>
-  <p><strong>{_current.Value.Name},Ethiopia</strong></p>
+    <!-- Details Table -->
+    <table style=""width:100%; border-collapse:collapse; margin:20px 0; font-size:14px;"">
+      <tr style=""background-color:#f4fdf6;"">
+        <td style=""padding:10px; border:1px solid #dce8dc; width:40%;""><strong>Purpose of Visit</strong></td>
+        <td style=""padding:10px; border:1px solid #dce8dc;"">{request.PurposeOfVisit}</td>
+      </tr>
+      <tr>
+        <td style=""padding:10px; border:1px solid #dce8dc;""><strong>Approved Time Window</strong></td>
+        <td style=""padding:10px; border:1px solid #dce8dc;"">
+          {request.ApprovedDateTimeStart:yyyy-MM-dd HH:mm} – {request.ApprovedDateTimeEnd:yyyy-MM-dd HH:mm}
+        </td>
+      </tr>
+    </table>
+
+    <p style=""font-size:15px; line-height:1.6; margin-top:15px;"">
+      Please arrive within the approved timeframe. Upon arrival, present the attached QR code to reception for verification.
+    </p>
+
+    <p style=""margin-top:30px; font-size:15px;"">We look forward to welcoming you!</p>
+    <p style=""font-weight:bold; color:#005B5B; margin-bottom:0;"">{_current.Value.Name}, Ethiopia</p>
+  </div>
+
+  <!-- Footer -->
+  <div style=""background-color:#f0fdf4; text-align:center; padding:15px; font-size:12px; color:#4d805d;"">
+    This message was sent automatically. Please do not reply.
+  </div>
+
 </div>";
+
 
 
             // Generate QR Code data
@@ -723,18 +806,58 @@ Best Regards,
 
             var subject = "Your Request has been Rejected!";
             var messageBody = $@"
-<div style='font-family: Arial, sans-serif; line-height: 1.6; color: #333; background-color: #e0f7fa; padding: 20px; border-radius: 10px;'>
-    <h2 style='color: #00796b;'>Your Request has been Rejected!</h2>
-    <p>Dear Guest {request.Guest.FirstName},</p>
-    <ul>
-        <li><strong>Request ID:</strong> {request.Id}</li>
-        <li><strong>Request Date:</strong> {request.VisitDateTimeStart.ToString("yyyy-MM-dd")}</li>
-        <li><strong>Request Description:</strong> {request.PurposeOfVisit}</li>
-    </ul>
-    <p>Your visit Request has been rejected because {selectedReason}.
-       Please try another time!</p>
-    <p>Best Regards, <br>{_current.Value.Name} Ethiopia!</p>
+<div style=""font-family:Arial, Helvetica, sans-serif; max-width:600px; margin:auto; background-color:#f9fafb; border-radius:10px; overflow:hidden; border:1px solid #e0e0e0;"">
+
+  <!-- Header -->
+  <div style=""background-color:#00796B; color:#ffffff; padding:20px; text-align:center;"">
+    <h2 style=""margin:0; font-size:22px;"">Visit Request Update</h2>
+  </div>
+
+  <!-- Body -->
+  <div style=""padding:25px; color:#333333; background-color:#ffffff;"">
+   
+    <p style=""font-size:15px; line-height:1.6;"">Dear {request.Guest.FirstName},</p>
+    <p style=""font-size:15px; line-height:1.6;"">
+      We regret to inform you that your visit request to 
+      <strong>{_current.Value.Slug.ToUpper()}</strong> has been 
+      <span style=""color:#C62828; font-weight:bold;"">rejected</span>.
+    </p>
+
+    <!-- Request Details -->
+    <table style=""width:100%; border-collapse:collapse; margin:20px 0; font-size:14px;"">
+      <tr style=""background-color:#f5f5f5;"">
+        <td style=""padding:10px; border:1px solid #ddd; width:40%;""><strong>Request ID</strong></td>
+        <td style=""padding:10px; border:1px solid #ddd;"">{request.Id}</td>
+      </tr>
+      <tr>
+        <td style=""padding:10px; border:1px solid #ddd;""><strong>Request Date</strong></td>
+        <td style=""padding:10px; border:1px solid #ddd;"">{request.VisitDateTimeStart:yyyy-MM-dd}</td>
+      </tr>
+      <tr style=""background-color:#f5f5f5;"">
+        <td style=""padding:10px; border:1px solid #ddd;""><strong>Purpose of Visit</strong></td>
+        <td style=""padding:10px; border:1px solid #ddd;"">{request.PurposeOfVisit}</td>
+      </tr>
+      <tr>
+        <td style=""padding:10px; border:1px solid #ddd;""><strong>Reason for Rejection</strong></td>
+        <td style=""padding:10px; border:1px solid #ddd;"">{selectedReason}</td>
+      </tr>
+    </table>
+
+    <p style=""font-size:15px; line-height:1.6;"">
+      We encourage you to review your request details and consider resubmitting at a later time.
+    </p>
+
+    <p style=""margin-top:30px; font-size:15px;"">Best Regards,</p>
+    <p style=""font-weight:bold; color:#00796B; margin-bottom:0;"">{_current.Value.Slug.ToUpper()}, Ethiopia</p>
+  </div>
+
+  <!-- Footer -->
+  <div style=""background-color:#e0f7fa; text-align:center; padding:15px; font-size:12px; color:#00695c;"">
+    This is an automated message — please do not reply directly.
+  </div>
+
 </div>";
+
 
             await _emailSender.SendEmailAsync(receiver, subject, messageBody);
 

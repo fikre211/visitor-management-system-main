@@ -6,6 +6,7 @@ using GatePass.MS.Domain.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace GatePass.MS.ClientApp.Service
 {
@@ -14,12 +15,14 @@ namespace GatePass.MS.ClientApp.Service
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ICurrentCompany _current;
+        private readonly IHttpContextAccessor _http;
 
-        public UserActivityService(ApplicationDbContext context, ICurrentCompany current, UserManager<ApplicationUser> userManager)
+        public UserActivityService(ApplicationDbContext context, ICurrentCompany current, UserManager<ApplicationUser> userManager, IHttpContextAccessor http)
         {
             _context = context;
             _userManager = userManager;
             _current = current;
+            _http = http;
 
         }
 
@@ -54,39 +57,47 @@ namespace GatePass.MS.ClientApp.Service
                 .ToListAsync();
         }
 
-         public async Task<UserActivityReportModel> GetUserActivitiesAsync( DateTime? startDate, DateTime? endDate, string? SelectedUserId)
+        public async Task<UserActivityReportModel> GetUserActivitiesAsync(
+                DateTime? startDate,
+                DateTime? endDate,
+                string? SelectedUserId)
         {
+            // SAFE principal access
+            var principal = _http.HttpContext?.User;
+
+            if (principal == null)
+                throw new Exception("HttpContext.User is null.");
+
+            var currentUser = await _userManager.GetUserAsync(principal);
+            bool isAdmin = await _userManager.IsInRoleAsync(currentUser, "Admin");
+
             var query = _context.UserActivityLogs
-                                 .Where(l => l.CompanyId == _current.Value.Id)
+                .Where(l => l.CompanyId == _current.Value.Id)
+                .AsQueryable();
 
-                .AsQueryable() 
-                ;
-
+            // Restrict users list to same company
             var users = await _context.Users
+                .Where(u => u.CompanyId == _current.Value.Id)
                 .Select(u => new SelectListItem
-            {
-                Value = u.Id.ToString(),
-                Text = u.UserName
-            }).ToListAsync();
-           // SelectedUserId = "73e4f008-45dc-4ebb-ae88-f11e5cb76290";
-            // Filter by employeeId (UserId) if provided
-            if (!string.IsNullOrEmpty(SelectedUserId))
+                {
+                    Value = u.Id,
+                    Text = u.UserName
+                })
+                .ToListAsync();
+
+            // Only Admin can filter by SelectedUserId
+            if (isAdmin && !string.IsNullOrEmpty(SelectedUserId))
             {
                 query = query.Where(a => a.UserId == SelectedUserId);
             }
 
-            // Filter by start date if provided
+            // Date Filters
             if (startDate.HasValue)
-            {
                 query = query.Where(a => a.Timestamp >= startDate.Value);
-            }
 
-            // Filter by end date if provided
             if (endDate.HasValue)
-            {
                 query = query.Where(a => a.Timestamp <= endDate.Value);
-            }
-           
+
             var activities = await query
                 .Select(a => new UserActivityDto
                 {
@@ -106,6 +117,8 @@ namespace GatePass.MS.ClientApp.Service
                 Activities = activities
             };
         }
+
+
 
     }
 
