@@ -132,7 +132,7 @@
                     <div class="stat-box">
                         <i class="fas fa-building"></i>
                         <div class="stat-number">@ViewBag.TotalCompanies</div>
-                        <div class="stat-label">Total Companies</div>
+                        <div class="stat-label">Total Organizations</div>
                     </div>
                     <div class="stat-box">
                         <i class="fas fa-users"></i>
@@ -150,23 +150,31 @@
                 <h2>Select Your Destination</h2>
                 <p>Choose the organization you're visiting today</p>
             </div>
-            <div class="companies-grid">
-                <!-- Company 1 -->
-                @* Loop over your companies *@
-                @foreach (var comp in Model)
+            <div class="mb-4">
+                <input type="text"
+                       id="companySearch"
+                       placeholder="Search companies..."
+                       class="w-full p-2 border border-gray-300 rounded"
+                       onkeyup="filterCompanies()" />
+            </div>
+
+            <div class="companies-grid grid gap-4"
+                 style="grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));">
+                @foreach (var comp in Model.OrderBy(c => c.Name))
                 {
-                    <a class="company-card"
+                    <a class="company-card block border rounded p-2 text-center bg-white shadow"
                        asp-controller="Home"
                        asp-action="Index"
                        asp-route-companyName="@comp.Slug">
-                        <div class="company-logo">
-                            <img src="@comp.LogoPath" alt="@comp.Name" />
+                        <div class="company-logo mb-2">
+                            <img src="@comp.LogoPath" alt="@comp.Name" class="mx-auto max-h-16" />
                         </div>
                         <div class="company-info">
-                            <h3>@comp.Name</h3>
+                            <h3 class="text-sm font-medium">@comp.Name</h3>
                         </div>
                     </a>
                 }
+            </div>
 
 
             </div>
@@ -378,4 +386,20 @@
 
 
 </body>
+<script>
+    function filterCompanies() {
+        const input = document.getElementById('companySearch');
+        const filter = input.value.toLowerCase();
+        const cards = document.querySelectorAll('.company-card');
+
+        cards.forEach(card => {
+            const name = card.querySelector('.company-info h3').textContent.toLowerCase();
+            if(name.includes(filter)) {
+                card.style.display = '';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+</script>
 </html>
