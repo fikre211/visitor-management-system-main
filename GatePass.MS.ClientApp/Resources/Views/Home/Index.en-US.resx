@@ -1,255 +1,265 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
+    <!--
+      Microsoft ResX Schema
 
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-    <xsd:element name="root" msdata:IsDataSet="true">
-      <xsd:complexType>
-        <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
+      Version 2.0
+
+      The primary goals of this format is to allow a simple XML format
+      that is mostly human readable. The generation and parsing of the
+      various data types are done through the TypeConverter classes
+      associated with the data types.
+
+      Example:
+<a href="file:///C:\Users\pc\Desktop\New%20folder\visitor-management-system-main%20(1)\visitor-management-system-main\GatePass.MS.ClientApp\Resources\Views\Home\Index.en-US.resx">file:///C:\Users\pc\Desktop\New folder\visitor-management-system-main (1)\visitor-management-system-main\GatePass.MS.ClientApp\Resources\Views\Home\Index.en-US.resx</a>
+      ... ado.net/XML headers & schema ...
+      <resheader name="resmimetype">text/microsoft-resx</resheader>
+      <resheader name="version">2.0</resheader>
+      <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+      <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+      <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+      <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+      <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+          <value>[base64 mime encoded serialized .NET Framework object]</value>
+      </data>
+      <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+          <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+          <comment>This is a comment</comment>
+      </data>
+
+      There are any number of "resheader" rows that contain simple
+      name/value pairs.
+
+      Each data row contains a name, and value. The row also contains a
+      type or mimetype. Type corresponds to a .NET class that support
+      text/value conversion through the TypeConverter architecture.
+      Classes that don't support this are serialized and stored with the
+      mimetype set.
+
+      The mimetype is used for serialized objects, and tells the
+      ResXResourceReader how to depersist the object. This is currently not
+      extensible. For a given mimetype the value must be set accordingly:
+
+      Note - application/x-microsoft.net.object.binary.base64 is the format
+      that the ResXResourceWriter will generate, however the reader can
+      read any of the formats listed below.
+
+      mimetype: application/x-microsoft.net.object.binary.base64
+      value   : The object must be serialized with
+              : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+              : and then encoded with base64 encoding.
+
+      mimetype: application/x-microsoft.net.object.soap.base64
+      value   : The object must be serialized with
+              : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+              : and then encoded with base64 encoding.
+
+      mimetype: application/x-microsoft.net.object.bytearray.base64
+      value   : The object must be serialized into a byte array
+              : using a System.ComponentModel.TypeConverter
+              : and then encoded with base64 encoding.
+      -->
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+        <xsd:element name="root" msdata:IsDataSet="true">
             <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+                <xsd:choice maxOccurs="unbounded">
+                    <xsd:element name="metadata">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                            </xsd:sequence>
+                            <xsd:attribute name="name" use="required" type="xsd:string" />
+                            <xsd:attribute name="type" type="xsd:string" />
+                            <xsd:attribute name="mimetype" type="xsd:string" />
+                            <xsd:attribute ref="xml:space" />
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="assembly">
+                        <xsd:complexType>
+                            <xsd:attribute name="alias" type="xsd:string" />
+                            <xsd:attribute name="name" type="xsd:string" />
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="data">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+                            <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+                            <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+                            <xsd:attribute ref="xml:space" />
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="resheader">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" use="required" />
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:choice>
             </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="resheader">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
-            </xsd:complexType>
-          </xsd:element>
-        </xsd:choice>
-      </xsd:complexType>
-    </xsd:element>
-  </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <data name="All Registered Users" xml:space="preserve">
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>2.0</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="All Registered Users" xml:space="preserve">
     <value>All Registered Users</value>
   </data>
-  <data name="allRequests" xml:space="preserve">
+    <data name="allRequests" xml:space="preserve">
     <value>All Requests</value>
   </data>
-  <data name="approvedRequests" xml:space="preserve">
+    <data name="approvedRequests" xml:space="preserve">
     <value>approvedRequests</value>
   </data>
-  <data name="guestFullName" xml:space="preserve">
+    <data name="guestFullName" xml:space="preserve">
     <value>Guest Full Name</value>
   </data>
-  <data name="pendingRequests" xml:space="preserve">
+    <data name="pendingRequests" xml:space="preserve">
     <value>pendingRequests</value>
   </data>
-  <data name="purposeOfVisit" xml:space="preserve">
+    <data name="purposeOfVisit" xml:space="preserve">
     <value>purposeOfVisit</value>
   </data>
-  <data name="responsiblePerson" xml:space="preserve">
+    <data name="responsiblePerson" xml:space="preserve">
     <value>responsiblePerson</value>
   </data>
-  <data name="viewDetail" xml:space="preserve">
+    <data name="viewDetail" xml:space="preserve">
     <value>viewDetail</value>
   </data>
-  <data name="visitDateEnd" xml:space="preserve">
+    <data name="visitDateEnd" xml:space="preserve">
     <value>visitDateEnd</value>
   </data>
-  <data name="visitDateStart" xml:space="preserve">
+    <data name="visitDateStart" xml:space="preserve">
     <value>visitDateStart</value>
   </data>
-  <data name="wellCome" xml:space="preserve">
+    <data name="wellCome" xml:space="preserve">
     <value>Well come</value>
   </data>
-  <data name="wellComeToMint" xml:space="preserve">
+    <data name="wellComeToMint" xml:space="preserve">
     <value>Welcome To Ministry of Innovation and Technology</value>
   </data>
-  <data name="wellComeUser" xml:space="preserve">
+    <data name="wellComeUser" xml:space="preserve">
     <value>Well Come</value>
   </data>
-  <data name="SelfRegistration" xml:space="preserve">
+    <data name="SelfRegistration" xml:space="preserve">
     <value>Self Registration</value>
   </data>
-  <data name="CheckIn" xml:space="preserve">
+    <data name="CheckIn" xml:space="preserve">
     <value>checkIn</value>
   </data>
-  <data name="CheckOut" xml:space="preserve">
+    <data name="CheckOut" xml:space="preserve">
     <value>CheckOut</value>
   </data>
-  <data name="Employees" xml:space="preserve">
+    <data name="Employees" xml:space="preserve">
     <value>Employees</value>
   </data>
-  <data name="OutDated Requests" xml:space="preserve">
+    <data name="OutDated Requests" xml:space="preserve">
     <value>OutDated Requests</value>
   </data>
-  <data name="Reviewed Requests" xml:space="preserve">
+    <data name="Reviewed Requests" xml:space="preserve">
     <value>Reviewed Requests</value>
   </data>
-  <data name="Visitors Overview" xml:space="preserve">
+    <data name="Visitors Overview" xml:space="preserve">
     <value>Visitors Overview</value>
   </data>
-  <data name="User Roles Distribution" xml:space="preserve">
+    <data name="User Roles Distribution" xml:space="preserve">
     <value>User Roles Distribution</value>
   </data>
-  <data name="Requests Trend" xml:space="preserve">
+    <data name="Requests Trend" xml:space="preserve">
     <value>Requests Trend</value>
   </data>
-  <data name="New Request" xml:space="preserve">
+    <data name="New Request" xml:space="preserve">
     <value>New Request</value>
   </data>
-  <data name="Name" xml:space="preserve">
+    <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
-  <data name="Guest Destination Department" xml:space="preserve">
+    <data name="Guest Destination Department" xml:space="preserve">
     <value>Guest Destination Department</value>
   </data>
-  <data name="Print" xml:space="preserve">
+    <data name="Print" xml:space="preserve">
     <value>Print</value>
   </data>
-  <data name="Check-in Status" xml:space="preserve">
+    <data name="Check-in Status" xml:space="preserve">
     <value>Check-in Status</value>
   </data>
-  <data name="Actions" xml:space="preserve">
+    <data name="Actions" xml:space="preserve">
     <value>Actions</value>
   </data>
-  <data name="Quick Access" xml:space="preserve">
+    <data name="Quick Access" xml:space="preserve">
     <value>Quick Access</value>
   </data>
-  <data name="Scan the QR Code below for a swift Self-Registration" xml:space="preserve">
+    <data name="Scan the QR Code below for a swift Self-Registration" xml:space="preserve">
     <value>Scan the QR Code below for a swift Self-Registration</value>
   </data>
-  <data name="Today's Visitors" xml:space="preserve">
+    <data name="Today's Visitors" xml:space="preserve">
     <value>Today's Visitors</value>
   </data>
-  <data name="Total Visitors" xml:space="preserve">
+    <data name="Total Visitors" xml:space="preserve">
     <value>Total Visitors</value>
   </data>
-  <data name="Please Take a Moment for Self-Registration, Check-In or Check-Out Below" xml:space="preserve">
+    <data name="Please Take a Moment for Self-Registration, Check-In or Check-Out Below" xml:space="preserve">
     <value>Please Take a Moment for Self-Registration, Check-In or Check-Out Below</value>
   </data>
-  <data name="More Info" xml:space="preserve">
+    <data name="More Info" xml:space="preserve">
     <value>More Info</value>
   </data>
-  <data name="Rejected Requests" xml:space="preserve">
+    <data name="Rejected Requests" xml:space="preserve">
     <value>Rejected Requests</value>
   </data>
-  <data name="All Requests" xml:space="preserve">
+    <data name="All Requests" xml:space="preserve">
     <value>All Requests</value>
   </data>
-  <data name="rejectedRequests" xml:space="preserve">
+    <data name="rejectedRequests" xml:space="preserve">
     <value>rejectedRequests</value>
   </data>
-  <data name="Visitor Requests" xml:space="preserve">
+    <data name="Visitor Requests" xml:space="preserve">
     <value>Visitor Requests</value>
   </data>
-  <data name="Welcome to" xml:space="preserve">
+    <data name="Welcome to" xml:space="preserve">
     <value>Welcome to</value>
   </data>
-  <data name="Self-Registration" xml:space="preserve">
+    <data name="Self-Registration" xml:space="preserve">
     <value>Self-Registration</value>
   </data>
-  <data name="Check-In" xml:space="preserve">
+    <data name="Check-In" xml:space="preserve">
     <value>Check-In</value>
   </data>
-  <data name="Check-Out" xml:space="preserve">
+    <data name="Check-Out" xml:space="preserve">
     <value>Check-Out</value>
   </data>
-  <data name="Approved Requests" xml:space="preserve">
+    <data name="Approved Requests" xml:space="preserve">
     <value>Approved Requests</value>
   </data>
-  <data name="Pending Requests" xml:space="preserve">
+    <data name="Pending Requests" xml:space="preserve">
     <value>Pending Requests</value>
   </data>
-  <data name="Departments" xml:space="preserve">
+    <data name="Departments" xml:space="preserve">
     <value>Departments</value>
+  </data>
+    <data name="Welcome-to" xml:space="preserve">
+        <value>
+            Welcome to
+        </value>
+  </data>
+    <data name="Wel-come" xml:space="preserve">
+    <value>
+             
+        </value>
   </data>
 </root>

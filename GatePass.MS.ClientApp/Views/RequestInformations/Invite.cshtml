@@ -269,19 +269,23 @@
             guestsContainer.appendChild(block);
             guestIndex++;
         }
+                function getValue(row, key) {
+            return row.hasOwnProperty(key) && row[key] !== undefined ? row[key] : '';
+        }
 
         // helper to append a block filled from Excel row
         function appendGuestFromRow(row) {
-            // expect columns: FirstName, LastName, Email, Phone
             const block = createGuestBlock({
-                FirstName: row.FirstName || '',
-                LastName: row.LastName || '',
-                Email: row.Email || '',
-                Phone: row.Phone || ''
+                FirstName: getValue(row, 'FirstName'),
+                LastName: getValue(row, 'LastName'),
+                Email: getValue(row, 'Email'),
+                Phone: getValue(row, 'Phone')
             });
+
             guestsContainer.appendChild(block);
             guestIndex++;
         }
+
 
         // builds the DOM for one guest-block, optionally prefilled
         function createGuestBlock(prefill = {}) {

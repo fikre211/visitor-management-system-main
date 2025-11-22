@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+	<resheader name="resmimetype">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="version">
+		<value>2.0</value>
+	</resheader>
+	<resheader name="reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+
+	<data name="Visitor Management Portal" xml:space="preserve">
+	<value>Visitor Management Portal</value>
+  </data>
+	<data name="Visitor Management System" xml:space="preserve">
+	<value>Visitor Management System</value>
+  </data>
+	<data name="Home" xml:space="preserve">
+	<value>Home</value>
+  </data>
+	<data name="Features" xml:space="preserve">
+	<value>Features</value>
+  </data>
+	<data name="Contact" xml:space="preserve">
+	<value>Contact</value>
+  </data>
+	<data name="About" xml:space="preserve">
+	<value>About</value>
+  </data>
+	<data name="Help" xml:space="preserve">
+	<value>Help</value>
+  </data>
+
+	<data name="Welcome to Ethiopian Government Offices Visitors Portal!" xml:space="preserve">
+	<value>Welcome to Ethiopian Government Offices Visitors Portal!</value>
+  </data>
+	<data name="Powered by Ministry of Innovation and Technology (MInT)" xml:space="preserve">
+	<value>Powered by Ministry of Innovation and Technology (MInT)</value>
+  </data>
+	<data name="Streamlined Guest Registration, Check-In &amp; Check-Out processes for a better visit experiences!" xml:space="preserve">
+	<value>Streamlined Guest Registration, Check-In &amp; Check-Out processes for a better visitor experience!</value>
+  </data>
+	<data name="Get Started" xml:space="preserve">
+	<value>Get Started</value>
+  </data>
+
+	<data name="Visitor Management System Overview" xml:space="preserve">
+	<value>Visitor Management System Overview</value>
+  </data>
+	<data name="Total Companies" xml:space="preserve">
+	<value>Total Companies</value>
+  </data>
+	<data name="Today's Visits" xml:space="preserve">
+	<value>Today's Visits</value>
+  </data>
+	<data name="All-Time Visits" xml:space="preserve">
+	<value>All-Time Visits</value>
+  </data>
+
+	<data name="Select Your Destination" xml:space="preserve">
+	<value>Select Your Destination</value>
+  </data>
+	<data name="Choose the organization you're visiting today" xml:space="preserve">
+	<value>Choose the organization you're visiting today</value>
+  </data>
+
+	<data name="About Our System" xml:space="preserve">
+	<value>About Our System</value>
+  </data>
+	<data name="Modern solution for visitor management" xml:space="preserve">
+	<value>Modern solution for visitor management</value>
+  </data>
+	<data name="Why Choose Our System?" xml:space="preserve">
+	<value>Why Choose Our System?</value>
+  </data>
+	<data name="Our visitor management system streamlines the Guest Registration, Check-In &amp; Check-Out processes, enhances security, and creates a professional first impression for Guests." xml:space="preserve">
+	<value>Our visitor management system streamlines Guest Registration, Check-In &amp; Check-Out processes, enhances security, and creates a professional first impression for visitors.</value>
+  </data>
+
+	<data name="Quick and easy Registration, Check-In &amp; Check-Out" xml:space="preserve">
+	<value>Quick and easy Registration, Check-In &amp; Check-Out</value>
+  </data>
+	<data name="Instant host notifications" xml:space="preserve">
+	<value>Instant host notifications</value>
+  </data>
+	<data name="Customizable to your brand" xml:space="preserve">
+	<value>Customizable to your brand</value>
+  </data>
+	<data name="Comprehensive visitor analytics" xml:space="preserve">
+	<value>Comprehensive visitor analytics</value>
+  </data>
+
+	<data name="Key Features" xml:space="preserve">
+	<value>Key Features</value>
+  </data>
+	<data name="Fast Check-in" xml:space="preserve">
+	<value>Fast Check-in</value>
+  </data>
+	<data name="Enhanced Security" xml:space="preserve">
+	<value>Enhanced Security</value>
+  </data>
+	<data name="Instant Notifications" xml:space="preserve">
+	<value>Instant Notifications</value>
+  </data>
+	<data name="Detailed Analytics" xml:space="preserve">
+	<value>Detailed Analytics</value>
+  </data>
+
+	<data name="What Our Clients Say" xml:space="preserve">
+	<value>What Our Clients Say</value>
+  </data>
+	<data name="Testimonials from businesses using our visitor management system" xml:space="preserve">
+	<value>Testimonials from businesses using our visitor management system</value>
+  </data>
+
+	<data name="Get in Touch" xml:space="preserve">
+	<value>Get in Touch</value>
+  </data>
+	<data name="Have questions? Contact our support team" xml:space="preserve">
+	<value>Have questions? Contact our support team</value>
+  </data>
+
+	<data name="Name" xml:space="preserve">
+	<value>Name</value>
+  </data>
+	<data name="Your Name" xml:space="preserve">
+	<value>Your Name</value>
+  </data>
+	<data name="Email" xml:space="preserve">
+	<value>Email</value>
+  </data>
+	<data name="Your Email" xml:space="preserve">
+	<value>Your Email</value>
+  </data>
+	<data name="Message" xml:space="preserve">
+	<value>Message</value>
+  </data>
+	<data name="Your Message" xml:space="preserve">
+	<value>Your Message</value>
+  </data>
+	<data name="Send Message" xml:space="preserve">
+	<value>Send Message</value>
+  </data>
+
+	<data name="Address" xml:space="preserve">
+	<value>Address</value>
+  </data>
+	<data name="Near Lycee Gebremariam School" xml:space="preserve">
+	<value>Near Lycee Gebremariam School</value>
+  </data>
+	<data name="Arada Sub-City" xml:space="preserve">
+	<value>Arada Sub-City</value>
+  </data>
+	<data name="Addis Ababa, Ethiopia" xml:space="preserve">
+	<value>Addis Ababa, Ethiopia</value>
+  </data>
+
+	<data name="Phone" xml:space="preserve">
+	<value>Phone</value>
+  </data>
+
+	<data name="Quick Links" xml:space="preserve">
+	<value>Quick Links</value>
+  </data>
+	<data name="Connect With Us" xml:space="preserve">
+	<value>Connect With Us</value>
+  </data>
+	<data name="Transforming the visitor experience" xml:space="preserve">
+	<value>Transforming the visitor experience</value>
+  </data>
+	<data name="Visitor Management System. All rights reserved." xml:space="preserve">
+	<value>Visitor Management System. All rights reserved.</value>
+  </data>
+
+	<data name="Terms" xml:space="preserve">
+	<value>Terms</value>
+  </data>
+	<data name="Privacy" xml:space="preserve">
+	<value>Privacy</value>
+  </data>
+	<data name="Support" xml:space="preserve">
+	<value>Support</value>
+  </data>
+</root>

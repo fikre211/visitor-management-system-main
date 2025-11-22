@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>2.0</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+
+    <data name="Visitor Management Portal" xml:space="preserve">
+    <value>ቪዚተር ማናጅመንት ፖርታል</value>
+  </data>
+    <data name="Visitor Management System" xml:space="preserve">
+    <value>ቪሲተር ማናጅመንት ሲስተም</value>
+  </data>
+    <data name="Home" xml:space="preserve">
+    <value>መነሻ</value>
+  </data>
+    <data name="Features" xml:space="preserve">
+    <value>ባህሪያት</value>
+  </data>
+    <data name="Contact" xml:space="preserve">
+    <value>አግኙን</value>
+  </data>
+    <data name="About" xml:space="preserve">
+    <value>ስለ እኛ</value>
+  </data>
+    <data name="Help" xml:space="preserve">
+    <value>እርዳታ</value>
+  </data>
+    <data name="Welcome to Ethiopian Government Offices Visitors Portal!" xml:space="preserve">
+    <value>እንኳን ወደ የኢትዮጵያ መንግስት ቢሮዎች ቪዚተር ማናጅመንት ፖርታል በደህና መጡ!</value>
+  </data>
+    <data name="Powered by Ministry of Innovation and Technology (MInT)" xml:space="preserve">
+    <value>በኢትዮጵያ ኢኖቬሽን እና ቴክኖሎጅ ሚንስቴር የተደገፈ</value>
+  </data>
+    <data name="Streamlined Guest Registration, Check-In &amp; Check-Out processes for a better visit experiences!" xml:space="preserve">
+    <value>ቀላል እና ፈጣን መመዝገቢያ፣ መግቢያ &amp; መውጫ</value>
+</data>
+    <data name="Get Started" xml:space="preserve">
+    <value>ጀምር</value>
+  </data>
+    <data name="Visitor Management System Overview" xml:space="preserve">
+    <value>የጎብኚ አስተዳደር ስርዓት አጠቃላይ እይታ</value>
+  </data>
+    <data name="Total Companies" xml:space="preserve">
+    <value>ጠቅላላ ኩባንያዎች</value>
+  </data>
+    <data name="Today's Visits" xml:space="preserve">
+    <value>የዛሬ ጉብኝቶች</value>
+  </data>
+    <data name="All-Time Visits" xml:space="preserve">
+    <value>ጠቅላላ ጉብኝቶች</value>
+  </data>
+    <data name="Select Your Destination" xml:space="preserve">
+    <value>መድረሻዎን ይምረጡ</value>
+  </data>
+    <data name="Choose the organization you're visiting today" xml:space="preserve">
+    <value>ዛሬ የምትጎብኙትን ድርጅት ይምረጡ</value>
+  </data>
+    <data name="About Our System" xml:space="preserve">
+    <value>ስለ ስርዓታችን</value>
+  </data>
+    <data name="Modern solution for visitor management" xml:space="preserve">
+    <value>ዘመናዊ መፍትሄ ለጎብኚ አስተዳደር</value>
+  </data>
+    <data name="Why Choose Our System?" xml:space="preserve">
+    <value>ለምን ስርዓታችንን ይመርጣሉ?</value>
+  </data>
+    <data name="Quick and easy Registration, Check-In &amp; Check-Out" xml:space="preserve">
+        <value>ቀላል እና ፈጣን መመዝገብ፣ መግቢያ &amp; መውጫ</value>
+  </data>
+    <data name="Instant host notifications" xml:space="preserve">
+    <value>ወዲያውኑ ለተቀባይ ማሳወቂያዎች</value>
+  </data>
+    <data name="Customizable to your brand" xml:space="preserve">
+    <value>በእርስዎ ድርጂት ልክ የሚስተካከል</value>
+  </data>
+    <data name="Comprehensive visitor analytics" xml:space="preserve">
+    <value>የጎብኚ አስተዳደር ዝርዝር ትንታኔ</value>
+  </data>
+    <data name="Key Features" xml:space="preserve">
+    <value>ዋና ባህሪያት</value>
+  </data>
+    <data name="What makes our visitor management system stand out" xml:space="preserve">
+    <value>የእኛን የጎብኚ አስተዳደር ስርዓት የሚያስወድደው ምንድነው</value>
+  </data>
+    <data name="Fast Check-in" xml:space="preserve">
+    <value>ፈጣን መግቢያ</value>
+  </data>
+    <data name="Streamlined process that takes seconds, not minutes" xml:space="preserve">
+    <value>በሰከንዶች ውስጥ የሚሰራ ፈጣን ሂደት</value>
+  </data>
+    <data name="Enhanced Security" xml:space="preserve">
+    <value>የተሻሻለ ደህንነት</value>
+  </data>
+    <data name="Know who's in your building at all times" xml:space="preserve">
+    <value>ህንጻ ዉስጥ እየትኛዉም ሰአት ማን እንዳለ ይወቁ </value>
+  </data>
+    <data name="Instant Notifications" xml:space="preserve">
+    <value>ወዲያውኑ ማሳወቂያዎች</value>
+  </data>
+    <data name="Alert hosts immediately when their visitors arrive" xml:space="preserve">
+    <value>እንግዶቻቸው ሲመጡ ወዲያውኑ አሳውቁ</value>
+  </data>
+    <data name="Detailed Analytics" xml:space="preserve">
+    <value>ዝርዝር ትንታኔ</value>
+  </data>
+    <data name="Track visitor patterns and optimize resources" xml:space="preserve">
+    <value>የጎብኚ ሲዎጡ  ይከታተሉ እና ሀብቶችን ያስተካክሉ</value>
+  </data>
+    <data name="What Our Clients Say" xml:space="preserve">
+    <value>ደንበኞቻችን የሚሉት</value>
+  </data>
+    <data name="Testimonials from businesses using our visitor management system" xml:space="preserve">
+    <value>የእኛን የጎብኚ አስተዳደር ስርዓት የሚጠቀሙ የንግድ እውቅናዎች</value>
+  </data>
+    <data name="Get in Touch" xml:space="preserve">
+    <value>ያግኙን</value>
+  </data>
+    <data name="Have questions? Contact our support team" xml:space="preserve">
+    <value>ጥያቄ አለዎት? የድጋፍ ቡድናችንን ያግኙ</value>
+  </data>
+    <data name="Name" xml:space="preserve">
+    <value>ስም</value>
+  </data>
+    <data name="Your Name" xml:space="preserve">
+    <value>የእርስዎ ስም</value>
+  </data>
+    <data name="Email" xml:space="preserve">
+    <value>ኢሜይል</value>
+  </data>
+    <data name="Your Email" xml:space="preserve">
+    <value>የእርስዎ ኢሜይል</value>
+  </data>
+    <data name="Message" xml:space="preserve">
+    <value>መልእክት</value>
+  </data>
+    <data name="Your Message" xml:space="preserve">
+    <value>መልእክትዎን ይጻፉ</value>
+  </data>
+    <data name="Send Message" xml:space="preserve">
+    <value>መልእክት ይላኩ</value>
+  </data>
+    <data name="Address" xml:space="preserve">
+    <value>አድራሻ</value>
+  </data>
+    <data name="Near Lycee Gebremariam School" xml:space="preserve">
+    <value>ከሊሴ ገብረ ማሪያም ትምህርት ቤት አቅራቢያ</value>
+  </data>
+    <data name="Arada Sub-City" xml:space="preserve">
+    <value>አራዳ ክፍለ ከተማ</value>
+  </data>
+    <data name="Addis Ababa, Ethiopia" xml:space="preserve">
+    <value>አዲስ አበባ፣ ኢትዮጵያ</value>
+  </data>
+    <data name="Phone" xml:space="preserve">
+    <value>ስልክ</value>
+  </data>
+    <data name="Connect With Us" xml:space="preserve">
+    <value>ከእኛ ጋር ይገናኙ</value>
+  </data>
+    <data name="Transforming the visitor experience" xml:space="preserve">
+    <value>የጎብኚ ተሞክሮን በመለወጥ</value>
+  </data>
+    <data name="Quick Links" xml:space="preserve">
+    <value>ፈጣን አገናኞች</value>
+  </data>
+    <data name="Companies" xml:space="preserve">
+    <value>ኩባንያዎች</value>
+  </data>
+    <data name="Visitor Management System. All rights reserved." xml:space="preserve">
+    <value>Visitor Management System. All rights reserved.</value>
+  </data>
+    <data name="Terms" xml:space="preserve">
+    <value>ውሎች</value>
+  </data>
+    <data name="Privacy" xml:space="preserve">
+    <value>ግላዊነት</value>
+  </data>
+    <data name="Support" xml:space="preserve">
+    <value>ድጋፍ</value>
+  </data>
+</root>

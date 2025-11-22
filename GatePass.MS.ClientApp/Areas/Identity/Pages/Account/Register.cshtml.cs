@@ -222,6 +222,9 @@ namespace GatePass.MS.ClientApp.Areas.Identity.Pages.Account
                     await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                     // Set the email address
                     await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                    // FORCE email confirmed for all new accounts
+                    user.EmailConfirmed = true;
+
                 }
                 else //if it is registered Employee and need to create gpass account create account using registerd email in Employee table
                 {
@@ -241,8 +244,8 @@ namespace GatePass.MS.ClientApp.Areas.Identity.Pages.Account
                     if (employee != null)
                     {
                         user.Email = employee.Email;
-                       
 
+                        user.EmailConfirmed = true;
                         // Set the username (typically the email address)
                         await _userStore.SetUserNameAsync(user, user.Email, CancellationToken.None);
 
