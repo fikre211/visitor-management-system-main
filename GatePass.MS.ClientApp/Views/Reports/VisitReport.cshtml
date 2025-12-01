@@ -63,7 +63,10 @@
                                 <th>@Localizer["Visitor Name"]</th>
                                 <th>@Localizer["Visitor Phone"]</th>
                                 <th>@Localizer["Visitor Email"]</th>
-                               
+
+                                <th>@Localizer["Additional Guests"]</th>
+                                <th>@Localizer["Devices"]</th>
+
                                 <th>@Localizer["Approved Time Start"]</th>
                                 <th>@Localizer["Approved Time End"]</th>
                                 <th>@Localizer["Purpose"]</th>
@@ -71,9 +74,9 @@
                                 <th>@Localizer["Request Date"]</th>
                                 <th>@Localizer["Approved or Rejected By"]</th>
                                 <th>@Localizer["Status"]</th>
-                             
                             </tr>
                         </thead>
+
                         <tbody>
                             @foreach (var report in Model.Reports)
                             {
@@ -82,7 +85,11 @@
                                     <td>@report.GuestName</td>
                                     <td>@report.Phone</td>
                                     <td>@report.Email</td>
-                                 
+
+                                    <!-- NEW FIELDS -->
+                                    <td style="width: 120px;">@report.AdditionalGuests</td>
+                                    <td style="width: 120px;">@report.Devices</td>
+
                                     <td>@report.ApprovedDateTimeStart</td>
                                     <td>@report.ApprovedDateTimeEnd</td>
                                     <td>@report.PurposeOfVisit</td>
@@ -90,11 +97,11 @@
                                     <td>@report.Timestamp</td>
                                     <td>@report.Approver</td>
                                     <td>@report.Status</td>
-                                   
                                 </tr>
                             }
                         </tbody>
                     </table>
+
                 </div>
                 <!-- /.card-body -->
             </div>

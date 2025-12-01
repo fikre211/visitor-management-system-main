@@ -18,14 +18,14 @@ namespace GatePass.MS.Domain.ViewModels
         public string GuestName { get; set; }
         public string Phone { get; set; }
         public string? Email { get; set; }
-
-
         public string Status { get; set; }
         public string? Approver { get; set; }
-
         public bool IsCheckedIn { get; set; }
         public DateTime Timestamp { get; set; }
 
+        public string AdditionalGuests { get; set; }  // NEW
+        public string Devices { get; set; }           // NEW
     }
+
 
 }

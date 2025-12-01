@@ -36,6 +36,7 @@ namespace GatePass.MS.Application
 
             // Load the current user
             var currentUser = _userManager.GetUserAsync(User).Result;
+
             if (currentUser == null)
             {
                 return new List<VisitReportDto>(); // Handle null user scenario
@@ -50,14 +51,18 @@ namespace GatePass.MS.Application
 
             // Start building the query
             var query = _context.RequestInformation
-                .Where(r=>r.CompanyId==_current.Value.Id)
-                .Include(r => r.Employee) // Include Employee data
-                .Include(r => r.Guest) // Include Guest data if needed
+                .Where(r => r.CompanyId == _current.Value.Id)
+                .Include(r => r.Employee)
+                .Include(r => r.Guest)
+                .Include(r => r.Devices)            // <-- added
+                .Include(r => r.AdditionalGuests)   // <-- added
                 .Where(r => (r.EmployeeId == currentUser.EmployeeId) ||
-                                        (isInSupervisorRole && r.DepartmentId == currentUserDepartmentId)||isInAdminRole)
+                            (isInSupervisorRole && r.DepartmentId == currentUserDepartmentId) ||
+                             isInAdminRole)
                 .AsQueryable();
 
-            
+
+
 
             // Apply filters if provided
             if (startDate.HasValue)
@@ -76,6 +81,11 @@ namespace GatePass.MS.Application
             {
                 query = query.Where(r => r.EmployeeId == employeeId.Value);
             }
+            if (employeeId.HasValue)
+            {
+                query = query.Where(r => r.EmployeeId == employeeId.Value);
+            }
+
             var reports = query
                 .Select(r => new VisitReportDto
                 {
@@ -83,18 +93,29 @@ namespace GatePass.MS.Application
                     VisitDateTimeStart = r.VisitDateTimeStart,
                     VisitDateTimeEnd = r.VisitDateTimeEnd,
                     PurposeOfVisit = r.PurposeOfVisit,
-                    GuestName = r.IsIndividual ? r.Guest.FirstName + " " + r.Guest.LastName : r.Guest.CompanyName,
-                    Phone=r.Guest.Phone,
-                    Email=r.Guest.Email,
-                    EmployeeName = r.Employee != null ? r.Employee.FirstName : "No Employee", // Handle nulls
+                    GuestName = r.IsIndividual
+                        ? r.Guest.FirstName + " " + r.Guest.LastName
+                        : r.Guest.CompanyName,
+                    Phone = r.Guest.Phone,
+                    Email = r.Guest.Email,
+                    EmployeeName = r.Employee != null ? r.Employee.FirstName : "No Employee",
                     Status = r.Status,
-                    Approver=r.Approver!=null?r.Approver.Employee.FirstName + " " + r.Approver.Employee.LastName : "No approver",
-                    Timestamp=r.DateCreated,
+                    Approver = r.Approver != null
+                        ? r.Approver.Employee.FirstName + " " + r.Approver.Employee.LastName
+                        : "No approver",
+                    Timestamp = r.DateCreated,
                     ApprovedDateTimeStart = r.ApprovedDateTimeStart,
-                    ApprovedDateTimeEnd = r.ApprovedDateTimeEnd
-                    // Map other properties as needed
+                    ApprovedDateTimeEnd = r.ApprovedDateTimeEnd,
+
+                    // NEW FIELDS:
+                    AdditionalGuests = string.Join(", ",
+                        r.AdditionalGuests.Select(g => g.FirstName + " " + g.LastName)),
+
+                    Devices = string.Join(", ",
+                        r.Devices.Select(d => d.DeviceName))
                 })
                 .ToList();
+
 
             return reports;
         }

@@ -116,7 +116,7 @@
                 <br />
                 <p>Streamlined Guest Registration, Check-In & Check-Out processes for a better visit experiences!</p>
 
-                <a href="#companies" class="btn-primary">Get Started</a>
+                <a href="#organization" class="btn-primary">Get Started</a>
             </div>
         </div>
     </section>
@@ -150,31 +150,63 @@
                 <h2>Select Your Destination</h2>
                 <p>Choose the organization you're visiting today</p>
             </div>
-            <div class="mb-4">
-                <input type="text"
-                       id="companySearch"
-                       placeholder="Search companies..."
-                       class="w-full p-2 border border-gray-300 rounded"
-                       onkeyup="filterCompanies()" />
+            <style>
+                .center-search {
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center; /* vertically center within the row */
+                    gap: 12px;
+                    box-sizing: border-box;
+                    padding: 8px 0;
+                }
+
+                    .center-search input {
+                        width: 320px;
+                        padding: 8px;
+                    }
+
+                    .center-search select {
+                        width: 240px;
+                        padding: 8px;
+                    }
+            </style>
+
+            <div class="center-search">
+                <input type="text" id="companySearch" placeholder="Search organizations..." onkeyup="filterCompanies()" />
+                <select id="orgFilter" onchange="filterCompanies()">
+                    <option value="">All Organizations</option>
+                    @foreach (var comp in Model.OrderBy(c => c.Name))
+                    {
+                        <option value="@comp.Name">@comp.Name</option>
+                    }
+                </select>
             </div>
 
-            <div class="companies-grid grid gap-4"
-                 style="grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));">
+            <div class="companies-grid"
+                 style="display: grid; margin-top: 30px; gap: 16px; grid-template-columns: repeat(auto-fit, 140px); justify-content: center;">
                 @foreach (var comp in Model.OrderBy(c => c.Name))
                 {
-                    <a class="company-card block border rounded p-2 text-center bg-white shadow"
-                       asp-controller="Home"
+                    <a asp-controller="Home"
                        asp-action="Index"
-                       asp-route-companyName="@comp.Slug">
-                        <div class="company-logo mb-2">
-                            <img src="@comp.LogoPath" alt="@comp.Name" class="mx-auto max-h-16" />
+                       asp-route-companyName="@comp.Slug"
+                       class="company-card"
+                       data-name="@comp.Name"
+                       style="width: 150px; aspect-ratio: 1 / 1; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px solid #ddd; border-radius: 8px; padding: 10px; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; color: inherit; text-decoration: none;">
+
+                        <div style="margin-bottom: 10px; height: 70px; width: 100%; display: flex; justify-content: center; align-items: center; overflow: hidden;">
+                            <img src="@comp.LogoPath"
+                                 alt="@comp.Name"
+                                 style="max-height: 70px; width: auto; object-fit: contain;" />
                         </div>
-                        <div class="company-info">
-                            <h3 class="text-sm font-medium">@comp.Name</h3>
-                        </div>
+
+                        <h3 style="font-size: 12px; font-weight: 600; margin: 0;">
+                            @comp.Name
+                        </h3>
                     </a>
                 }
             </div>
+
 
 
             </div>
@@ -357,7 +389,7 @@
                         <li><a href="#">Home</a></li>
                         <li><a href="#about">About</a></li>
                         <li><a href="#features">Features</a></li>
-                        <li><a href="#companies">Companies</a></li>
+                        <li><a href="#companies">organizations</a></li>
                         <li><a href="#contact">Contact</a></li>
 
 
@@ -388,18 +420,34 @@
 </body>
 <script>
     function filterCompanies() {
-        const input = document.getElementById('companySearch');
-        const filter = input.value.toLowerCase();
-        const cards = document.querySelectorAll('.company-card');
+        const input = document.getElementById("companySearch").value.toLowerCase();
+        const cards = document.querySelectorAll(".companies-grid a");
 
         cards.forEach(card => {
-            const name = card.querySelector('.company-info h3').textContent.toLowerCase();
-            if(name.includes(filter)) {
-                card.style.display = '';
+            const name = card.innerText.toLowerCase();
+
+            if (name.includes(input)) {
+                card.style.display = "flex";
             } else {
-                card.style.display = 'none';
+                card.style.display = "none";
             }
         });
     }
 </script>
+<script>
+    function filterCompanies() {
+        let search = document.getElementById("companySearch").value.toLowerCase();
+        let filter = document.getElementById("orgFilter").value.toLowerCase();
+
+        document.querySelectorAll(".company-card").forEach(card => {
+            let name = card.dataset.name.toLowerCase();
+
+            let matchesSearch = name.includes(search);
+            let matchesFilter = filter === "" || name === filter;
+
+            card.style.display = (matchesSearch && matchesFilter) ? "flex" : "none";
+        });
+    }
+</script>
+
 </html>

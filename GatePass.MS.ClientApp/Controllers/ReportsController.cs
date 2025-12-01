@@ -35,53 +35,62 @@ namespace GatePass.MS.ClientApp.Controllers
         [HttpGet]
         [HttpGet]
         [HttpGet]
+        [HttpGet]
         public async Task<IActionResult> GuestActivityReport(DateTime? startDate, DateTime? endDate, int? SelectedGuestId, string? activityType)
         {
-            Console.WriteLine($"SelectedGuestId: {SelectedGuestId}");
+            var userId = _userManager.GetUserId(User);
 
-            var model = await _guestActivityService.GetGuestActivitiesAsync(startDate, endDate, SelectedGuestId, activityType);
+            var model = await _guestActivityService.GetGuestActivitiesAsync(
+                startDate,
+                endDate,
+                SelectedGuestId,
+                activityType,
+                userId
+            );
 
-       
             return View(model);
         }
+
 
         public IActionResult VisitReport(DateTime? startDate, DateTime? endDate, string? status, int? employeeId)
         {
             // Fetch reports based on filters
-            var reportDtos = _reportService.GetVisitReports(User,startDate, endDate, status, employeeId);
+            var reportDtos = _reportService.GetVisitReports(User, startDate, endDate, status, employeeId);
 
-             // Load the current user
+            // Load the current user
             var currentUser = _userManager.GetUserAsync(User).Result;
             if (currentUser == null)
             {
-                return NotFound(); // Handle null user scenario
+                return NotFound();
             }
+
             _context.Entry(currentUser).Reference(x => x.Employee).Load();
             int? currentUserDepartmentId = currentUser?.Employee?.DepartmentId;
-            // Check if the current user is in the "Supervisor" role
-            var isInSupervisorRole = _userManager.IsInRoleAsync(currentUser, "Superviser").Result;
-            // Fetch employees for dropdown options (or other purposes)
-            var Allemployees = _reportService.GetAllEmployees(); // Adjust as needed based on your service
 
-            // Prepare employee list based on user's role
+            // Check if supervisor
+            var isInSupervisorRole = _userManager.IsInRoleAsync(currentUser, "Superviser").Result;
+
+            // Fetch employees (for dropdown)
+            var allEmployees = _reportService.GetAllEmployees();
+
             var employees = isInSupervisorRole
-                ? Allemployees.Where(e => e.DepartmentId == currentUserDepartmentId).ToList()
-                : Allemployees.Where(e => e.Id == currentUser.EmployeeId).ToList();
-            // Create the ViewModel
+                ? allEmployees.Where(e => e.DepartmentId == currentUserDepartmentId).ToList()
+                : allEmployees.Where(e => e.Id == currentUser.EmployeeId).ToList();
+
+            // Create ViewModel
             var model = new VisitReportModel
             {
                 StartDate = startDate,
-
                 EndDate = endDate,
                 Status = status,
                 EmployeeId = employeeId,
                 Reports = reportDtos,
                 Employees = employees
-
             };
 
             return View(model);
         }
+
 
     }
 

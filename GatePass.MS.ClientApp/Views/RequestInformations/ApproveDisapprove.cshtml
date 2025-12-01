@@ -198,8 +198,15 @@
                                                     <span class="custom-switch-label @(device.IsDenied == true ? "text-danger" : "")" id="labelDeny_@device.DeviceId">
                                                         @Localizer["Deny"]
                                                     </span>
+
+                                                    <!-- === Hidden required field === -->
+                                                    <input type="hidden" id="deviceRequired_@device.DeviceId"
+                                                           name="Devices[@i].SelectionRequired"
+                                                           value="@(device.IsGranted.GetValueOrDefault() || device.IsDenied.GetValueOrDefault() ? "1" : "")"
+                                                           required />
                                                 </div>
                                             }
+
                                             else
                                             {
                                                 <div class="fw-bold">
@@ -284,7 +291,7 @@
                                            type="datetime-local"
                                            name="ApprovedDateTimeStart"
                                            value="@Model.VisitDateTimeStart.ToString("yyyy-MM-ddTHH:mm")"
-                                           min="@DateTime.Now.ToString("yyyy-MM-dd")"
+                                           min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")"
                                            required />
                                     <span asp-validation-for="ApprovedDateTimeStart" class="text-danger"></span>
                                 </div>
@@ -296,7 +303,7 @@
                                            type="datetime-local"
                                            name="ApprovedDateTimeEnd"
                                            value="@Model.VisitDateTimeEnd.ToString("yyyy-MM-ddTHH:mm")"
-                                           min="@DateTime.Now.ToString("yyyy-MM-dd")"
+                                           min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")"
                                            required />
                                     <span asp-validation-for="ApprovedDateTimeEnd" class="text-danger"></span>
                                 </div>
@@ -321,24 +328,18 @@
                                         </select>
                                     </div>
                                 </div>
-
-                                <!-- Row: Approve Button -->
                                 <div class="col-12">
                                     <button type="submit"
                                             name="Approve"
                                             value="true"
                                             class="btn btn-success px-4 fw-semibold"
-                                            onclick="setApprovalRequired(true)">
+                                            onclick="setApprovalRequired(true); return validateDeviceSelections();">
                                         @Localizer["approve"]
                                     </button>
+
                                 </div>
-
                             </div>
-
-
                         }
-
-
                         @* "Review" button conditional display (ONLY for Supervisors AND companyName is "hopr") *@
                         @if (isInSupervisorRole && companyName.ToLower() == "hopr")
                         {
@@ -461,45 +462,74 @@
                 }
             });
         </script>
-        <script>
-            function toggleDenyCheckbox(deviceId, grantCheckbox) {
-                const denyCheckbox = document.getElementById(`deviceDeny_${deviceId}`);
-                const grantSwitch = grantCheckbox.closest('.custom-switch');
-                const denySwitch = denyCheckbox.closest('.custom-switch');
-                const grantLabel = document.getElementById(`labelGrant_${deviceId}`);
-                const denyLabel = document.getElementById(`labelDeny_${deviceId}`);
+<script>
+    function toggleDenyCheckbox(deviceId, grantCheckbox) {
+        const denyCheckbox = document.getElementById(`deviceDeny_${deviceId}`);
+        const grantSwitch = grantCheckbox.closest('.custom-switch');
+        const denySwitch = denyCheckbox.closest('.custom-switch');
+        const grantLabel = document.getElementById(`labelGrant_${deviceId}`);
+        const denyLabel = document.getElementById(`labelDeny_${deviceId}`);
+        const requiredField = document.getElementById(`deviceRequired_${deviceId}`);
 
-                if (grantCheckbox.checked) {
-                    denyCheckbox.checked = false; // Uncheck deny
-                    grantSwitch.classList.add('is-granted');
-                    denySwitch.classList.remove('is-denied'); // Remove deny styling
-                    grantLabel.classList.add('text-success');
-                    denyLabel.classList.remove('text-danger');
-                } else {
-                    grantSwitch.classList.remove('is-granted');
-                    grantLabel.classList.remove('text-success');
-                }
+        if (grantCheckbox.checked) {
+            // Uncheck deny
+            denyCheckbox.checked = false;
+
+            // Styling updates
+            grantSwitch.classList.add('is-granted');
+            denySwitch.classList.remove('is-denied');
+            grantLabel.classList.add('text-success');
+            denyLabel.classList.remove('text-danger');
+
+            // Mark as selected (valid)
+            requiredField.value = "1";
+        } 
+        else {
+            // Remove grant styling
+            grantSwitch.classList.remove('is-granted');
+            grantLabel.classList.remove('text-success');
+
+            // If neither is checked → mandatory fails
+            if (!denyCheckbox.checked) {
+                requiredField.value = "";
             }
+        }
+    }
 
-            function toggleGrantCheckbox(deviceId, denyCheckbox) {
-                const grantCheckbox = document.getElementById(`deviceGrant_${deviceId}`);
-                const grantSwitch = grantCheckbox.closest('.custom-switch');
-                const denySwitch = denyCheckbox.closest('.custom-switch');
-                const grantLabel = document.getElementById(`labelGrant_${deviceId}`);
-                const denyLabel = document.getElementById(`labelDeny_${deviceId}`);
+    function toggleGrantCheckbox(deviceId, denyCheckbox) {
+        const grantCheckbox = document.getElementById(`deviceGrant_${deviceId}`);
+        const grantSwitch = grantCheckbox.closest('.custom-switch');
+        const denySwitch = denyCheckbox.closest('.custom-switch');
+        const grantLabel = document.getElementById(`labelGrant_${deviceId}`);
+        const denyLabel = document.getElementById(`labelDeny_${deviceId}`);
+        const requiredField = document.getElementById(`deviceRequired_${deviceId}`);
 
-                if (denyCheckbox.checked) {
-                    grantCheckbox.checked = false; // Uncheck grant
-                    denySwitch.classList.add('is-denied');
-                    grantSwitch.classList.remove('is-granted'); // Remove grant styling
-                    denyLabel.classList.add('text-danger');
-                    grantLabel.classList.remove('text-success');
-                } else {
-                    denySwitch.classList.remove('is-denied');
-                    denyLabel.classList.remove('text-danger');
-                }
+        if (denyCheckbox.checked) {
+            // Uncheck allow
+            grantCheckbox.checked = false;
+
+            // Styling updates
+            denySwitch.classList.add('is-denied');
+            grantSwitch.classList.remove('is-granted');
+            denyLabel.classList.add('text-danger');
+            grantLabel.classList.remove('text-success');
+
+            // Mark as selected (valid)
+            requiredField.value = "1";
+        } 
+        else {
+            // Remove deny styling
+            denySwitch.classList.remove('is-denied');
+            denyLabel.classList.remove('text-danger');
+
+            // If neither is checked → mandatory fails
+            if (!grantCheckbox.checked) {
+                requiredField.value = "";
             }
-        </script>
+        }
+    }
+</script>
+
         <script>
                         function setApprovalRequired(isApprove) {
                 const startInput = document.getElementById("ApprovedDateTimeStart");
@@ -542,6 +572,47 @@
                     endInput.min = startInput.value;
                 });
             });
+
+                                    function validateDeviceSelections() {
+                const devices = document.querySelectorAll("[id^='deviceRequired_']");
+                let valid = true;
+                let firstInvalidElement = null;
+
+                devices.forEach(reqField => {
+                    if (reqField.value === "") {
+                        valid = false;
+
+                        // Highlight device toggle area
+                        const devId = reqField.id.replace("deviceRequired_", "");
+                        const grant = document.getElementById(`deviceGrant_${devId}`);
+                        const deny = document.getElementById(`deviceDeny_${devId}`);
+
+                        const toggleContainer = grant.closest(".device-status-toggle");
+                        toggleContainer.style.border = "2px solid red";
+
+                        // Save first invalid element to scroll to
+                        if (!firstInvalidElement) {
+                            firstInvalidElement = toggleContainer;
+                        }
+                    } else {
+                        // Remove border if already valid
+                        const devId = reqField.id.replace("deviceRequired_", "");
+                        const grant = document.getElementById(`deviceGrant_${devId}`);
+                        const toggleContainer = grant.closest(".device-status-toggle");
+                        toggleContainer.style.border = "";
+                    }
+                });
+
+                if (!valid && firstInvalidElement) {
+                    // Scroll to first invalid device toggle
+                    firstInvalidElement.scrollIntoView({ behavior: "smooth", block: "center" });
+                    
+                }
+
+                return valid;
+            }
+
+
         </script>
     }
 }

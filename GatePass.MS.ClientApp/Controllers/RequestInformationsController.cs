@@ -320,7 +320,8 @@ namespace GatePass.MS.ClientApp.Controllers
 
             var currentUser = await _userManager.GetUserAsync(User);
             var request = await _context.RequestInformation
-                                        .Include(r => r.Devices) // Crucial: Include Devices to update existing ones
+                                        .Include(r => r.Devices)
+                                        .Include(r => r.AdditionalGuests)// Crucial: Include Devices to update existing ones
                                         .FirstOrDefaultAsync(r => r.Id == model.Id);
 
             if (request == null)
@@ -330,6 +331,20 @@ namespace GatePass.MS.ClientApp.Controllers
 
             var guestId = request.GuestId;
             var guest = _context.Guest.FirstOrDefault(x => x.Id == guestId);
+            // Collect ALL emails (primary + additional guests)
+            var allEmails = new List<string>();
+
+            if (!string.IsNullOrEmpty(model.GuestEmail))
+                allEmails.Add(model.GuestEmail);
+
+            if (request.AdditionalGuests != null)
+            {
+                foreach (var g in request.AdditionalGuests)
+                {
+                    if (!string.IsNullOrEmpty(g.Email))
+                        allEmails.Add(g.Email);
+                }
+            }
 
             // Handle overall request approval/disapproval
             if (model.Approve)
@@ -362,7 +377,17 @@ namespace GatePass.MS.ClientApp.Controllers
                 {
                     string baseUrl = "https://localhost:44389";
                     string Qrcode = $"{baseUrl}/Guest/GenerateQRCode?firstName={guest?.FirstName}&lastName={guest?.LastName}&email={guest?.Email}&id={model.Id}";
-                    await SendApprovalEmail(model.GuestEmail, model.Id);
+                    await SendApprovalEmail(model.GuestEmail, request.Guest.FirstName, model.Id);
+
+                    // Send to additional guests
+                    foreach (var g in request.AdditionalGuests)
+                    {
+                        if (!string.IsNullOrEmpty(g.Email))
+                        {
+                            await SendApprovalEmail(g.Email, g.FirstName, model.Id);
+                        }
+                    }
+
                     TempData["message"] = "Invitation has been approved successfully!";
                     TempData["MessageType"] = "success";
                 }
@@ -413,7 +438,17 @@ namespace GatePass.MS.ClientApp.Controllers
                 // Your existing email/SMS sending logic
                 try
                 {
-                    await SendDisApprovalEmail(model.GuestEmail, model.Id, model.SelectedReason);
+                    await SendDisApprovalEmail(model.GuestEmail, request.Guest.FirstName, model.Id, model.SelectedReason);
+
+                    foreach (var g in request.AdditionalGuests)
+                    {
+                        if (!string.IsNullOrEmpty(g.Email))
+                        {
+                            await SendDisApprovalEmail(g.Email, g.FirstName, model.Id, model.SelectedReason);
+                        }
+                    }
+
+
                     TempData["message"] = "Invitation has been Rejected!";
                     TempData["MessageType"] = "error";
                 }
@@ -684,7 +719,8 @@ Best Regards,
         }
 
 
-        private async Task SendApprovalEmail(string receiver, int id)
+        private async Task SendApprovalEmail(string receiver, string receiverName, int id)
+
         {
             var request = await _context.RequestInformation.Include(r => r.Guest).FirstOrDefaultAsync(r => r.Id == id);
             if (request == null)
@@ -703,7 +739,8 @@ Best Regards,
 
   <!-- Body -->
   <div style=""padding:25px; color:#333333; background-color:#ffffff;"">
-    <h3 style=""color:#008C7A; margin-top:0;"">Dear, {request.Guest.FirstName}!</h3>
+   <h3 style=""color:#008C7A; margin-top:0;"">Dear {receiverName},</h3>
+
     <p style=""font-size:15px; line-height:1.6; margin-bottom:20px;"">
       Your visit request to <strong>{_current.Value.Slug.ToUpper()}</strong> has been 
       <span style=""color:#28A745; font-weight:bold;"">approved</span>.
@@ -795,14 +832,14 @@ Best Regards,
             }
         }
 
-        private async Task SendDisApprovalEmail(string receiver, int id, string selectedReason)
+        private async Task SendDisApprovalEmail(string receiver, string receiverName, int id, string selectedReason)
         {
-            var request = await _context.RequestInformation.Include(r => r.Guest).FirstOrDefaultAsync(r => r.Id == id);
+            var request = await _context.RequestInformation
+                .Include(r => r.Guest)
+                .FirstOrDefaultAsync(r => r.Id == id);
 
             if (request == null)
-            {
                 throw new Exception("Request not found");
-            }
 
             var subject = "Your Request has been Rejected!";
             var messageBody = $@"
@@ -816,7 +853,8 @@ Best Regards,
   <!-- Body -->
   <div style=""padding:25px; color:#333333; background-color:#ffffff;"">
    
-    <p style=""font-size:15px; line-height:1.6;"">Dear {request.Guest.FirstName},</p>
+    <p style=""font-size:15px; line-height:1.6;"">Dear {receiverName},</p>
+
     <p style=""font-size:15px; line-height:1.6;"">
       We regret to inform you that your visit request to 
       <strong>{_current.Value.Slug.ToUpper()}</strong> has been 
@@ -844,7 +882,7 @@ Best Regards,
     </table>
 
     <p style=""font-size:15px; line-height:1.6;"">
-      We encourage you to review your request details and consider resubmitting at a later time.
+      We encourage you to review your request and consider resubmitting at a later time.
     </p>
 
     <p style=""margin-top:30px; font-size:15px;"">Best Regards,</p>
@@ -858,10 +896,9 @@ Best Regards,
 
 </div>";
 
-
             await _emailSender.SendEmailAsync(receiver, subject, messageBody);
-
         }
+
 
 
 
