@@ -11,6 +11,7 @@ namespace GatePass.MS.ClientApp.Controllers
 {
     public class ReportsController : Controller
     {
+        private readonly ICurrentCompany _current;
         private readonly ReportService _reportService;
         private readonly UserActivityService _activityService;
         private readonly GuestActivityService _guestActivityService;
@@ -18,13 +19,14 @@ namespace GatePass.MS.ClientApp.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
 
-        public ReportsController(ReportService reportService,ApplicationDbContext context, UserActivityService activityService, GuestActivityService guestActivityService,UserManager<ApplicationUser> userManager)
+        public ReportsController(ReportService reportService,ApplicationDbContext context, UserActivityService activityService, GuestActivityService guestActivityService, ICurrentCompany current,UserManager<ApplicationUser> userManager)
         {
             _reportService = reportService;
             _activityService = activityService;
             _guestActivityService = guestActivityService;
             _userManager = userManager;
             _context = context;
+            _current = current;
         }
         [HttpGet]
         public async Task<IActionResult> UserActivityReport( DateTime? startDate, DateTime? endDate, string? SelectedUserId)
@@ -69,13 +71,19 @@ namespace GatePass.MS.ClientApp.Controllers
 
             // Check if supervisor
             var isInSupervisorRole = _userManager.IsInRoleAsync(currentUser, "Superviser").Result;
+            var isInAdminRole = _userManager.IsInRoleAsync(currentUser, "Admin").Result;
+            // Fetch all employees of the current company
+            var allEmployees = _reportService.GetAllEmployees()
+                                             .Where(e => e.CompanyId == _current.Value.Id)
+                                             .ToList();
 
-            // Fetch employees (for dropdown)
-            var allEmployees = _reportService.GetAllEmployees();
 
+            // Apply role-based filtering
             var employees = isInSupervisorRole
                 ? allEmployees.Where(e => e.DepartmentId == currentUserDepartmentId).ToList()
-                : allEmployees.Where(e => e.Id == currentUser.EmployeeId).ToList();
+                : isInAdminRole
+                    ? allEmployees.ToList()
+                    : allEmployees.Where(e => e.Id == currentUser.EmployeeId).ToList();
 
             // Create ViewModel
             var model = new VisitReportModel

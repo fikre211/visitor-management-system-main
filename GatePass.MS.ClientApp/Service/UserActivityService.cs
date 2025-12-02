@@ -78,12 +78,14 @@ namespace GatePass.MS.ClientApp.Service
             // Restrict users list to same company
             var users = await _context.Users
                 .Where(u => u.CompanyId == _current.Value.Id)
+                .Include(u => u.Employee)  // IMPORTANT
                 .Select(u => new SelectListItem
                 {
                     Value = u.Id,
-                    Text = u.UserName
+                    Text = u.Employee.FirstName + " " + u.Employee.LastName
                 })
                 .ToListAsync();
+
 
             // Only Admin can filter by SelectedUserId
             if (isAdmin && !string.IsNullOrEmpty(SelectedUserId))
@@ -99,14 +101,17 @@ namespace GatePass.MS.ClientApp.Service
                 query = query.Where(a => a.Timestamp <= endDate.Value);
 
             var activities = await query
-                .Select(a => new UserActivityDto
-                {
-                    Timestamp = a.Timestamp,
-                    UserName = _context.Users.FirstOrDefault(u => u.Id == a.UserId).UserName,
-                    ActivityType = a.ActivityType,
-                    ActivityDescription = a.ActivityDescription
-                })
-                .ToListAsync();
+    .Include(a => a.User)
+    .ThenInclude(u => u.Employee)
+    .Select(a => new UserActivityDto
+    {
+        Timestamp = a.Timestamp,
+        UserName = a.User.Employee.FirstName + " " + a.User.Employee.LastName,
+        ActivityType = a.ActivityType,
+        ActivityDescription = a.ActivityDescription
+    })
+    .ToListAsync();
+
 
             return new UserActivityReportModel
             {

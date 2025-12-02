@@ -57,22 +57,21 @@ namespace GatePass.MS.ClientApp.Service
      string? activityType,
      string userId)
         {
-            // 1. Get logged-in user's department
+            // 1. Get the logged-in user's department
             var user = await _userManager.Users
                 .Include(u => u.Employee)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
             var departmentId = user?.Employee?.DepartmentId;
 
-            // 2. Get all guests who submitted requests to this department
+            // 2. Get all guest IDs who visited this department
             var guestIds = await _context.RequestInformation
-                .Include(r => r.Employee)
-                .Where(r => r.Employee.DepartmentId == departmentId)
+                .Where(r => r.DepartmentId == departmentId)
                 .Select(r => r.GuestId)
                 .Distinct()
                 .ToListAsync();
 
-            // 3. Build dropdown list WITHOUT DUPLICATES
+            // 3. Build dropdown list
             var guests = await _context.Guest
                 .Where(g => guestIds.Contains(g.Id))
                 .Select(g => new SelectListItem
@@ -80,37 +79,35 @@ namespace GatePass.MS.ClientApp.Service
                     Value = g.Id.ToString(),
                     Text = g.FirstName + " " + g.LastName
                 })
-                .Distinct()
                 .ToListAsync();
 
-            // 4. Activities query (only for this department)
-            var query = _context.GuestActivityLogs
-                .Where(a => guestIds.Contains(a.GuestId))
+            // 4. Build activity list from RequestInformation
+            var query = _context.RequestInformation
+                .Include(r => r.Guest)
+                .Where(r => guestIds.Contains(r.GuestId))
                 .AsQueryable();
 
+            // Filter by selected guest
             if (SelectedGuestId.HasValue)
-                query = query.Where(a => a.GuestId == SelectedGuestId);
+                query = query.Where(r => r.GuestId == SelectedGuestId.Value);
 
-            if (!string.IsNullOrEmpty(activityType))
-                query = query.Where(a => a.ActivityType == activityType);
-
+            // Filter by date
             if (startDate.HasValue)
-                query = query.Where(a => a.Timestamp >= startDate.Value);
+                query = query.Where(r => r.VisitDateTimeStart >= startDate.Value);
 
             if (endDate.HasValue)
-                query = query.Where(a => a.Timestamp <= endDate.Value);
+                query = query.Where(r => r.VisitDateTimeEnd <= endDate.Value);
 
-            // 5. Get final activity list
+            // 5. Convert results to Activity DTO
             var activities = await query
-                .Include(a => a.Guest)
-                .Select(a => new GuestActivityDto
+                .Select(r => new GuestActivityDto
                 {
-                    Timestamp = a.Timestamp,
-                    Email = a.Guest.Email,
-                    FirstName = a.Guest.FirstName,
-                    LastName = a.Guest.LastName,
-                    ActivityType = a.ActivityType,
-                    ActivityDescription = a.ActivityDescription
+                    FirstName = r.Guest.FirstName,
+                    LastName = r.Guest.LastName,
+                    Email = r.Guest.Email,
+                    Timestamp = r.VisitDateTimeStart,
+                    ActivityType = r.PurposeOfVisit,
+                    ActivityDescription = "Visit Requested"
                 })
                 .ToListAsync();
 
@@ -123,6 +120,7 @@ namespace GatePass.MS.ClientApp.Service
                 Activities = activities
             };
         }
+
 
 
 
