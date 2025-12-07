@@ -12,49 +12,77 @@
     int? CurrentUserDepartmentId = currentUser?.Employee?.DepartmentId;
     var isInSupervisorRole = await _userManager.IsInRoleAsync(currentUser, "Superviser");
     var isInAdminRole = await _userManager.IsInRoleAsync(currentUser, "Admin");
-
-    if (currentUser != null)
+    @if (currentUser != null)
     {
-        // ALWAYS DISABLE NOTIFICATIONS
-        int pendingRequestsCount = 0;
-        int OutDatedRequestsCount = 0;
-        int lockedAccountCount = 0;
+        var today = DateTime.Today;
 
-        if (isInAdminRole)
+        int pendingRequestsCount = _context.RequestInformation
+                    .Count(r => (r.Employee.DepartmentId == CurrentUserDepartmentId && isInSupervisorRole && r.Status == "Pending" && r.VisitDateTimeEnd >= today));
+        int OutDatedRequestsCount = _context.RequestInformation
+                        .Count(r => ((r.VisitDateTimeStart < today && r.Status == "Pending") && !r.Deleted));
+        int lockedAccountCount = _userManager.Users.Where(u => u.IsLocked).Count();
+
+        @if (isInAdminRole)
         {
-            int allNotification = 0;
+            int allNotification = OutDatedRequestsCount + lockedAccountCount;
             <li class="nav-item dropdown">
+
                 <a class="nav-link" data-toggle="dropdown" href="#">
                     <i class="far fa-bell"></i>
                     <span class="badge badge-warning navbar-badge">@allNotification</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                     <span class="dropdown-item dropdown-header">@allNotification Notifications</span>
+                    <div class="dropdown-divider"></div>
+                    <a asp-controller="Admin" asp-action="RequestTobeDeleted" class="dropdown-item">
+                        <i class="fas fa-users mr-2"></i> @OutDatedRequestsCount  Out dated requests
+                        <span class="float-right text-muted text-sm"></span>
+                    </a>
+                    <a asp-controller="Admin" asp-action="ViewLockedAccount" class="dropdown-item">
+                        <i class="fas fa-users mr-2"></i> @lockedAccountCount  Locked Accounts
+                        <span class="float-right text-muted text-sm"></span>
+                    </a>
+
                 </div>
             </li>
+
         }
-        else if (isInSupervisorRole)
+        else
+
+        @if (isInSupervisorRole)
         {
-            int allNotification = 0;
+            int allNotification = pendingRequestsCount;
             <li class="nav-item dropdown">
+
                 <a class="nav-link" data-toggle="dropdown" href="#">
                     <i class="far fa-bell"></i>
                     <span class="badge badge-warning navbar-badge">@allNotification</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                     <span class="dropdown-item dropdown-header">@allNotification Notifications</span>
+                    <div class="dropdown-divider"></div>
+                    <a href="@Url.Action("Index", "RequestInformations", new { status = "pending" })" class="dropdown-item">
+                        <i class="fas fa-users mr-2"></i> @pendingRequestsCount pending requests
+                        <span class="float-right text-muted text-sm"></span>
+                    </a>
+
                 </div>
             </li>
         }
         else
         {
+            int allNotification = 0;
             <li class="nav-item dropdown">
+
                 <a class="nav-link" data-toggle="dropdown" href="#">
                     <i class="far fa-bell"></i>
-                    <span class="badge badge-warning navbar-badge">0</span>
+                    <span class="badge badge-warning navbar-badge">@allNotification</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <span class="dropdown-item dropdown-header">0 Notifications</span>
+                    <span class="dropdown-item dropdown-header">@allNotification Notifications</span>
+                    <div class="dropdown-divider"></div>
+
+
                 </div>
             </li>
         }

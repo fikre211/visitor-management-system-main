@@ -9,71 +9,77 @@
 
 }
 <br />
-<div class="row justify-content-center ">
-   
-     
+<style>
+    /* Explicitly prevent scrolling on the body */
+    body {
+        overflow: hidden;
+    }
+</style>
 
-    <div class="login-box">
+<div class="d-flex justify-content-center align-items-center" style="background-color: #e3f2fd; height: 100vh; width: 100vw; overflow: hidden; position: fixed; top: 0; left: 0; z-index: 1000;">
+
+    <div class="login-box" style="width: 400px; max-width: 90%;">
         <!-- /.login-logo -->
-        <div class="card ">
-            <div class="card-header text-center">
-                    @companyName
-
-
-
+        <div class="card border-0 shadow-lg" style="border-radius: 15px; overflow: hidden;">
+            <div class="card-header text-center text-white py-4" style="background: linear-gradient(45deg, #1e88e5, #1565c0);">
+                <h3 class="mb-0 font-weight-bold" style="letter-spacing: 1px;">@companyName</h3>
             </div>
-            <div class="card-body">
-                <p class="login-box-msg">@Localizer["loginMessage"]</p>
+
+            <div class="card-body p-4">
+                <p class="login-box-msg text-muted text-center mb-4">@Localizer["loginMessage"]</p>
 
                 <form method="post">
-                     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-                    <div class="input-group mb-3">
-                        <input asp-for="Input.Email" type="email" class="form-control" placeholder="Email">
-                       
+                    <div asp-validation-summary="ModelOnly" class="text-danger small text-center mb-3" role="alert"></div>
+
+                    <div class="input-group mb-3 shadow-sm rounded-pill overflow-hidden" style="border: 1px solid #bbdefb;">
+                        <input asp-for="Input.Email" type="email" class="form-control border-0 pl-4" placeholder="Email" style="height: 50px;">
+
                         <div class="input-group-append">
-                            <div class="input-group-text">
+                            <div class="input-group-text bg-white border-0 text-primary px-3">
                                 <span class="fas fa-envelope"></span>
                             </div>
                         </div>
-                        <span asp-validation-for="Input.Email" class="text-danger"></span>
                     </div>
-                  <div class="input-group mb-3">
-                    <input id="passwordInput" asp-for="Input.Password" type="password" class="form-control" placeholder="Password">
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span id="togglePassword" class="fas fa-eye"></span>
+                    <!-- Moved validation outside/below the input group for better alignment -->
+                    <span asp-validation-for="Input.Email" class="text-danger small d-block mb-3 ml-3"></span>
+
+                    <div class="input-group mb-3 shadow-sm rounded-pill overflow-hidden" style="border: 1px solid #bbdefb;">
+                        <input id="passwordInput" asp-for="Input.Password" type="password" class="form-control border-0 pl-4" placeholder="Password" style="height: 50px;">
+                        <div class="input-group-append">
+                            <div class="input-group-text bg-white border-0 text-primary px-2" style="cursor: pointer;">
+                                <span id="togglePassword" class="fas fa-eye"></span>
+                            </div>
+                            <div class="input-group-text bg-white border-0 text-primary px-3">
+                                <span class="fas fa-lock"></span>
+                            </div>
                         </div>
-                        <div class="input-group-text">
-                            <span class="fas fa-lock"></span>
-                        </div> 
                     </div>
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div>
+                    <span asp-validation-for="Input.Password" class="text-danger small d-block mb-4 ml-3"></span>
+
                     <div class="row">
-                       
                         <!-- /.col -->
                         <div class="col-12">
-                            <button id="login-submit" type="submit" class="btn btn-primary btn-block" >@Localizer["signIn"]</button>
+                            <button id="login-submit" type="submit" class="btn btn-primary btn-block rounded-pill shadow-sm font-weight-bold" style="height: 50px; background-color: #1565c0; border: none;">@Localizer["signIn"]</button>
                         </div>
-                       
                         <!-- /.col -->
                     </div>
                 </form>
-                
-               
-              
-              
-                <p class="mb-1">
+
+                <hr class="my-4" style="border-top: 1px solid #e3f2fd;">
+
+                <p class="mb-2 text-center">
                     <a id="forgot-password" asp-area="Identity"
-               asp-route-companyName="@companyName"
-asp-page="/Account/ForgotPassword">Forgot/Reset Password?</a>
+                       asp-route-companyName="@companyName"
+                       asp-page="/Account/ForgotPassword"
+                       class="font-weight-bold" style="color: #1976d2; text-decoration: none;">Forgot/Reset Password?</a>
                 </p>
-                <p class="mb-0">
+                <p class="mb-0 text-center">
                     <a id="resend-confirmation" asp-area="Identity"
-               asp-route-companyName="@companyName"
-asp-page="/Account/ResendEmailConfirmation">@Localizer["confirmAccount"]</a>
+                       asp-route-companyName="@companyName"
+                       asp-page="/Account/ResendEmailConfirmation"
+                       class="small text-muted" style="text-decoration: underline;">@Localizer["confirmAccount"]</a>
                 </p>
-              
+
             </div>
             <!-- /.card-body -->
         </div>

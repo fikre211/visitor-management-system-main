@@ -4,133 +4,116 @@
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 
-
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Employee List";
 }
 
+<div style="padding:30px; background:#f7faff; font-family:Segoe UI, Arial, sans-serif;">
 
-<p>
-    &nbsp;&nbsp; &nbsp;&nbsp;   <a id="createNew" class="btn btn-primary" style="cursor: pointer;"> @Localizer["addNewEmployee"]</a>
-
-   
-</p>
-<form method="post" enctype="multipart/form-data">
-    <div class="row">
-        <label> ;&nbsp;&nbsp;@Localizer["Select Excel File"]</label>
-        <input type="file" name="file" />
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:25px;">
+        <a id="createNew"
+           class="btn btn-primary"
+           style="cursor:pointer; background:#007bff; border-color:#007bff; padding:10px 20px; border-radius:8px; font-weight:600; box-shadow:0 2px 4px rgba(0,0,0,0.1);">
+            <i class="fas fa-plus mr-2"></i> @Localizer["addNewEmployee"]
+        </a>
     </div>
-    <br />
-    <div class="row">
-        <div class="col-3">
-            &nbsp;&nbsp;&nbsp;&nbsp;   <input type="submit" asp-controller="Employees" asp-action="UploadExcel" class="btn btn-success" value="Upload Excel File" />
+
+    <form method="post" enctype="multipart/form-data" style="margin-bottom:25px; padding:15px; border:1px solid #cce5ff; border-radius:8px; background:#eef5ff; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+        <div class="row align-items-end">
+            <div class="col-md-4">
+                <label style="font-weight:600; margin-bottom:5px; color:#0056b3;">@Localizer["Select Excel File"]</label>
+                <input type="file" name="file" class="form-control" style="border-radius:4px; border-color:#b3d7ff;"/>
+            </div>
+            <div class="col-md-3">
+                <input type="submit"
+                       asp-controller="Employees"
+                       asp-action="UploadExcel"
+                       class="btn btn-primary"
+                       value="Upload Excel File"
+                       style="background:#007bff; border-color:#007bff; padding:8px 18px; border-radius:6px; margin-top:28px;" />
+            </div>
+        </div>
+    </form>
+
+
+    <div class="modal fade" id="modal-lg">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content"></div>
         </div>
     </div>
-</form>
-<br />
 
-<!-- Modal for Create/Edit/Details/Delete -->
-<!-- /.modal -->
-<div class="modal fade" id="modal-lg">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <!-- Content will be loaded via AJAX -->
-           
+    <div class="modal fade" id="modal-sm">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content"></div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
-</div>
-@*small modal*@
-<div class="modal fade" id="modal-sm">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <!-- Content will be loaded via AJAX -->
 
+
+    <div style="background:white; border-radius:10px; box-shadow:0px 4px 10px rgba(0,0,0,0.1); overflow-x:auto; height: 500px; overflow-y: auto;">
+        
+        <div style="min-width: 1200px;"> 
+            <table id="myDataTable" class="table table-hover table-head-fixed text-nowrap" style="font-size:14px; border-collapse: separate; border-spacing: 0;">
+                <thead style="position: sticky; top: 0; z-index: 1; background-color: #007bff; color: white;">
+                    <tr>
+                        <th style="padding:12px; border:none; color:white; background:#007bff; width:50px;">#</th>
+                        <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["firstName"]</th>
+                        <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["fatherName"]</th>
+                        <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["email"]</th>
+                        <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["phone"]</th>
+                        <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["gender"]</th>
+                        <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["address"]</th>
+                        <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["age"]</th>
+                        <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["department"]</th>
+                        <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["designation"]</th>
+                        <th style="padding:12px; border:none; color:white; background:#007bff; width:250px; text-align:center;">@Localizer["action"]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int index = 0;
+                    }
+                    @foreach (var item in Model)
+                    {
+                        var bgColor = index % 2 == 0 ? "#f8faff" : "white";
+                        <tr style="background:@bgColor; border-bottom: 1px solid #eee;">
+                            <td style="padding:10px;">@(index + 1)</td> @* Using index + 1 for # instead of item.Id *@
+                            <td style="padding:10px;">@item.FirstName</td>
+                            <td style="padding:10px;">@item.LastName</td>
+                            <td style="padding:10px;">@item.Email</td>
+                            <td style="padding:10px;">@item.Phone</td>
+                            <td style="padding:10px;">@item.Gender</td>
+                            <td style="padding:10px;">@item.Address</td>
+                            <td style="padding:10px;">@item.Age</td>
+                            <td style="padding:10px;">@item.Department.Name</td>
+                            <td style="padding:10px;">@item.Designation.Name</td>
+
+                            <td style="padding:10px; text-align:center;">
+                                <a onclick="showDetails(@item.Id)"
+                                   style="cursor:pointer; background:#2d7dff; color:white; padding:5px 10px; border-radius:4px; text-decoration:none; font-size:12px; margin:2px; display:inline-block;">
+                                    <i class="fas fa-info-circle"></i> @Localizer["detail"]
+                                </a>
+
+                                <a onclick="editEmployee(@item.Id)"
+                                   style="cursor:pointer; background:#4db8ff; color:white; padding:5px 10px; border-radius:4px; text-decoration:none; font-size:12px; margin:2px; display:inline-block;">
+                                    <i class="fas fa-edit"></i> @Localizer["edit"]
+                                </a>
+
+                                <a onclick="deleteEmployee(@item.Id)"
+                                   style="cursor:pointer; background:#ff4d4d; color:white; padding:5px 10px; border-radius:4px; text-decoration:none; font-size:12px; margin:2px; display:inline-block;">
+                                    <i class="fas fa-trash-alt"></i> @Localizer["delete"]
+                                </a>
+                            </td>
+                        </tr>
+
+                        @* @{ index++; } *@
+                    }
+                </tbody>
+            </table>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
+
 </div>
-<div class="card-body table-responsive p-0">
-    <table id="myDataTable" class="table table-bordered table-striped" >
-    <thead>
-        <tr>
-            <th></th>
-            <th>
-                    @Localizer["firstName"]
-            </th>
-            <th>
-                    @Localizer["fatherName"]
-            </th>
-            <th>
-                  @Localizer["email"]
-            </th>
-            <th>
-                   @Localizer["phone"]
-            </th>
-            <th>
-                    @Localizer["gender"]
-            </th>
-            <th>
-                    @Localizer["address"]
-            </th>
-            <th>
-                    @Localizer["age"]
-            </th>
-            <th>
-                     @Localizer["department"]
-            </th>
-            <th>
-                   @Localizer["designation"]
-            </th>
-                <th>@Localizer["action"]</th>
-            </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FirstName)
-                </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Phone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Gender)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Age)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Department.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Designation.Name)
-            </td>
-            <td>
-                        <a class="badge badge-info" style="cursor: pointer;" onclick="showDetails(@item.Id)">@Localizer["detail"]</a> |
-                        <a class="badge badge-warning" style="cursor: pointer;" onclick="editEmployee(@item.Id)">@Localizer["edit"]</a> |
-                        <a class="badge badge-danger" style="cursor: pointer;" onclick="deleteEmployee(@item.Id)">@Localizer["delete"]</a>|
-                       
-                    </td>
-        </tr>
-}
-    </tbody>
-</table>
-</div>
+
 
 @section Scripts {
     <script>
@@ -142,18 +125,21 @@
                 });
             });
         });
+
         function showDetails(id) {
             $.get('@Url.Action("Details", "Employees")/' + id, function (data) {
                 $('#modal-lg .modal-content').html(data);
                 $('#modal-lg').modal('show');
             });
         }
+
         function editEmployee(id) {
             $.get('@Url.Action("Edit", "Employees")/' + id, function (data) {
                 $('#modal-lg .modal-content').html(data);
                 $('#modal-lg').modal('show');
             });
         }
+
         function deleteEmployee(id) {
             $.get('@Url.Action("Delete", "Employees")/' + id, function (data) {
                 $('#modal-lg .modal-content').html(data);

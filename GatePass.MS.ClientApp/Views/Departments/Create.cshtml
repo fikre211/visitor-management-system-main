@@ -1,18 +1,44 @@
 ﻿@model GatePass.MS.Domain.Department
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
-<h1>@Localizer["Create Department"]</h1>
 
-<form asp-action="Create" method="post">
-    
-    <div class="form-group">
-        <label asp-for="Name" class="control-label"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
-    </div>
-    <input type="hidden" asp-for="ParentDepartmentId" />
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">@Localizer["Create"]</button>
-        <a asp-action="Index" class="btn btn-secondary">@Localizer["Cancel"]</a>
-    </div>
-</form>
+<div style="padding:50px; max-width:600px; margin:auto;">
+
+    <h1 style="margin-bottom:25px; color:#0d6efd; font-weight:600;">
+        @Localizer["Create Department"]
+    </h1>
+
+    <form asp-action="Create" method="post"
+          style="background:#ffffff; border:1px solid #e3f2fd; padding:30px;
+                 border-radius:10px; box-shadow:0 4px 10px rgba(0,123,255,.15);">
+
+        <div class="form-group" style="margin-bottom:20px;">
+            <label asp-for="Name" class="control-label"
+                   style="font-weight:500; color:#004085;"></label>
+
+            <input asp-for="Name" class="form-control"
+                   style="border:1px solid #bcdcff; border-radius:6px; padding:8px;" />
+
+            <span asp-validation-for="Name" class="text-danger"
+                  style="font-size:14px; margin-top:5px; display:block;"></span>
+        </div>
+
+        <input type="hidden" asp-for="ParentDepartmentId" />
+
+        <div class="form-group" style="margin-top:15px;">
+            <button type="submit" class="btn btn-primary"
+                    style="background:#0d6efd; border-color:#0d6efd;
+                           padding:8px 16px; border-radius:6px; font-weight:500;">
+                @Localizer["Create"]
+            </button>
+
+            <a asp-action="Index" class="btn btn-secondary"
+               style="background:#6c757d; border-color:#6c757d; color:#fff;
+                      padding:8px 16px; border-radius:6px; margin-left:8px;">
+                @Localizer["Cancel"]
+            </a>
+        </div>
+
+    </form>
+
+</div>

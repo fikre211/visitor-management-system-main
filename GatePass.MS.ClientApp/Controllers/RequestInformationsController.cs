@@ -752,6 +752,10 @@ Best Regards,
         <td style=""padding:10px; border:1px solid #dce8dc; width:40%;""><strong>Purpose of Visit</strong></td>
         <td style=""padding:10px; border:1px solid #dce8dc;"">{request.PurposeOfVisit}</td>
       </tr>
+      <tr style=""background-color:#f5f5f5;"">
+        <td style=""padding:10px; border:1px solid #ddd; width:40%;""><strong>Request ID</strong></td>
+        <td style=""padding:10px; border:1px solid #ddd;"">{request.Id}</td>
+      </tr>
       <tr>
         <td style=""padding:10px; border:1px solid #dce8dc;""><strong>Approved Time Window</strong></td>
         <td style=""padding:10px; border:1px solid #dce8dc;"">

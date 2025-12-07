@@ -8,84 +8,101 @@
 @inject UserManager<ApplicationUser> UserManager
 @inject ApplicationDbContext context
 @{
-     var companyName = ViewContext.RouteData.Values["companyName"]?.ToString();
+    var companyName = ViewContext.RouteData.Values["companyName"]?.ToString();
 
     ViewData["Title"] = "EployeeList";
+    // Define Blue and Accent Blue for inline use
+    var PrimaryBlue = "#0d47a1";     // Deep Blue
+    var AccentBlue = "#00b0ff";      // Vibrant Light Blue
+    var LightAccentBlue = "#e3f2fd"; // Very Pale Blue for background/hover
 }
 
+<div style="padding: 30px">
 
- 
+    <div class="card-body table-responsive p-0" style="border-top: 4px solid @PrimaryBlue; box-shadow: 0 4px 15px rgba(0,0,0,0.1); background: white; border-radius: 8px; margin-top: 15px;">
 
+        <table id="myDataTable" class="table table-hover" style="width: 100%; margin-bottom: 0; border-collapse: separate; border-spacing: 0;">
+            <thead>
+                <tr style="border-bottom: 2px solid @AccentBlue;">
+                    <th style="padding: 15px; font-weight: 600; color: @PrimaryBlue; border: none;">#</th>
+                    <th style="padding: 15px; font-weight: 600; color: @PrimaryBlue; border: none;">
+                        @Localizer["fullName"]
+                    </th>
 
-<div class="card-body table-responsive p-0">
-    <table id="myDataTable" class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>
-                    @Localizer["fullName"]
-                </th>
-
-                <th>
-                    @Localizer["email"]
-                </th>
-
-
-                <th>
-                    @Localizer["department"]
-                </th>
-                <th>
-                    @Localizer["designation"]
-                </th>
-                <th> @Localizer["action"]</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Id)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FirstName)  @Html.DisplayFor(modelItem => item.LastName)
-                    </td>
-
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Email)
-                    </td>
+                    <th style="padding: 15px; font-weight: 600; color: @PrimaryBlue; border: none;">
+                        @Localizer["email"]
+                    </th>
 
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Department.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Designation.Name)
-                    </td>
-                    <td>
-                        @if (SignInManager.IsSignedIn(User))
-                        {
-                            var user = await UserManager.GetUserAsync(User);
-                            var isInAdminRole = await UserManager.IsInRoleAsync(user, "Admin");
-                            var userAccount=context.Users.FirstOrDefault(u => u.EmployeeId == item.Id );
-                            if (isInAdminRole && userAccount != null)
-                            {
-                                <span  class="badge badge-primary">@Localizer["already Registered"]</span>
-
-                            }
-                            else if (isInAdminRole && userAccount==null )
-                            {
-
-                                <a asp-area="Identity" asp-route-companyName="@companyName" asp-page="/Account/Register" class="badge badge-primary" asp-route-employeeId="@item.Id">@Localizer["createAccount"]</a>
-                            }
-                        }
-
-
-                    </td>
+                    <th style="padding: 15px; font-weight: 600; color: @PrimaryBlue; border: none;">
+                        @Localizer["department"]
+                    </th>
+                    <th style="padding: 15px; font-weight: 600; color: @PrimaryBlue; border: none;">
+                        @Localizer["designation"]
+                    </th>
+                    <th style="padding: 15px; font-weight: 600; color: @PrimaryBlue; border: none; text-align: center;"> @Localizer["action"]</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr style="transition: background-color 0.3s;"
+                        onmouseover="this.style.backgroundColor='@LightAccentBlue'"
+                        onmouseout="this.style.backgroundColor='white'">
+
+                        <td style="padding: 15px; vertical-align: middle; border-bottom: 1px solid #e9ecef; color: #555;">
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td style="padding: 15px; vertical-align: middle; border-bottom: 1px solid #e9ecef; font-weight: 500; color: #1a1a1a;">
+                            @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
+                        </td>
+
+                        <td style="padding: 15px; vertical-align: middle; border-bottom: 1px solid #e9ecef; color: @PrimaryBlue;">
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+
+
+                        <td style="padding: 15px; vertical-align: middle; border-bottom: 1px solid #e9ecef; color: #555;">
+                            @Html.DisplayFor(modelItem => item.Department.Name)
+                        </td>
+                        <td style="padding: 15px; vertical-align: middle; border-bottom: 1px solid #e9ecef; color: #555;">
+                            @Html.DisplayFor(modelItem => item.Designation.Name)
+                        </td>
+                        <td style="padding: 15px; vertical-align: middle; border-bottom: 1px solid #e9ecef; text-align: center;">
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                var user = await UserManager.GetUserAsync(User);
+                                var isInAdminRole = await UserManager.IsInRoleAsync(user, "Admin");
+                                var userAccount = context.Users.FirstOrDefault(u => u.EmployeeId == item.Id);
+
+                                if (isInAdminRole && userAccount != null)
+                                {
+                                    <span style="background-color: @PrimaryBlue; color: white; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; display: inline-block;">
+                                        @Localizer["already Registered"]
+                                    </span>
+
+                                }
+                                else if (isInAdminRole && userAccount == null)
+                                {
+                                    <a asp-area="Identity"
+                                       asp-route-companyName="@companyName"
+                                       asp-page="/Account/Register"
+                                       asp-route-employeeId="@item.Id"
+                                       style="cursor: pointer; background-color: @AccentBlue; color: white; padding: 6px 14px; border-radius: 20px; text-decoration: none; font-size: 13px; font-weight: bold; box-shadow: 0 3px 6px rgba(0,176,255,0.3); border: none; display: inline-block;"
+                                       onmouseover="this.style.backgroundColor='#0091ea'"
+                                       onmouseout="this.style.backgroundColor='@AccentBlue'">
+                                        @Localizer["createAccount"]
+                                    </a>
+                                }
+                            }
+
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
 
 @section Scripts {

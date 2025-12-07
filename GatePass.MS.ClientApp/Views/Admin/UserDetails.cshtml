@@ -6,151 +6,136 @@
     ViewData["Title"] = "User Detail";
 }
 
-<!-- Content Header (Page header) -->
-<section class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>@Localizer["Profile"]</h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">@Localizer["Home"]</a></li>
-                    <li class="breadcrumb-item active">@Localizer["User Profile"]</li>
-                </ol>
-            </div>
-        </div>
-    </div><!-- /.container-fluid -->
+<section class="content-header" style="padding: 20px 30px;">
+    <h1 style="font-size:26px; font-weight:600; color:#1565c0;">
+        @Localizer["User Profile"]
+    </h1>
 </section>
 
-<!-- Main content -->
-<section class="content">
+<section class="content" style="padding: 0 30px;">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-3">
-                <!-- Profile Image -->
-                <div class="card card-primary card-outline">
-                    <div class="card-body box-profile">
-                        <div class="text-center">
-                            <img class="profile-user-img img-fluid img-circle"
-                                 src="../../dist/img/user4-128x128.jpg"
-                                 alt="User profile picture">
-                        </div>
-                        <h3 class="profile-username text-center">@Model.UserName</h3>
-                        <p class="text-muted text-center">@Localizer["Software Engineer"]</p>
-                        <ul class="list-group list-group-unbordered mb-3">
-                            <li class="list-group-item">
-                                <b>@Localizer["Department"]</b> <a class="float-right">@Model.Department</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- About Me Box -->
-                <div class="card card-primary">
-                    <div class="card-header">
-                        <h3 class="card-title">@Localizer["Account Status"]</h3>
-                    </div>
-                    <div class="card-body">
+
+        <div class="card" style="border-radius:14px; padding:20px;">
+
+            <!-- TOP PROFILE SECTION -->
+            <div style="display:flex; gap:30px; align-items:center;">
+
+                <!-- IMAGE -->
+                <img src="../../dist/img/user4-128x128.jpg"
+                     class="img-circle"
+                     style="width:120px; height:120px; object-fit:cover; border:3px solid #1e88e5; border-radius:50%;" />
+
+                <!-- USER INFO -->
+                <div style="flex:1;">
+                    <h2 style="margin:0; font-size:22px; font-weight:600; color:#1565c0;">
+                        @Model.UserName
+                    </h2>
+
+                    <p style="margin-top:8px; font-size:15px;">
+                        <b>@Localizer["Department"]:</b> @Model.Department
+                    </p>
+
+                    <!-- ACCOUNT STATUS UI -->
+                    <div style="margin-top:10px;">
+                        <b>@Localizer["Current Status of account"]:</b><br />
+
                         @if (!Model.IsActive)
                         {
-                            <strong> @Localizer["Current Status of account"]</strong>
-                            
-                            <p class="btn btn-warning">Deactive</p>
-                            @if (Model.IsLocked)
-                            {
-                                <h6>@Localizer["and"]</h6>
-
-                                <p class="btn btn-warning">@Localizer["Locked"]</p>
-                            }
-                            <hr />
-                            <strong> @Localizer["Change Account Status"]</strong>
-                            <form asp-action="ActivateUser" method="post">
-                                <input type="hidden" asp-for="Id" />
-                                <div class="form-group">
-                                    <input type="submit" value="Activate" class="btn btn-success" />
-                                </div>
-                            </form>
+                            <span class="btn btn-warning btn-sm" style="margin-top:5px;">Deactive</span>
                         }
                         else
                         {
-                            <strong> @Localizer["Current Status of account"]</strong>
-                        
-                            <br />
-                            <p class="btn btn-success">@Localizer["Active"]</p>
-                            @if (Model.IsLocked)
-                            {
-                                <h6>@Localizer["and"]</h6>
-
-                                <p class="btn btn-danger">@Localizer["Locked"]</p>
-                            }
-                            <hr />
-                            <strong> @Localizer["Change Account Status"]</strong>
-                            <form asp-action="DeactivateUser" method="post">
-                                <input type="hidden" asp-for="Id" />
-                                <div class="form-group">
-                                    <input type="submit" value="Deactivate" class="btn btn-warning" />
-                                </div>
-                            </form>
+                            <span class="btn btn-success btn-sm" style="margin-top:5px;">@Localizer["Active"]</span>
                         }
+
                         @if (Model.IsLocked)
                         {
-                            <strong> @Localizer["Account is locked please review and unlock it"]</strong>
-                            <form asp-action="UnlockUser" method="post">
-                                <input type="hidden" asp-for="Id" />
-                                <div class="form-group">
-                                    <input type="submit" value="Unlock Account" class="btn btn-warning" />
-                                </div>
-                            </form>
+                            <span class="btn btn-danger btn-sm" style="margin-left:5px;">@Localizer["Locked"]</span>
                         }
                     </div>
+
                 </div>
             </div>
-            <div class="col-md-9">
-                <div class="card">
-                    <div class="card-header p-2">
-                        <ul class="nav nav-pills">
-                            <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">@Localizer["Activity"]</a></li>
-                        </ul>
-                    </div><!-- /.card-header -->
-                    <div class="card-body">
-                        <div class="tab-content">
-                            <div class="active tab-pane" id="activity">
-                                <!-- Activity Timeline -->
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>@Localizer["Timestamp"]</th>
-                                            <th>@Localizer["Activity Type"]</th>
-                                            <th>@Localizer["Activity Description"]</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var activity in ViewBag.activities)
-                                        {
-                                            <tr>
-                                                <td>
-                                                    <span class="badge badge-primary" style="background-color: #007bff; color: #fff; padding: 5px 10px; border-radius: 5px;">
-                                                        @activity.Timestamp.ToString("MMM d, yyyy h:mm tt")
-                                                    </span>
-                                                </td>
-                                                <td style="font-weight: bold;">
-                                                    @activity.ActivityType
-                                                </td>
-                                                <td>
-                                                    @activity.ActivityDescription
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
 
-                            </div>
-                        </div>
-                    </div><!-- /.card-body -->
-                </div><!-- /.card -->
+            <hr style="margin:25px 0;" />
+
+            <!-- ACCOUNT ACTIONS -->
+            <div>
+
+                <h5 style="font-weight:600; margin-bottom:10px;">
+                    @Localizer["Change Account Status"]
+                </h5>
+
+                <!-- ACTIVE / DEACTIVE LOGIC -->
+                @if (!Model.IsActive)
+                {
+                    <form asp-action="ActivateUser" method="post" style="margin-bottom:10px;">
+                        <input type="hidden" asp-for="Id" />
+                        <button type="submit" class="btn btn-success">Activate</button>
+                    </form>
+                }
+                else
+                {
+                    <form asp-action="DeactivateUser" method="post" style="margin-bottom:10px;">
+                        <input type="hidden" asp-for="Id" />
+                        <button type="submit" class="btn btn-warning">Deactivate</button>
+                    </form>
+                }
+
+                <!-- UNLOCK BUTTON -->
+                @if (Model.IsLocked)
+                {
+                    <form asp-action="UnlockUser" method="post" style="margin-top:10px;">
+                        <input type="hidden" asp-for="Id" />
+                        <button type="submit" class="btn btn-danger">Unlock Account</button>
+                    </form>
+                }
+
             </div>
-        </div><!-- /.row -->
 
-        </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
-</section><!-- /.content -->
+        </div>
+
+        <!-- ACTIVITY SECTION -->
+        <div class="card" style="margin-top:25px; border-radius:14px;">
+            <div class="card-header" style="background:#e3f2fd; border-radius:14px 14px 0 0;">
+                <h4 style="margin:0; color:#1565c0; font-weight:600;">
+                    @Localizer["Activity Log"]
+                </h4>
+            </div>
+
+            <div class="card-body" style="padding:20px;">
+
+                <table class="table table-bordered" style="border-radius:10px; overflow:hidden;">
+                    <thead style="background:#e3f2fd; color:#1565c0; font-weight:600;">
+                        <tr>
+                            <th>@Localizer["Timestamp"]</th>
+                            <th>@Localizer["Activity Type"]</th>
+                            <th>@Localizer["Activity Description"]</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var activity in ViewBag.activities)
+                        {
+                            <tr>
+                                <td>
+                                    <span style="background:#1e88e5; color:#fff; padding:6px 12px; border-radius:6px; font-size:12px;">
+                                        @activity.Timestamp.ToString("MMM d, yyyy h:mm tt")
+                                    </span>
+                                </td>
+                                <td style="font-weight:600; color:#1565c0;">
+                                    @activity.ActivityType
+                                </td>
+                                <td style="color:#444;">
+                                    @activity.ActivityDescription
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+</section>

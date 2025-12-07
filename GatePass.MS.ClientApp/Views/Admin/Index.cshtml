@@ -6,57 +6,111 @@
     ViewData["Title"] = "User List";
 }
 
+<style>
+    .page-wrapper-padding {
+        padding: 30px;
+    }
 
-<!-- /.row -->
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-               
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body table-responsive p-0">
-                <table id ="myDataTable" class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th> @Localizer["username"]</th>
-                            <th> @Localizer["department"]</th>
-                            <th> @Localizer["roles"]</th>
-                            <th> @Localizer["manage"]</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var (user, index) in Model.OrderBy(u => u.UserName).Select((u, i) => (u, i)))
-                        {
+    .card-accent-blue {
+        border-top: 4px solid #007bff; /* Primary Blue */
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        border-left: none;
+        border-right: none;
+        border-bottom: none;
+    }
+
+    .table-header-blue {
+        background-color: #007bff; /* Primary Blue */
+        color: white;
+    }
+
+    .badge-soft-blue {
+        background-color: #e7f1ff; /* Accent/Light Blue */
+        color: #007bff;
+        border: 1px solid #b3d7ff;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-weight: 500;
+        margin-right: 4px;
+        display: inline-block;
+        margin-bottom: 2px;
+    }
+
+    .btn-action-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: white;
+    }
+
+    .btn-action-outline {
+        color: #007bff;
+        border-color: #007bff;
+        background-color: transparent;
+    }
+
+        .btn-action-outline:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+    .table-hover tbody tr:hover {
+        background-color: #f8f9fa;
+    }
+</style>
+
+<div class="page-wrapper-padding">
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-accent-blue">
+                <div class="card-header bg-white border-bottom-0 d-flex justify-content-between align-items-center py-3">
+                    <h3 class="card-title text-primary m-0"><i class="fas fa-users mr-2"></i> @ViewData["Title"]</h3>
+                </div>
+
+                <div class="card-body table-responsive p-0">
+                    <table id="myDataTable" class="table table-hover text-nowrap">
+                        <thead class="table-header-blue">
                             <tr>
-                                <td>@(index + 1)</td>
-                                <td>@user.UserName</td>
-                                <td>@user.Department</td>
-                                <td>
-                                    @foreach (var role in user.Roles)
-                                    {
-                                        <span>@role </span>
-                                    }
-                                </td>
-                                <td>
-                                    <a class="btn btn-info" asp-action="UserDetails" asp-route-id="@user.Id">@Localizer["detail"]</a>
-                                </td>
-                                <td>
-                                    <a asp-action="EditUserRole" class="btn btn-warning" asp-route-userId="@user.Id">@Localizer["Edit Role"]</a>
-                                </td>
+                                <th style="width: 50px;">#</th>
+                                <th>@Localizer["username"]</th>
+                                <th>@Localizer["department"]</th>
+                                <th>@Localizer["roles"]</th>
+                                <th class="text-center" style="width: 200px;">@Localizer["manage"]</th>
                             </tr>
-                        }
-                    </tbody>
-
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach (var (user, index) in Model.OrderBy(u => u.UserName).Select((u, i) => (u, i)))
+                            {
+                                <tr>
+                                    <td class="align-middle">@(index + 1)</td>
+                                    <td class="align-middle font-weight-bold text-dark">@user.UserName</td>
+                                    <td class="align-middle">@user.Department</td>
+                                    <td class="align-middle">
+                                        @foreach (var role in user.Roles)
+                                        {
+                                            <span class="badge-soft-blue">@role</span>
+                                        }
+                                    </td>
+                                    <td class="align-middle text-center">
+                                        <div class="btn-group" role="group">
+                                            <a class="btn btn-sm btn-action-outline mr-1" asp-action="UserDetails" asp-route-id="@user.Id">
+                                                @Localizer["detail"]
+                                            </a>
+                                            <a class="btn btn-sm btn-action-primary" asp-action="EditUserRole" asp-route-userId="@user.Id">
+                                                @Localizer["Edit Role"]
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <!-- /.card-body -->
         </div>
-        <!-- /.card -->
     </div>
 </div>
 
- @section Scripts {
-   
+@section Scripts {
+
 }

@@ -8,79 +8,78 @@
 @{
     ViewData["Title"] = "Index";
 }
+<div style="padding: 30px">
 
-
-<!-- Modal for Create/Edit/Details/Delete -->
-<!-- /.modal -->
-<div class="modal fade" id="modal-lg">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <!-- Content will be loaded via AJAX -->
-
+    <div class="modal fade" id="modal-lg">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="border-top: 5px solid #0d47a1;">
+            </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
-</div>
-@*small modal*@
-<div class="modal fade" id="modal-sm">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <!-- Content will be loaded via AJAX -->
-
+    @*small modal*@
+    <div class="modal fade" id="modal-sm">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content" style="border-top: 5px solid #0d47a1;">
+            </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
-</div>
-<div class="card-body table-responsive p-0">
-    <table id="myDataTable" class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th></th>
-                <th>
-                    @Localizer["Name"]
-                </th>
-                <th>
-                    @Localizer["Email"]
-                </th>
-                <th>
-                    @Localizer["Rating"]
-                </th>
-                <th>
-                    @Localizer["Comment"]
-                </th>
-                <th>@Localizer["action"]</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+
+    <div class="card-body table-responsive p-0" style="border-top: 4px solid #0d47a1; box-shadow: 0 4px 15px rgba(0,0,0,0.1); background: white; border-radius: 8px; margin-top: 15px;">
+
+        <table id="myDataTable" class="table table-hover" style="width: 100%; margin-bottom: 0; border-collapse: separate; border-spacing: 0;">
+            <thead style="background-color: #0d47a1; color: #ffffff;">
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Id)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Email)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Rating)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Comment)
-                    </td>
-            
-                    <td>
-                        <a class="badge badge-info" style="cursor: pointer;" onclick="showDetails(@item.Id)">@Localizer["detail"]</a> |
-
-                    </td>
+                    <th style="border: none; padding: 15px; font-weight: 500; letter-spacing: 0.5px;">#</th>
+                    <th style="border: none; padding: 15px; font-weight: 500; letter-spacing: 0.5px;">
+                        @Localizer["Name"]
+                    </th>
+                    <th style="border: none; padding: 15px; font-weight: 500; letter-spacing: 0.5px;">
+                        @Localizer["Email"]
+                    </th>
+                    <th style="border: none; padding: 15px; font-weight: 500; letter-spacing: 0.5px;">
+                        @Localizer["Rating"]
+                    </th>
+                    <th style="border: none; padding: 15px; font-weight: 500; letter-spacing: 0.5px;">
+                        @Localizer["Comment"]
+                    </th>
+                    <th style="border: none; padding: 15px; font-weight: 500; letter-spacing: 0.5px; text-align: center;">@Localizer["action"]</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr style="transition: background-color 0.3s;">
+                        <td style="padding: 15px; vertical-align: middle; border-bottom: 1px solid #e9ecef; color: #555;">
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td style="padding: 15px; vertical-align: middle; border-bottom: 1px solid #e9ecef; font-weight: 600; color: #0d47a1;">
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td style="padding: 15px; vertical-align: middle; border-bottom: 1px solid #e9ecef; color: #555;">
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td style="padding: 15px; vertical-align: middle; border-bottom: 1px solid #e9ecef; color: #555;">
+                            <span style="background-color: #e3f2fd; color: #0d47a1; padding: 4px 8px; border-radius: 4px; font-size: 0.9em; font-weight: bold;">
+                                @Html.DisplayFor(modelItem => item.Rating)
+                            </span>
+                        </td>
+                        <td style="padding: 15px; vertical-align: middle; border-bottom: 1px solid #e9ecef; color: #555;">
+                            @Html.DisplayFor(modelItem => item.Comment)
+                        </td>
+
+                        <td style="padding: 15px; vertical-align: middle; border-bottom: 1px solid #e9ecef; text-align: center;">
+                            <a style="cursor: pointer; background-color: #00b0ff; color: white; padding: 6px 16px; border-radius: 20px; text-decoration: none; font-size: 13px; box-shadow: 0 2px 4px rgba(0,176,255,0.3); border: none; display: inline-block;"
+                               onmouseover="this.style.backgroundColor='#0091ea'"
+                               onmouseout="this.style.backgroundColor='#00b0ff'"
+                               onclick="showDetails(@item.Id)">
+                                @Localizer["detail"]
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
 
 @section Scripts {

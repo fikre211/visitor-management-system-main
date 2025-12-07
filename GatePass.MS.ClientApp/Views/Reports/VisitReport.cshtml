@@ -12,23 +12,26 @@
     var employees = Model.Employees.Select(e => new { e.Id, e.FirstName }).ToList();
 }
 
-<div class="container-worap">
+<div style="padding: 30px;">
     <div class="row">
         <div class="col-12">
-            <div class="card">
-                <div class="card-header bg-info">
-                    <form method="get" action="@Url.Action("VisitReport", "Reports")" class="row g-3 align-items-center">
-                        
-                        <div class="col-md-2 form-group">
-                            <label for="startDate" class="form-label">@Localizer["Start Date"]:</label>
+            <div class="card" style="border-top: 4px solid #007bff; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-left: none; border-right: none; border-bottom: none;">
+
+                <div class="card-header" style="background-color: #f0f7ff; border-bottom: 1px solid #cce5ff; padding: 20px;">
+                    <form method="get" action="@Url.Action("VisitReport", "Reports")" class="row g-3 align-items-end">
+
+                        <div class="col-md-2 form-group mb-0">
+                            <label for="startDate" class="form-label" style="color: #0056b3; font-weight: 600; margin-bottom: 5px;">@Localizer["Start Date"]:</label>
                             <input type="date" id="startDate" name="startDate" class="form-control" value="@Model.StartDate?.ToString("yyyy-MM-dd")" />
                         </div>
-                        <div class="col-md-2 form-group">
-                            <label for="endDate" class="form-label">@Localizer["End Date"]:</label>
+
+                        <div class="col-md-2 form-group mb-0">
+                            <label for="endDate" class="form-label" style="color: #0056b3; font-weight: 600; margin-bottom: 5px;">@Localizer["End Date"]:</label>
                             <input type="date" id="endDate" name="endDate" class="form-control" value="@Model.EndDate?.ToString("yyyy-MM-dd")" />
                         </div>
-                        <div class="col-md-2 form-group">
-                            <label for="status" class="form-label">@Localizer["Status"]:  </label><br />
+
+                        <div class="col-md-2 form-group mb-0">
+                            <label for="status" class="form-label" style="color: #0056b3; font-weight: 600; margin-bottom: 5px;">@Localizer["Status"]:</label>
                             <select id="status" name="status" class="form-control">
                                 <option value="">@Localizer["All"]</option>
                                 @foreach (var status in statusOptions)
@@ -37,8 +40,9 @@
                                 }
                             </select>
                         </div>
-                        <div class="col-md-2 form-group">
-                            <label for="employee" class="form-label">@Localizer["Employee"]:</label>
+
+                        <div class="col-md-2 form-group mb-0">
+                            <label for="employee" class="form-label" style="color: #0056b3; font-weight: 600; margin-bottom: 5px;">@Localizer["Employee"]:</label>
                             <select id="employee" name="employeeId" class="form-control">
                                 <option value="">@Localizer["All"]</option>
                                 @foreach (var employee in employees)
@@ -47,69 +51,102 @@
                                 }
                             </select>
                         </div>
-                        <div class="col">
-                            <button type="submit" class="btn btn-success float-right"> <i class="fas fa-filter"></i> @Localizer["Filter"]</button>
+
+                        <div class="col-md-4 form-group mb-0 text-right">
+                            <button type="submit" class="btn btn-primary px-4" style="background-color: #007bff; border-color: #007bff; color: white; margin-top: 10px;">
+                                <i class="fas fa-filter mr-1"></i> @Localizer["Filter"]
+                            </button>
                         </div>
                     </form>
-
                 </div>
-                <!-- /.card-header -->
+                <div class="card-body p-0" style="height: 500px; overflow-y: auto;">
 
-                <div class="card-body table-responsive p-0" style="height: 420px;">
-                    <table id="myDataTable" class="table table-bordered table-striped table-head-fixed">
-                        <thead>
-                            <tr>
-                                <th>@Localizer["Request ID"]</th>
-                                <th>@Localizer["Visitor Name"]</th>
-                                <th>@Localizer["Visitor Phone"]</th>
-                                <th>@Localizer["Visitor Email"]</th>
-
-                                <th>@Localizer["Additional Guests"]</th>
-                                <th>@Localizer["Devices"]</th>
-
-                                <th>@Localizer["Approved Time Start"]</th>
-                                <th>@Localizer["Approved Time End"]</th>
-                                <th>@Localizer["Purpose"]</th>
-                                <th>@Localizer["Inviter"]</th>
-                                <th>@Localizer["Request Date"]</th>
-                                <th>@Localizer["Approved or Rejected By"]</th>
-                                <th>@Localizer["Status"]</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            @foreach (var report in Model.Reports)
-                            {
+                    <div style="overflow-x: auto;">
+                        <table id="myDataTable" class="table table-hover table-head-fixed text-nowrap">
+                            <thead style="background-color: #007bff; color: black;">
                                 <tr>
-                                    <td>@report.RequestId</td>
-                                    <td>@report.GuestName</td>
-                                    <td>@report.Phone</td>
-                                    <td>@report.Email</td>
+                                    <th>@Localizer["Request ID"]</th>
+                                    <th>@Localizer["Visitor Name"]</th>
+                                    <th>@Localizer["Visitor Phone"]</th>
+                                    <th>@Localizer["Visitor Email"]</th>
 
-                                    <!-- NEW FIELDS -->
-                                    <td style="width: 120px;">@report.AdditionalGuests</td>
-                                    <td style="width: 120px;">@report.Devices</td>
+                                    <th>@Localizer["Additional Guests"]</th>
+                                    <th>@Localizer["Devices"]</th>
 
-                                    <td>@report.ApprovedDateTimeStart</td>
-                                    <td>@report.ApprovedDateTimeEnd</td>
-                                    <td>@report.PurposeOfVisit</td>
-                                    <td>@report.EmployeeName</td>
-                                    <td>@report.Timestamp</td>
-                                    <td>@report.Approver</td>
-                                    <td>@report.Status</td>
+                                    <th>@Localizer["Approved Time Start"]</th>
+                                    <th>@Localizer["Approved Time End"]</th>
+                                    <th>@Localizer["Purpose"]</th>
+                                    <th>@Localizer["Inviter"]</th>
+                                    <th>@Localizer["Request Date"]</th>
+                                    <th>@Localizer["Approved or Rejected By"]</th>
+                                    <th>@Localizer["Status"]</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
 
+                            <tbody>
+                                @foreach (var report in Model.Reports)
+                                {
+                                    <tr>
+                                        <td class="align-middle">@report.RequestId</td>
+                                        <td class="align-middle font-weight-bold">@report.GuestName</td>
+                                        <td class="align-middle">@report.Phone</td>
+                                        <td class="align-middle">@report.Email</td>
+
+                                        <td class="align-middle text-center" style="width: 120px;">
+                                            @if (!string.IsNullOrEmpty(report.AdditionalGuests))
+                                            {
+                                                <span class="badge badge-info">@report.AdditionalGuests</span>
+                                            }
+                                            else
+                                            {
+                                                <span>-</span>
+                                            }
+                                        </td>
+                                        <td class="align-middle text-center" style="width: 120px;">
+                                            @if (!string.IsNullOrEmpty(report.Devices))
+                                            {
+                                                <i class="fas fa-laptop text-secondary"></i>
+                                            }
+                                            else
+                                            {
+                                                <span>-</span>
+                                            }
+                                        </td>
+
+                                        <td class="align-middle">@report.ApprovedDateTimeStart</td>
+                                        <td class="align-middle">@report.ApprovedDateTimeEnd</td>
+                                        <td class="align-middle">@report.PurposeOfVisit</td>
+                                        <td class="align-middle">@report.EmployeeName</td>
+                                        <td class="align-middle">@report.Timestamp</td>
+                                        <td class="align-middle">@report.Approver</td>
+                                        <td class="align-middle">
+                                            @{
+                                                string statusStyle = "";
+                                                if (report.Status == "Approved")
+                                                {
+                                                    statusStyle = "color: #28a745; font-weight: bold;"; // Green
+                                                }
+                                                else if (report.Status == "Rejected")
+                                                {
+                                                    statusStyle = "color: #dc3545; font-weight: bold;"; // Red
+                                                }
+                                                else
+                                                {
+                                                    statusStyle = "color: #007bff; font-weight: bold;"; // Blue
+                                                }
+                                            }
+                                            <span style="@statusStyle">@report.Status</span>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <!-- /.card-body -->
             </div>
-            <!-- /.card -->
         </div>
     </div>
 </div>
-<!-- /.row -->
 @section Scripts {
     <script>
         document.addEventListener('DOMContentLoaded', function () {

@@ -5,32 +5,70 @@
     ViewData["Title"] = "Index";
 }
 
+<div style="padding:50px;">
 
-<p>
-    <a asp-action="Create">@Localizer["Create New Company"]</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Localizer["Companies Lists"]
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+    <p>
+        <a asp-action="Create"
+           style="
+                background:#007bff;
+                color:white;
+                padding:10px 18px;
+                border-radius:6px;
+                text-decoration:none;
+                font-weight:600;
+                box-shadow:0 2px 6px rgba(0,0,0,0.1);
+                transition:0.3s;
+           "
+           onmouseover="this.style.background='#0056b3'"
+           onmouseout="this.style.background='#007bff'">
+            @Localizer["Create New Company"]
+        </a>
+    </p>
+
+    <table class="table"
+           style="
+                background:white;
+                border-radius:10px;
+                overflow:hidden;
+                box-shadow:0 3px 10px rgba(0,0,0,0.1);
+           ">
+        <thead style="background:#0d6efd; color:white;">
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">@Localizer["Edit"]</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">@Localizer["Details"]</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">@Localizer["Delete"]</a>
-                </td>
+                <th style="padding:14px; font-size:16px;">
+                    @Localizer["Companies Lists"]
+                </th>
+                <th style="padding:14px;"></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr style="border-bottom:1px solid #e5e5e5;">
+                    <td style="padding:14px; font-weight:500;">
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td style="padding:14px;">
+
+                        <a asp-action="Edit" asp-route-id="@item.Id"
+                           style="color:#0d6efd; font-weight:600; text-decoration:none; margin-right:8px;">
+                            @Localizer["Edit"]
+                        </a>
+
+                        <a asp-action="Details" asp-route-id="@item.Id"
+                           style="color:#0d6efd; font-weight:600; text-decoration:none; margin-right:8px;">
+                            @Localizer["Details"]
+                        </a>
+
+                        <a asp-action="Delete" asp-route-id="@item.Id"
+                           style="color:#dc3545; font-weight:600; text-decoration:none;">
+                            @Localizer["Delete"]
+                        </a>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

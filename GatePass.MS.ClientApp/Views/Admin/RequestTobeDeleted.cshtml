@@ -6,74 +6,126 @@
     ViewData["Title"] = "Index";
 }
 
+<style>
+    .page-wrapper-padding {
+        padding: 30px;
+    }
+
+    .card-accent-blue {
+        border-top: 4px solid #007bff; /* Primary Blue */
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        border-left: none;
+        border-right: none;
+        border-bottom: none;
+    }
+
+    .table-header-blue {
+        background-color: #007bff; /* Primary Blue */
+        color: white;
+    }
+
+    /* Soft blue badge for statuses */
+    .badge-soft-blue {
+        background-color: #e7f1ff;
+        color: #007bff;
+        border: 1px solid #b3d7ff;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-weight: 500;
+        font-size: 0.85rem;
+    }
+
+    /* Table row hover effect */
+    .table-hover tbody tr:hover {
+        background-color: #f8f9fa;
+    }
+
+    /* Action button styling */
+    .btn-action-delete {
+        color: #dc3545;
+        background-color: transparent;
+        border: 1px solid #dc3545;
+        transition: all 0.3s;
+    }
+
+        .btn-action-delete:hover {
+            background-color: #dc3545;
+            color: white;
+        }
+</style>
+
 @*small modal*@
 <div class="modal fade" id="modal-sm">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
-            <!-- Content will be loaded via AJAX -->
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
-<!-- /.row -->
-<div class="row container">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-               
-                <div class="card-tools">
-                   
+
+<div class="page-wrapper-padding">
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-accent-blue">
+                <div class="card-header bg-white border-bottom-0 d-flex justify-content-between align-items-center py-3">
+                    <h3 class="card-title text-primary m-0">
+                        <i class="fas fa-clipboard-list mr-2"></i> @Localizer["Request List"]
+                    </h3>
+                    <div class="card-tools">
+                    </div>
+                </div>
+
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-hover text-nowrap">
+                        <thead class="table-header-blue">
+                            <tr>
+                                <th style="width: 50px;">Id</th>
+                                <th>Company / @Localizer["guestFullName"]</th>
+                                <th>@Localizer["visitDateStart"]</th>
+                                <th>@Localizer["visitDateEnd"]</th>
+                                <th>@Localizer["approvalStatus"]</th>
+                                <th class="text-center" style="width: 100px;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Count; i++)
+                            {
+                                var invitation = Model[i];
+                                <tr>
+                                    <td class="align-middle">@invitation.Id</td>
+                                    <td class="align-middle font-weight-bold text-dark">
+                                        @if (invitation.IsIndividual)
+                                        {
+                                            <span><i class="fas fa-user text-muted mr-1"></i> @invitation.Guest?.FirstName @invitation.Guest?.LastName</span>
+                                        }
+                                        else
+                                        {
+                                            <span><i class="fas fa-building text-muted mr-1"></i> @invitation.Guest?.CompanyName</span>
+                                        }
+                                    </td>
+                                    <td class="align-middle">
+                                        <i class="far fa-calendar-alt text-primary mr-1"></i> @invitation.VisitDateTimeStart.ToString("yyyy-MM-dd")
+                                    </td>
+                                    <td class="align-middle">
+                                        <i class="far fa-calendar-check text-primary mr-1"></i> @invitation.VisitDateTimeEnd.ToString("yyyy-MM-dd")
+                                    </td>
+                                    <td class="align-middle">
+                                        <span class="badge badge-soft-blue">
+                                            @invitation.Status
+                                        </span>
+                                    </td>
+                                    <td class="align-middle text-center">
+                                        <button class="btn btn-sm btn-action-delete" onclick="deleteRequest(@invitation.Id)" title="@Localizer["delete"]">
+                                            <i class="fas fa-trash-alt"></i> @Localizer["delete"]
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <!-- /.card-header -->
-            <div class="card-body table-responsive p-0">
-                <table class="table table-hover text-nowrap">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th> Company/@Localizer["guestFullName"]</th>
-                            <th> @Localizer["visitDateStart"]</th>
-                            <th> @Localizer["visitDateEnd"]</th>
-                            <th> @Localizer["approvalStatus"]</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for (int i = 0; i < Model.Count; i++)
-                        {
-
-                          var invitation = Model[i];                           
-                            <tr>
-                                <td>@invitation.Id</td>
-                                <td>
-                                    @if (invitation.IsIndividual)
-                                    {
-                                        @invitation.Guest?.FirstName @invitation.Guest?.LastName
-                                    }
-                                    else
-                                    {
-                                        @invitation.Guest?.CompanyName
-                                    }
-                                </td>
-                                <td>@invitation.VisitDateTimeStart.ToString("yyyy-MM-dd")</td>
-                                <td>@invitation.VisitDateTimeEnd.ToString("yyyy-MM-dd")</td>                              
-                                <td>
-                                   @invitation.Status
-                                </td>
-                                <td>
-                                    <div class="col-6">
-                                        <a class="btn btn-danger" style="cursor: pointer;" onclick="deleteRequest(@invitation.Id)">@Localizer["delete"]</a>
-                                    </div>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-            <!-- /.card-body -->
         </div>
-        <!-- /.card -->
     </div>
 </div>
 

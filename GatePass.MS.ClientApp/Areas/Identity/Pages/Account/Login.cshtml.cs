@@ -134,7 +134,14 @@ namespace GatePass.MS.ClientApp.Areas.Identity.Pages.Account
             returnUrl ??= $"/{companyName}";
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            if (!ModelState.IsValid || string.IsNullOrWhiteSpace(Input?.Email))
+            {
+                // Do NOT try to find user when Email is missing.
+                return Page();
+            }
+
             var user = await _signInManager.UserManager.FindByEmailAsync(Input.Email);
+
 
 
 

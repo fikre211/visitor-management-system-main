@@ -12,60 +12,75 @@
 
 
 
-    <div class="mb-3">
-        <a asp-action="Create" class="btn btn-primary">
+<div style="padding:50px;">
+
+    <div class="mb-3" style="margin-bottom:20px;">
+        <a asp-action="Create" class="btn btn-primary"
+           style="background:#0d6efd; border-color:#0d6efd; padding:8px 14px; border-radius:6px; font-weight:500;">
             <i class="fas fa-plus"></i> @Localizer["createNewDepartment"]
         </a>
     </div>
 
+    <div class="card"
+         style="border-radius:10px; border:1px solid #e3f2fd; box-shadow:0 4px 10px rgba(0,123,255,.15); overflow:hidden;">
 
+        <div class="card-header text-white"
+             style="background:linear-gradient(90deg,#0d6efd,#0a58ca); padding:15px 20px; border-bottom:2px solid #004baf;">
+            <h3 class="card-title" style="margin:0; font-weight:600;">@Localizer["departmentLists"]</h3>
+        </div>
 
-<div class="card">
-    <div class="card-header bg-primary text-white">
-        <h3 class="card-title">@Localizer["departmentLists"]</h3>
-    </div>
-    <div class="card-body p-0">
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th>@Localizer["departmentName"]</th>
-                    <th class="text-right">@Localizer["actions"]</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var department in Model.Where(d => d.ParentDepartmentId == null))
-                {
-                    <tr data-widget="expandable-table" aria-expanded="true">
-                        <td>
-                            <i class="expandable-table-caret fas fa-caret-right fa-fw"></i>
-                            @department.Name
-                        </td>
-                        <td class="text-right">
-                             <a asp-action="Delete" asp-route-id="@department.Id" class="btn btn-danger btn-sm" title="Delete Department">
-                                <i class="fas fa-trash"></i>
-                            </a>
-                            <a asp-action="Create" asp-route-parentId="@department.Id" class="btn btn-success btn-sm ml-2" title="Add Sub-department">
-                                <i class="fas fa-plus"></i>
-                            </a>
-                            <a asp-action="Edit" asp-route-id="@department.Id" class="btn btn-warning btn-sm ml-2" title="Edit Department">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                           
-                        </td>
+        <div class="card-body p-0" style="padding:0;">
+            <table class="table table-striped table-hover" style="margin:0;">
+                <thead style="background:#e7f1ff; color:#004085; border-bottom:2px solid #0d6efd;">
+                    <tr>
+                        <th>@Localizer["departmentName"]</th>
+                        <th class="text-right">@Localizer["actions"]</th>
                     </tr>
-                    <tr class="expandable-body">
-                        <td colspan="2">
-                            <div class="p-0">
-                                <table class="table table-hover">
-                                    <tbody>
-                                        @await Html.PartialAsync("_DepartmentPartial", department)
-                                    </tbody>
-                                </table>
-                            </div>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+
+                <tbody>
+                    @foreach (var department in Model.Where(d => d.ParentDepartmentId == null))
+                    {
+                        <tr data-widget="expandable-table" aria-expanded="true" style="cursor:pointer;">
+                            <td>
+                                <i class="expandable-table-caret fas fa-caret-right fa-fw" style="color:#0d6efd; margin-right:6px;"></i>
+                                @department.Name
+                            </td>
+
+                            <td class="text-right">
+                                <a asp-action="Delete" asp-route-id="@department.Id" class="btn btn-danger btn-sm"
+                                   style="background:#dc3545; border-color:#dc3545; margin-left:4px;" title="Delete">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+
+                                <a asp-action="Create" asp-route-parentId="@department.Id" class="btn btn-sm"
+                                   style="background:#0ba8e6; color:#fff; border-color:#0ba8e6; margin-left:4px;" title="Add Sub">
+                                    <i class="fas fa-plus"></i>
+                                </a>
+
+                                <a asp-action="Edit" asp-route-id="@department.Id" class="btn btn-warning btn-sm"
+                                   style="background:#ffc107; border-color:#ffca2c; color:#000; margin-left:4px;" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+                        <tr class="expandable-body">
+                            <td colspan="2">
+                                <div style="padding:0;">
+                                    <table class="table table-hover" style="margin:0;">
+                                        <tbody>
+                                            @await Html.PartialAsync("_DepartmentPartial", department)
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
     </div>
+
 </div>
