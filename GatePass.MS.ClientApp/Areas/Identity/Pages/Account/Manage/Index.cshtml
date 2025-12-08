@@ -1,380 +1,169 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Profile";
+    ViewData["Title"] = "My Profile";
     ViewData["ActivePage"] = ManageNavPages.Index;
     var companyName = ViewContext.RouteData.Values["companyName"]?.ToString();
 }
-<style>
-    :root {
-        --deep-blue: #0d47a1;
-        --accent-blue: #42a5f5;
-        --soft-blue-bg: #f4f8fb;
-        --text-dark: #2c3e50;
-        /* Proportional Font Definition */
-        --main-font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    }
 
-    body {
-        font-family: var(--main-font);
-        overflow-x: hidden; /* Prevent horizontal scroll */
-    }
+<div style="background-color: #f4f6f9; min-height: 90vh; padding: 40px 15px; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
 
-    .unified-profile-card {
-        background-color: #fff;
-        border-radius: 12px; /* Slightly tighter radius */
-        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-        overflow: hidden;
-        display: flex;
-        flex-wrap: wrap;
-        margin: 10px auto; /* Centered with less margin */
-        border: 1px solid #e1e8ee;
-        max-width: 1100px; /* Constrain width to fit window */
-        width: 100%;
-    }
+    @try
+    {
+        <div style="background: #ffffff; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); overflow: hidden; max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap;">
 
-    .profile-sidebar {
-        background: linear-gradient(160deg, var(--deep-blue) 0%, #082d6b 100%);
-        color: #fff;
-        padding: 25px 20px; /* Reduced padding */
-        width: 100%;
-        text-align: center;
-        position: relative;
-    }
+            <div class="col-md-4 col-lg-3" style="background: linear-gradient(160deg, #0056b3 0%, #003d80 100%); padding: 40px 25px; text-align: center; color: #ffffff;">
 
-    @@media (min-width: 992px) {
-        .profile-sidebar {
-            width: 280px; /* Reduced width from 350px to fit better */
-            flex-shrink: 0;
-            text-align: left;
-        }
-    }
-
-    /* Profile Image Area */
-    .profile-img-container {
-        position: relative;
-        margin-bottom: 15px;
-        display: inline-block;
-    }
-
-    .profile-user-img {
-        width: 100px; /* Smaller image */
-        height: 100px;
-        border-radius: 50%;
-        border: 3px solid rgba(255,255,255,0.3);
-        padding: 3px;
-        object-fit: cover;
-        background-color: #fff;
-    }
-
-    .profile-name {
-        font-size: 1.25rem; /* Adjusted font size */
-        font-weight: 700;
-        margin-bottom: 2px;
-        color: #fff;
-    }
-
-    .profile-email {
-        color: rgba(255,255,255,0.7);
-        font-size: 0.85rem;
-        margin-bottom: 20px;
-    }
-
-    /* Sidebar Stats List */
-    .sidebar-stats {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        text-align: left;
-        font-size: 0.9rem; /* Compact text */
-    }
-
-        .sidebar-stats li {
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding: 10px 0; /* Reduced padding */
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-            .sidebar-stats li:last-child {
-                border-bottom: none;
-            }
-
-        .sidebar-stats span {
-            font-weight: 600;
-            color: var(--accent-blue);
-        }
-
-    .sidebar-label {
-        color: rgba(255,255,255,0.8);
-        font-weight: normal;
-    }
-
-    /* Right Content Area */
-    .profile-content {
-        flex-grow: 1;
-        padding: 25px 30px; /* Compact padding */
-        background-color: #fff;
-    }
-
-    /* About Me Top Banner inside Content */
-    .info-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-        gap: 15px; /* Tighter gap */
-        margin-bottom: 25px;
-        padding-bottom: 20px;
-        border-bottom: 1px dashed #e1e8ee;
-    }
-
-    .info-box {
-        background-color: var(--soft-blue-bg);
-        padding: 10px 15px; /* Compact box */
-        border-radius: 8px;
-        border-left: 3px solid var(--deep-blue);
-    }
-
-        .info-box h6 {
-            color: var(--deep-blue);
-            font-weight: 700;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            margin-bottom: 3px;
-        }
-
-        .info-box p {
-            margin: 0;
-            color: var(--text-dark);
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-
-    /* Form Styling */
-    .section-header {
-        color: var(--deep-blue);
-        font-weight: 700;
-        font-size: 1.2rem;
-        margin-bottom: 15px;
-        display: flex;
-        align-items: center;
-    }
-
-        .section-header:before {
-            content: '';
-            display: inline-block;
-            width: 5px;
-            height: 20px;
-            background-color: var(--accent-blue);
-            margin-right: 10px;
-            border-radius: 3px;
-        }
-
-    .form-control {
-        background-color: #fcfcfc;
-        border: 1px solid #dee2e6;
-        border-radius: 5px;
-        height: 36px; /* Compact height */
-        padding: 5px 12px;
-        font-size: 0.9rem; /* Proportional text size */
-        transition: all 0.2s;
-    }
-
-        .form-control:focus {
-            background-color: #fff;
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 0 3px rgba(66, 165, 245, 0.1);
-        }
-
-    .form-label {
-        color: #555;
-        font-weight: 600;
-        font-size: 0.85rem;
-        margin-bottom: 4px;
-        display: block;
-    }
-
-    /* Utility to tighten Bootstrap columns */
-    .mb-3 {
-        margin-bottom: 10px !important;
-    }
-
-    .mb-4 {
-        margin-bottom: 15px !important;
-    }
-
-    .btn-solid-blue {
-        background-color: var(--deep-blue);
-        color: white;
-        padding: 8px 25px; /* Compact button */
-        border-radius: 6px;
-        border: none;
-        font-weight: 600;
-        font-size: 0.9rem;
-        letter-spacing: 0.3px;
-        box-shadow: 0 3px 10px rgba(13, 71, 161, 0.2);
-        transition: transform 0.2s;
-    }
-
-        .btn-solid-blue:hover {
-            background-color: #082d6b;
-            color: #fff;
-            transform: translateY(-1px);
-        }
-
-    .btn-outline-light-custom {
-        border: 1px solid rgba(255,255,255,0.4);
-        color: white;
-        border-radius: 50px;
-        padding: 5px 15px;
-        font-size: 0.8rem;
-        transition: all 0.3s;
-    }
-
-        .btn-outline-light-custom:hover {
-            background-color: white;
-            color: var(--deep-blue);
-            border-color: white;
-            text-decoration: none;
-        }
-</style>
-
-<h3>@ViewData["Title"]</h3>
-<partial name="_StatusMessage" for="StatusMessage" />
-
-@try
-{
-    <div class="unified-profile-card">
-
-        <div class="profile-sidebar">
-            <div class="text-center text-lg-left">
-                <div class="profile-img-container">
-                    <img src="@Url.Content(Model.Input.ProfilePicture)" class="profile-user-img" alt="User profile picture">
+                <div style="margin-bottom: 25px; position: relative; display: inline-block;">
+                    <div style="width: 130px; height: 130px; border-radius: 50%; padding: 4px; background: rgba(255,255,255,0.2);">
+                        <img src="@Url.Content(Model.Input.ProfilePicture)" alt="Profile"
+                             style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background-color: #fff;">
+                    </div>
                 </div>
-                <div class="profile-name">@Model.Input.firstname @Model.Input.lastname</div>
-                <div class="profile-email">@Model.Input.email</div>
 
-                <div class="mt-2 mb-3">
-                    <a class="btn btn-outline-light-custom"
-                       asp-area="Identity"
+                <h4 style="margin: 0; font-weight: 700; font-size: 1.4rem; letter-spacing: 0.5px; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+                    @Model.Input.firstname @Model.Input.lastname
+                </h4>
+                <p style="margin: 5px 0 25px 0; font-size: 0.9rem; opacity: 0.8; font-weight: 300;">@Model.Input.email</p>
+
+                <a asp-area="Identity"
+                   asp-page="/Account/Manage/ChangePassword"
+                   asp-route-companyName="@companyName"
+                   style="display: inline-block; text-decoration: none; background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.4); padding: 10px 25px; border-radius: 50px; font-size: 0.85rem; transition: all 0.3s; font-weight: 600; margin-bottom: 30px;">
+                    <i class="fas fa-lock mr-2"></i> Change Password
+                </a>
+
+                <hr style="border-top: 1px solid rgba(255,255,255,0.15); margin-bottom: 30px;">
+
+                <div style="text-align: left;">
+                    <div style="margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
+                        <small style="text-transform: uppercase; letter-spacing: 1px; opacity: 0.6; font-size: 0.7rem;">Age</small>
+                        <div style="font-size: 1.1rem; font-weight: 500;">@Model.Input.age Years</div>
+                    </div>
+                    <div style="margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
+                        <small style="text-transform: uppercase; letter-spacing: 1px; opacity: 0.6; font-size: 0.7rem;">Gender</small>
+                        <div style="font-size: 1.1rem; font-weight: 500;">@Model.Input.gender</div>
+                    </div>
+                    <div>
+                        <small style="text-transform: uppercase; letter-spacing: 1px; opacity: 0.6; font-size: 0.7rem;">Mobile</small>
+                        <div style="font-size: 1.1rem; font-weight: 500;">@Model.Input.PhoneNumber</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8 col-lg-9" style="padding: 40px 40px; background-color: #fff;">
+
+                <partial name="_StatusMessage" for="StatusMessage" />
+
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #f1f1f1; padding-bottom: 15px;">
+                    <h3 style="color: #333; font-weight: 700; margin: 0;">Profile Settings</h3>
+                    <span style="background: #e3f2fd; color: #0056b3; padding: 5px 12px; border-radius: 4px; font-size: 0.85rem; font-weight: 600;">Active Employee</span>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-4 mb-3">
+                        <div style="background: #f8f9fa; border-radius: 8px; padding: 15px; border-left: 4px solid #0056b3;">
+                            <label style="font-size: 0.75rem; color: #6c757d; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Department</label>
+                            <div style="font-weight: 600; color: #212529;">@Model.Input.department</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div style="background: #f8f9fa; border-radius: 8px; padding: 15px; border-left: 4px solid #17a2b8;">
+                            <label style="font-size: 0.75rem; color: #6c757d; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Designation</label>
+                            <div style="font-weight: 600; color: #212529;">@Model.Input.designation</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div style="background: #f8f9fa; border-radius: 8px; padding: 15px; border-left: 4px solid #28a745;">
+                            <label style="font-size: 0.75rem; color: #6c757d; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Location</label>
+                            <div style="font-weight: 600; color: #212529;">@Model.Input.address</div>
+                        </div>
+                    </div>
+                </div>
+
+                <form method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-6 form-group mb-3">
+                            <label asp-for="Input.firstname" style="font-weight: 600; color: #0056b3; font-size: 0.9rem;">First Name</label>
+                            <input asp-for="Input.firstname" class="form-control" style="height: 45px; background: #fdfdfd;" />
+                            <span asp-validation-for="Input.firstname" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <label asp-for="Input.lastname" style="font-weight: 600; color: #0056b3; font-size: 0.9rem;">Last Name</label>
+                            <input asp-for="Input.lastname" class="form-control" style="height: 45px; background: #fdfdfd;" />
+                            <span asp-validation-for="Input.lastname" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 form-group mb-3">
+                            <label asp-for="Input.PhoneNumber" style="font-weight: 600; color: #0056b3; font-size: 0.9rem;">Phone Number</label>
+                            <input asp-for="Input.PhoneNumber" class="form-control" style="height: 45px; background: #fdfdfd;" />
+                            <span asp-validation-for="Input.PhoneNumber" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <label asp-for="Input.gender" style="font-weight: 600; color: #0056b3; font-size: 0.9rem;">Gender</label>
+                            <input asp-for="Input.gender" class="form-control" style="height: 45px; background: #fdfdfd;" />
+                            <span asp-validation-for="Input.gender" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-8 form-group mb-3">
+                            <label asp-for="Input.address" style="font-weight: 600; color: #0056b3; font-size: 0.9rem;">Address</label>
+                            <input asp-for="Input.address" class="form-control" style="height: 45px; background: #fdfdfd;" />
+                            <span asp-validation-for="Input.address" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-4 form-group mb-3">
+                            <label asp-for="Input.age" style="font-weight: 600; color: #0056b3; font-size: 0.9rem;">Age</label>
+                            <input type="number" asp-for="Input.age" class="form-control" style="height: 45px; background: #fdfdfd;" />
+                            <span asp-validation-for="Input.age" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-4" style="background: #f1f8ff; padding: 15px; border-radius: 8px; border: 1px dashed #0056b3;">
+                        <label asp-for="Input.ProfilePicture" style="font-weight: 600; color: #0056b3; margin-bottom: 5px; display:block;">Update Profile Photo</label>
+                        <input type="file" asp-for="Input.ProfilePicture" name="file" class="form-control-file" style="font-size: 0.9rem;" />
+                    </div>
+
+                    <div style="text-align: right; margin-top: 20px;">
+                        <button type="submit" style="background: #0056b3; color: white; border: none; padding: 12px 30px; border-radius: 6px; font-weight: 600; box-shadow: 0 4px 6px rgba(0, 86, 179, 0.3); transition: transform 0.2s;">
+                            <i class="fas fa-save mr-2"></i> Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
+    catch
+    {
+        <div style="display: flex; justify-content: center; align-items: center; min-height: 70vh;">
+            <div style="width: 100%; max-width: 450px; background: white; border-radius: 15px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); overflow: hidden;">
+
+                <div style="background: linear-gradient(135deg, #0056b3 0%, #004494 100%); padding: 40px 20px; text-align: center; color: white;">
+                    <div style="font-size: 4rem; margin-bottom: 10px; opacity: 0.9;">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <h2 style="font-weight: 700; margin: 0; font-size: 1.8rem;">Administrator</h2>
+                    <p style="opacity: 0.8; margin: 5px 0 0;">Super User Access</p>
+                </div>
+
+                <div style="padding: 30px;">
+                    <p style="text-align: center; color: #666; margin-bottom: 25px;">
+                        You are logged in with elevated privileges. Manage your authentication credentials below.
+                    </p>
+
+                    <a asp-area="Identity"
                        asp-page="/Account/Manage/ChangePassword"
-                       asp-route-companyName="@companyName">
-                        Change Password
+                       asp-route-companyName="@companyName"
+                       style="display: block; width: 100%; padding: 15px; background: #f8f9fa; color: #0056b3; text-align: center; text-decoration: none; border-radius: 8px; font-weight: 700; border: 1px solid #e9ecef; transition: all 0.2s;">
+                        <i class="fas fa-key mr-2"></i> Change Admin Password
                     </a>
                 </div>
             </div>
-
-            <hr style="border-color: rgba(255,255,255,0.15); margin: 15px 0;">
-
-            <ul class="sidebar-stats">
-                <li>
-                    <span class="sidebar-label">Age</span>
-                    <span>@Model.Input.age</span>
-                </li>
-                <li>
-                    <span class="sidebar-label">Gender</span>
-                    <span>@Model.Input.gender</span>
-                </li>
-                <li>
-                    <span class="sidebar-label">Mobile</span>
-                    <span>@Model.Input.PhoneNumber</span>
-                </li>
-            </ul>
         </div>
-
-        <div class="profile-content">
-
-            <div class="info-grid">
-                <div class="info-box">
-                    <h6><i class="fas fa-building mr-1"></i> Department</h6>
-                    <p>@Model.Input.department</p>
-                </div>
-                <div class="info-box">
-                    <h6><i class="fas fa-pencil-alt mr-1"></i> Designation</h6>
-                    <p>@Model.Input.designation</p>
-                </div>
-                <div class="info-box">
-                    <h6><i class="fas fa-map-marker-alt mr-1"></i> Location</h6>
-                    <p>@Model.Input.address</p>
-                </div>
-            </div>
-
-            <h4 class="section-header">Update Details</h4>
-
-            <form method="post" enctype="multipart/form-data">
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label asp-for="Input.firstname" class="form-label">First Name</label>
-                        <input asp-for="Input.firstname" class="form-control" />
-                        <span asp-validation-for="Input.firstname" class="text-danger small"></span>
-                    </div>
-
-                    <div class="col-md-6 mb-3">
-                        <label asp-for="Input.lastname" class="form-label">Last Name</label>
-                        <input asp-for="Input.lastname" class="form-control" />
-                        <span asp-validation-for="Input.lastname" class="text-danger small"></span>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label asp-for="Input.PhoneNumber" class="form-label">Phone Number</label>
-                        <input asp-for="Input.PhoneNumber" class="form-control" />
-                        <span asp-validation-for="Input.PhoneNumber" class="text-danger small"></span>
-                    </div>
-
-                    <div class="col-md-6 mb-3">
-                        <label asp-for="Input.gender" class="form-label">Gender</label>
-                        <input asp-for="Input.gender" class="form-control" />
-                        <span asp-validation-for="Input.gender" class="text-danger small"></span>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-8 mb-3">
-                        <label asp-for="Input.address" class="form-label">Address</label>
-                        <input asp-for="Input.address" class="form-control" />
-                        <span asp-validation-for="Input.address" class="text-danger small"></span>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label asp-for="Input.age" class="form-label">Age</label>
-                        <input type="number" asp-for="Input.age" class="form-control" />
-                        <span asp-validation-for="Input.age" class="text-danger small"></span>
-                    </div>
-                </div>
-
-                <div class="mb-4">
-                    <label asp-for="Input.ProfilePicture" class="form-label">Update Profile Picture</label>
-                    <div class="custom-file">
-                        <input type="file" asp-for="Input.ProfilePicture" class="form-control" style="padding: 4px;" name="file" />
-                    </div>
-                </div>
-
-                <div class="text-right">
-                    <button type="submit" class="btn btn-solid-blue">
-                        <i class="fas fa-save mr-2"></i> Save Changes
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-}
-catch
-{
-    <h1>This is super user</h1>
-    <div class="unified-profile-card" style="max-width: 350px;">
-        <div class="profile-sidebar" style="width: 100%; text-align: center;">
-            <h4 class="text-white mb-3">Super User Account</h4>
-            <a class="btn btn-outline-light-custom btn-block"
-               asp-area="Identity"
-               asp-page="/Account/Manage/ChangePassword"
-               asp-route-companyName="@companyName">
-                Change Password
-            </a>
-        </div>
-    </div>
-}
+    }
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

@@ -133,17 +133,23 @@
                 </div>
                 @if (company.Slug.ToLower() == "hopr")
                 {
-                    <div class="col-lg-3 col-6">
-                        <div class="small-box bg-gradient-orange elevation-2">
-                            <div class="inner text-white">
-                                <h3 class="text-white">@(ViewBag.Reviewedrequest ?? 0)</h3>
-                                <p class="text-white">@Localizer["Reviewed Requests"]</p>
+                            <div class="col-lg-3 col-6">
+                                <div class="small-box bg-gradient-orange elevation-3">
+
+                                    <div class="inner text-white">
+                                        <h3 class="text-white font-weight-bold">@(ViewBag.Reviewedrequest ?? 0)</h3>
+                                        <p class="text-white">@Localizer["Reviewed Requests"]</p>
+                                    </div>
+
+                                    <div class="icon">
+                                        <i class="fas fa-clipboard-check" style="color: rgba(0, 0, 0, 0.25);"></i>
+                                    </div>
+
+                                    <a href="@Url.Action("Index", "RequestInformations", new { status = "reviewed" })" class="small-box-footer" style="color: white !important;">
+                                        @Localizer["More Info"] <i class="fas fa-arrow-circle-right"></i>
+                                    </a>
+                                </div>
                             </div>
-                            <a href="@Url.Action("Index", "RequestInformations", new { status = "reviewed" })" class="small-box-footer" style="color: white !important;">
-                                @Localizer["More Info"] <i class="fas fa-arrow-circle-right"></i>
-                            </a>
-                        </div>
-                    </div>
                 }
                 <div class="col-lg-3 col-6">
                     <div class="small-box bg-gradient-danger elevation-2">
@@ -206,118 +212,170 @@
     </div>
 </div>
     }
-
     @if (isInSupervisorRole)
     {
-        <div class="container-fluid">
+        <div class="container-fluid pt-3" style="padding: 50px;">
             <div class="row">
                 <div class="col-12">
+
                     <div class="row">
-                        <div class="col-6">
-                            <!-- small box -->
-                            <a href="@Url.Action("Index", "RequestInformations")" class="small-box bg-info text-decoration-none">
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-gradient-info elevation-2">
                                 <div class="inner">
                                     <h3>@ViewBag.allRequests</h3>
                                     <p>@Localizer["All Requests"]</p>
                                 </div>
-                            </a>
+                                <div class="icon">
+                                    <i class="fas fa-layer-group"></i>
+                                </div>
+                                <a href="@Url.Action("Index", "RequestInformations")" class="small-box-footer">
+                                    @Localizer["More Info"] <i class="fas fa-arrow-circle-right"></i>
+                                </a>
+                            </div>
                         </div>
-                        <!-- ./col -->
-                        <div class="col-6">
-                            <!-- small box -->
-                            <a href="@Url.Action("Index", "RequestInformations", new { status = "approved" })" class="small-box bg-success text-decoration-none">
+
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-gradient-success elevation-2">
                                 <div class="inner">
                                     <h3>@ViewBag.Approvedrequest</h3>
-                                    <p>@Localizer["approvedRequests"]</p>
+                                    <p>@Localizer["Approved Requests"]</p>
                                 </div>
-                            </a>
-                        </div>
-                        <!-- ./col -->
-                        <div class="col-6">
-                            <!-- small box -->
-                            <a href="@Url.Action("Index", "RequestInformations", new { status = "pending" })" class="small-box bg-warning text-decoration-none">
-                                <div class="inner">
-                                    <h3>@ViewBag.Pendingrequest</h3>
-                                    <p>@Localizer["pendingRequests"]</p>
+                                <div class="icon">
+                                    <i class="fas fa-check-circle"></i>
                                 </div>
-                            </a>
+                                <a href="@Url.Action("Index", "RequestInformations", new { status = "approved" })" class="small-box-footer">
+                                    @Localizer["More Info"] <i class="fas fa-arrow-circle-right"></i>
+                                </a>
+                            </div>
                         </div>
-                        <!-- ./col -->
-                        <div class="col-6">
-                            <!-- small box -->
-                            <a href="@Url.Action("Index", "RequestInformations", new { status = "rejected" })" class="small-box bg-danger text-decoration-none">
+
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-gradient-warning elevation-2">
+                                <div class="inner text-white">
+                                    <h3 class="text-white">@ViewBag.Pendingrequest</h3>
+                                    <p class="text-white">@Localizer["Pending Requests"]</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fas fa-hourglass-half"></i>
+                                </div>
+                                <a href="@Url.Action("Index", "RequestInformations", new { status = "pending" })" class="small-box-footer" style="color: white !important;">
+                                    @Localizer["More Info"] <i class="fas fa-arrow-circle-right"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-gradient-danger elevation-2">
                                 <div class="inner">
                                     <h3>@ViewBag.Rejectedrequest</h3>
-                                    <p>@Localizer["rejectedRequests"]</p>
+                                    <p>@Localizer["Rejected Requests"]</p>
                                 </div>
-                            </a>
-                        </div>
-                        <!-- ./col -->
-                    </div> <!-- End of inner row -->
-                </div> <!-- End of col-12 -->
-            </div> <!-- End of row -->
-        </div> <!-- End of container-fluid -->
-    }
-    @if (!isInSupervisorRole && isInEmployeeRole)
-    {
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12">
-                    <div class="row">
-                        <div class="col-6">
-                            <a href="@Url.Action("Index", "RequestInformations")" class="small-box bg-info text-decoration-none">
-                                <div class="inner">
-                                    <h3>@ViewBag.allRequests</h3>
-                                    <p>@Localizer["All Requests"]</p>
+                                <div class="icon">
+                                    <i class="fas fa-times-circle"></i>
                                 </div>
-                            </a>
+                                <a href="@Url.Action("Index", "RequestInformations", new { status = "rejected" })" class="small-box-footer">
+                                    @Localizer["More Info"] <i class="fas fa-arrow-circle-right"></i>
+                                </a>
+                            </div>
                         </div>
-                        <div class="col-6">
-                            <a href="@Url.Action("Invite", "RequestInformations")" class="small-box bg-success text-decoration-none">
-                                <div class="inner">
-                                    <h3>+</h3>
-                                    <p>@Localizer["New Request"]</p>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-6">
-                            <a href="@Url.Action("Index", "RequestInformations", new { status = "approved" })" class="small-box bg-success text-decoration-none">
-                                <div class="inner">
-                                    <h3>@ViewBag.ApprovedrequestEmployee</h3>
-                                    <p>@Localizer["approvedRequests"]</p>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-6">
-                            <!-- small box -->
-                            <a href="@Url.Action("Index", "RequestInformations", new { status = "pending" })" class="small-box bg-warning text-decoration-none">
-                                <div class="inner">
-                                    <h3>@ViewBag.PendingrequestEmployee</h3>
-                                    <p>@Localizer["pendingRequests"]</p>
-                                </div>
-                            </a>
-                        </div>
-                        <!-- ./col -->
-                        <div class="col-6">
-                            <!-- small box -->
-                            <a href="@Url.Action("Index", "RequestInformations", new { status = "rejected" })" class="small-box bg-danger text-decoration-none">
-                                <div class="inner">
-                                    <h3>@ViewBag.RejectedrequestEmployee</h3>
-                                    <p>@Localizer["rejectedRequests"]</p>
-                                </div>
-                            </a>
-                        </div>
-                        <!-- ./col -->
+
                     </div>
                 </div>
             </div>
         </div>
     }
+    @if (!isInSupervisorRole && isInEmployeeRole)
+    {
+        <div class="container-fluid pt-3" style="padding: 50px;">
+    <div class="row">
+        <div class="col-12">
+            <div class="row">
+                
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-gradient-primary elevation-2">
+                        <div class="inner">
+                            <h3>+</h3>
+                            <p>@Localizer["New Request"]</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-plus-circle"></i>
+                        </div>
+                        <a href="@Url.Action("Invite", "RequestInformations")" class="small-box-footer">
+                            @Localizer["Create Now"] <i class="fas fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-gradient-info elevation-2">
+                        <div class="inner">
+                            <h3>@ViewBag.allRequests</h3>
+                            <p>@Localizer["All Requests"]</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <a href="@Url.Action("Index", "RequestInformations")" class="small-box-footer">
+                            @Localizer["More Info"] <i class="fas fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-gradient-success elevation-2">
+                        <div class="inner">
+                            <h3>@ViewBag.ApprovedrequestEmployee</h3>
+                            <p>@Localizer["approvedRequests"]</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <a href="@Url.Action("Index", "RequestInformations", new { status = "approved" })" class="small-box-footer">
+                            @Localizer["More Info"] <i class="fas fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-gradient-warning elevation-2">
+                        <div class="inner text-white">
+                            <h3 class="text-white">@ViewBag.PendingrequestEmployee</h3>
+                            <p class="text-white">@Localizer["pendingRequests"]</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-hourglass-half"></i>
+                        </div>
+                        <a href="@Url.Action("Index", "RequestInformations", new { status = "pending" })" class="small-box-footer" style="color: white !important;">
+                            @Localizer["More Info"] <i class="fas fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-gradient-danger elevation-2">
+                        <div class="inner">
+                            <h3>@ViewBag.RejectedrequestEmployee</h3>
+                            <p>@Localizer["rejectedRequests"]</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <a href="@Url.Action("Index", "RequestInformations", new { status = "rejected" })" class="small-box-footer">
+                            @Localizer["More Info"] <i class="fas fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+    }
 
    
     @if (isInGatekeeperRole)
     {
-        <div class="container-fluid">
+        <div class="container-fluid" style="padding: 30px">
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -561,8 +619,8 @@ else
 
     .qr-container img {
         display: block;
-        width: 135px;
-        height: 135px;
+        width: 165px;
+        height: 165px;
     }
 
     /* --- Right Side Content --- */
@@ -612,7 +670,7 @@ else
         align-items: center;
         justify-content: center;
         padding: 1rem;
-        background: #135f6f;
+        background: #165f6f;
        
         overflow: hidden; /* Hide any potential overflow within this section */
          background-color #0056b3
@@ -865,13 +923,13 @@ else
                                 'rgba(54, 162, 235, 0.2)',
                                 'rgba(255, 206, 86, 0.2)',
                                 'rgba(75, 192, 192, 0.2)',
-                                'rgba(255, 99, 132, 0.2)'
+                                'rgba(255, 99, 162, 0.2)'
                             ],
                             borderColor: [
                                 'rgba(54, 162, 235, 1)',
                                 'rgba(255, 206, 86, 1)',
                                 'rgba(75, 192, 192, 1)',
-                                'rgba(255, 99, 132, 1)'
+                                'rgba(255, 99, 162, 1)'
                             ],
                             borderWidth: 1
                         }]

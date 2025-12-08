@@ -6,68 +6,159 @@
     ViewData["Title"] = "User List";
 }
 
-<!-- /.row -->
-<div class="row">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+<style>
+    :root {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        --primary-blue: #0d6efd;
+        --dark-blue: #0a58ca;
+        --accent-blue: #e7f1ff;
+        --text-dark: #343a40;
+    }
+
+    /* Card Styling */
+    .custom-card {
+        border: none;
+        border-top: 4px solid var(--primary-blue);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        border-radius: 8px;
+        background-color: #fff;
+        margin-bottom: 25px; /* Added spacing */
+    }
+
+    /* THE REQUESTED PADDING */
+    .card-body-padded {
+        padding: 30px !important;
+    }
+
+    /* Header Styling */
+    .page-title {
+        color: var(--primary-blue);
+        font-weight: 700;
+        margin: 0;
+    }
+
+    /* Table Styling */
+    .table thead th {
+        background-color: var(--accent-blue);
+        color: var(--primary-blue);
+        border-bottom: 2px solid #dee2e6;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        font-weight: 700;
+        vertical-align: middle;
+    }
+
+    .table tbody td {
+        vertical-align: middle;
+        color: #495057;
+        font-size: 0.95rem;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f1f5f9;
+    }
+
+    /* Custom Button Styles */
+    .btn-delegate {
+        background-color: var(--primary-blue);
+        color: white;
+        border-color: var(--primary-blue);
+    }
+
+        .btn-delegate:hover:not([disabled]) {
+            background-color: var(--dark-blue);
+            border-color: var(--dark-blue);
+            color: white;
+        }
+
+    .btn-revoke {
+        background-color: #dc3545; /* Bootstrap danger */
+        color: white;
+        border-color: #dc3545;
+    }
+
+        .btn-revoke:hover:not([disabled]) {
+            background-color: #c82333;
+            border-color: #bd2130;
+            color: white;
+        }
+</style>
+
+<div class="row" style="padding:30px">
     <div class="col-12">
-        <div class="card">
-            <div class="card-header">
+        <div class="card custom-card">
+            <div class="card-header bg-white border-bottom pt-4 px-4">
+                <h3 class="card-title page-title">
+                    <i class="fas fa-users-cog me-2"></i> User List
+                </h3>
             </div>
-            <!-- /.card-header -->
-            <div class="card-body table-responsive p-0">
-                <table id="myDataTable" class="table table-bordered table-striped">
+
+            <div class="card-body card-body-padded table-responsive">
+                <table id="myDataTable" class="table table-bordered table-hover mb-0">
                     <thead>
                         <tr>
-                            <th>Full Name</th>
-                            <th>Username</th>
-                            <th>Roles</th>
-                            <th>Deligate Role</th>
-                            <th>Revoke Role</th>
-
+                            <th><i class="fas fa-user-tag me-2"></i> Full Name</th>
+                            <th><i class="fas fa-user me-2"></i> Username</th>
+                            <th><i class="fas fa-shield-alt me-2"></i> Roles</th>
+                            <th class="text-center"><i class="fas fa-arrow-alt-circle-right me-1"></i> Delegate Role</th>
+                            <th class="text-center"><i class="fas fa-arrow-alt-circle-left me-1"></i> Revoke Role</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var user in Model)
                         {
                             var canRevoke = user.Roles.Count > 1; // Check if the user has more than one role
-                            var canDelegate = !user.Roles.Contains("Superviser") && !user.Roles.Contains("Admin");  // Check if the user does not have the Supervisor role
+                                                                  // Changed logic: if a user has Admin, they can't be delegated the Superviser role (assuming Admin is higher/equal)
+                            var canDelegate = !user.Roles.Contains("Superviser") && !user.Roles.Contains("Admin");
 
                             <tr>
-                                <td>@user.FullName</td>
+                                <td class="fw-bold">@user.FullName</td>
                                 <td>@user.UserName</td>
 
                                 <td>
                                     @foreach (var role in @user.Roles)
                                     {
-                                        <span>@role </span>
+                                        <span class="badge bg-secondary text-white me-1 mb-1">@role</span>
                                     }
-    ;
                                 </td>
-                                <td>
+
+                                <td class="text-center">
                                     @if (canDelegate)
                                     {
-                                        <form asp-action="AssignRole" method="post">
+                                        <form asp-action="AssignRole" method="post" onsubmit="return confirm('Are you sure you want to delegate the role to @user.FullName?');">
                                             <input type="hidden" name="userId" value="@user.Id" />
                                             <input type="hidden" name="roleName" value="@ViewBag.role" />
-                                            <button type="submit" class="btn btn-info">Delegate</button>
+                                            <button type="submit" class="btn btn-delegate btn-sm shadow-sm">
+                                                <i class="fas fa-user-plus me-1"></i> Delegate
+                                            </button>
                                         </form>
                                     }
                                     else
                                     {
-                                        <button type="button" class="btn btn-info" disabled>Delegate</button>
+                                        <button type="button" class="btn btn-delegate btn-sm" disabled>
+                                            <i class="fas fa-user-plus me-1"></i> Delegate
+                                        </button>
                                     }
                                 </td>
-                                <td>
+
+                                <td class="text-center">
                                     @if (canRevoke)
                                     {
-                                        <form asp-action="RevokeRole" method="post">
+                                        <form asp-action="RevokeRole" method="post" onsubmit="return confirm('Are you sure you want to revoke a role from @user.FullName?');">
                                             <input type="hidden" name="userId" value="@user.Id" />
                                             <input type="hidden" name="roleName" value="@ViewBag.role" />
-                                            <button type="submit" class="btn btn-danger">Revoke</button>
+                                            <button type="submit" class="btn btn-revoke btn-sm shadow-sm">
+                                                <i class="fas fa-user-minus me-1"></i> Revoke
+                                            </button>
                                         </form>
                                     }
                                     else
                                     {
-                                        <button type="button" class="btn btn-danger" disabled>Revoke</button>
+                                        <button type="button" class="btn btn-revoke btn-sm" disabled>
+                                            <i class="fas fa-user-minus me-1"></i> Revoke
+                                        </button>
                                     }
                                 </td>
 
@@ -75,13 +166,18 @@
                         }
                     </tbody>
                 </table>
+
+                @if (!Model.Any())
+                {
+                    <div class="text-center p-4 text-muted">
+                        <i class="fas fa-info-circle fa-2x mb-3 text-secondary"></i>
+                        <p>No users found in the list.</p>
+                    </div>
+                }
             </div>
-            <!-- /.card-body -->
         </div>
-        <!-- /.card -->
     </div>
 </div>
 
 @section Scripts {
-    <!-- Include any additional scripts needed here -->
 }

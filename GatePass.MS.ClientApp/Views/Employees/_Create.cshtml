@@ -6,124 +6,170 @@
     ViewData["Title"] = "Create Employee";
 }
 
-<div class="modal-header"
-     style="background: linear-gradient(45deg, #1e88e5, #1565c0); color: white; padding:18px; border-bottom:none;">
+<style>
+    .modal-header-blue {
+        background: linear-gradient(135deg, #1e88e5 0%, #1565c0 100%);
+        color: white;
+        border-bottom: none;
+        padding: 20px 25px;
+    }
 
-    <h4 class="modal-title" style="font-weight:700; font-size:20px; letter-spacing:1px;">
-        @ViewData["Title"]
-    </h4>
+    .form-label-custom {
+        color: #1565c0; /* Accent Blue */
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+        display: block;
+    }
 
-    <button type="button" class="close" data-dismiss="modal" style="color:white; opacity:1; font-size:34px;">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
+    .form-control-custom {
+        border: 1px solid #bbdefb;
+        border-radius: 8px; /* Soft rounded corners */
+        padding: 10px 15px;
+        height: auto; /* Allow auto height */
+        font-size: 0.95rem;
+        transition: all 0.2s;
+        background-color: #fcfcfc;
+    }
 
-<div class="modal-body" style="background:#e3f2fd; padding:30px;">
-    <div class="card border-0 shadow-lg" style="border-radius: 15px; overflow:hidden;">
-        <div class="card-body" style="padding:30px; background:white;">
+        .form-control-custom:focus {
+            border-color: #1e88e5;
+            background-color: #fff;
+            box-shadow: 0 0 0 4px rgba(30, 136, 229, 0.1); /* Soft Blue Glow */
+        }
 
-            <form asp-action="Create" id="createForm">
+    /* Custom Gender Toggle Styling */
+    .gender-selector {
+        display: flex;
+        background: #f1f8ff;
+        border-radius: 8px;
+        padding: 4px;
+        border: 1px solid #bbdefb;
+    }
 
-                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+    .gender-option {
+        flex: 1;
+        text-align: center;
+        position: relative;
+    }
 
-                <!-- TWO COLUMNS -->
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+        .gender-option input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
 
-                    <div>
-                        <label asp-for="FirstName" style="font-weight:600; color:#0d47a1;">@Localizer["firstName"]</label>
-                        <div class="input-group mb-2 shadow-sm rounded-pill overflow-hidden"
-                             style="border:1px solid #bbdefb;">
-                            <input asp-for="FirstName" required class="form-control border-0 pl-4" style="height:45px;">
-                        </div>
+        .gender-option span {
+            display: block;
+            padding: 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            color: #6c757d;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .gender-option input:checked + span {
+            background-color: #1565c0;
+            color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        }
+</style>
+
+<div class="modal-content border-0 shadow-lg" style="border-radius: 12px; overflow: hidden;">
+
+    <div class="modal-header modal-header-blue">
+        <h4 class="modal-title" style="font-weight:700; letter-spacing:0.5px;">
+            <i class="fas fa-user-plus mr-2"></i> @ViewData["Title"]
+        </h4>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" style="opacity: 0.9;">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body p-4 bg-white">
+        <form asp-action="Create" id="createForm">
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-3" role="alert"></div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="FirstName" class="form-label-custom"><i class="fas fa-user mr-1"></i> @Localizer["firstName"]</label>
+                        <input asp-for="FirstName" class="form-control form-control-custom" placeholder="e.g. John" required />
+                        <span asp-validation-for="FirstName" class="text-danger small"></span>
                     </div>
 
-                    <div>
-                        <label asp-for="LastName" style="font-weight:600; color:#0d47a1;">@Localizer["fatherName"]</label>
-                        <div class="input-group mb-2 shadow-sm rounded-pill overflow-hidden"
-                             style="border:1px solid #bbdefb;">
-                            <input asp-for="LastName" required class="form-control border-0 pl-4" style="height:45px;">
-                        </div>
+                    <div class="form-group">
+                        <label asp-for="LastName" class="form-label-custom"><i class="fas fa-user mr-1"></i> @Localizer["fatherName"]</label>
+                        <input asp-for="LastName" class="form-control form-control-custom" placeholder="e.g. Doe" required />
+                        <span asp-validation-for="LastName" class="text-danger small"></span>
                     </div>
 
-                    <div>
-                        <label asp-for="Email" style="font-weight:600; color:#0d47a1;">@Localizer["email"]</label>
-                        <div class="input-group mb-2 shadow-sm rounded-pill overflow-hidden"
-                             style="border:1px solid #bbdefb;">
-                            <input asp-for="Email" type="email" required class="form-control border-0 pl-4"
-                                   style="height:45px;">
-                        </div>
+                    <div class="form-group">
+                        <label asp-for="Age" class="form-label-custom"><i class="fas fa-birthday-cake mr-1"></i> @Localizer["age"]</label>
+                        <input asp-for="Age" type="number" min="18" max="120" class="form-control form-control-custom" required />
+                        <span asp-validation-for="Age" class="text-danger small"></span>
                     </div>
 
-                    <div>
-                        <label asp-for="Phone" style="font-weight:600; color:#0d47a1;">@Localizer["phone"]</label>
-                        <div class="input-group mb-2 shadow-sm rounded-pill overflow-hidden"
-                             style="border:1px solid #bbdefb;">
-                            <input asp-for="Phone" type="tel" pattern="\d{10}" required
-                                   class="form-control border-0 pl-4" style="height:45px;">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label asp-for="Gender" style="font-weight:600; color:#0d47a1;">@Localizer["gender"]</label>
-                        <div style="display:flex; gap:15px; margin-top:10px; padding-left:10px;">
-                            <label style="cursor:pointer; color:#1565c0;">
-                                <input asp-for="Gender" requuired type="radio" value="Male" style="margin-right:5px;"> Male
+                    <div class="form-group">
+                        <label asp-for="Gender" class="form-label-custom"><i class="fas fa-venus-mars mr-1"></i> @Localizer["gender"]</label>
+                        <div class="gender-selector">
+                            <label class="gender-option">
+                                <input asp-for="Gender" type="radio" value="Male" required>
+                                <span><i class="fas fa-male mr-1"></i> Male</span>
                             </label>
-                            <label style="cursor:pointer; color:#1565c0;">
-                                <input asp-for="Gender" type="radio" value="Female" style="margin-right:5px;"> Female
+                            <label class="gender-option">
+                                <input asp-for="Gender" type="radio" value="Female">
+                                <span><i class="fas fa-female mr-1"></i> Female</span>
                             </label>
                         </div>
+                        <span asp-validation-for="Gender" class="text-danger small"></span>
                     </div>
-
-                    <div>
-                        <label asp-for="Address" style="font-weight:600; color:#0d47a1;">@Localizer["address"]</label>
-                        <div class="input-group mb-2 shadow-sm rounded-pill overflow-hidden"
-                             style="border:1px solid #bbdefb;">
-                            <input asp-for="Address" required class="form-control border-0 pl-4" style="height:45px;">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label asp-for="Age" style="font-weight:600; color:#0d47a1;">@Localizer["age"]</label>
-                        <div class="input-group mb-2 shadow-sm rounded-pill overflow-hidden"
-                             style="border:1px solid #bbdefb;">
-                            <input asp-for="Age" type="number" min="18" max="120" required
-                                   class="form-control border-0 pl-4" style="height:45px;">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label asp-for="DepartmentId" style="font-weight:600; color:#0d47a1;">@Localizer["department"]</label>
-                        <div class="shadow-sm rounded-pill overflow-hidden"
-                             style="border:1px solid #bbdefb;">
-                            <select asp-for="DepartmentId" asp-items="ViewBag.DepartmentId"
-                                    class="form-control border-0 pl-4" style="height:45px;"></select>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label asp-for="DesignationId" style="font-weight:600; color:#0d47a1;">@Localizer["designation"]</label>
-                        <div class="shadow-sm rounded-pill overflow-hidden"
-                             style="border:1px solid #bbdefb;">
-                            <select asp-for="DesignationId" asp-items="ViewBag.DesignationId"
-                                    class="form-control border-0 pl-4" style="height:45px;"></select>
-                        </div>
-                    </div>
-
                 </div>
 
-                <!-- Submit -->
-                <div style="text-align:right; margin-top:30px;">
-                    <button type="submit"
-                            class="btn btn-primary shadow-sm rounded-pill font-weight-bold"
-                            style="height:50px; width:170px; background-color:#1565c0; border:none;">
-                        Create
-                    </button>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Email" class="form-label-custom"><i class="fas fa-envelope mr-1"></i> @Localizer["email"]</label>
+                        <input asp-for="Email" type="email" class="form-control form-control-custom" placeholder="name@company.com" required />
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Phone" class="form-label-custom"><i class="fas fa-phone mr-1"></i> @Localizer["phone"]</label>
+                        <input asp-for="Phone" type="tel" class="form-control form-control-custom" required />
+                        <span asp-validation-for="Phone" class="text-danger small"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="DepartmentId" class="form-label-custom"><i class="fas fa-building mr-1"></i> @Localizer["department"]</label>
+                        <select asp-for="DepartmentId" asp-items="ViewBag.DepartmentId" class="form-control form-control-custom"></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="DesignationId" class="form-label-custom"><i class="fas fa-id-badge mr-1"></i> @Localizer["designation"]</label>
+                        <select asp-for="DesignationId" asp-items="ViewBag.DesignationId" class="form-control form-control-custom"></select>
+                    </div>
                 </div>
+            </div>
 
-            </form>
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label asp-for="Address" class="form-label-custom"><i class="fas fa-map-marker-alt mr-1"></i> @Localizer["address"]</label>
+                        <input asp-for="Address" class="form-control form-control-custom" required />
+                        <span asp-validation-for="Address" class="text-danger small"></span>
+                    </div>
+                </div>
+            </div>
 
-        </div>
+        </form>
+    </div>
+
+    <div class="modal-footer bg-light">
+        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
+        <button type="submit" form="createForm" class="btn btn-primary px-5 font-weight-bold shadow-sm" style="background-color: #1565c0; border: none;">
+            Create Employee
+        </button>
     </div>
 </div>
 

@@ -22,7 +22,7 @@
         <div class="row align-items-end">
             <div class="col-md-4">
                 <label style="font-weight:600; margin-bottom:5px; color:#0056b3;">@Localizer["Select Excel File"]</label>
-                <input type="file" name="file" class="form-control" style="border-radius:4px; border-color:#b3d7ff;"/>
+                <input type="file" name="file" class="form-control" style="border-radius:4px; border-color:#b3d7ff;" />
             </div>
             <div class="col-md-3">
                 <input type="submit"
@@ -48,14 +48,16 @@
         </div>
     </div>
 
-
-    <div style="background:white; border-radius:10px; box-shadow:0px 4px 10px rgba(0,0,0,0.1); overflow-x:auto; height: 500px; overflow-y: auto;">
+    @* --- TABLE SECTION --- *@
+    <div style="background:white; border-radius:10px; box-shadow:0px 4px 10px rgba(0,0,0,0.1);">
         
-        <div style="min-width: 1200px;"> 
-            <table id="myDataTable" class="table table-hover table-head-fixed text-nowrap" style="font-size:14px; border-collapse: separate; border-spacing: 0;">
+        @* Removed min-width style to prevent forcing scrollbar *@
+        <div>
+            @* Removed 'text-nowrap' class so text can wrap to fit the screen width *@
+            <table id="myDataTable" class="table table-hover table-head-fixed" style="font-size:14px; width:100%; border-collapse: separate; border-spacing: 0;">
                 <thead style="position: sticky; top: 0; z-index: 1; background-color: #007bff; color: white;">
                     <tr>
-                        <th style="padding:12px; border:none; color:white; background:#007bff; width:50px;">#</th>
+                        <th style="padding:12px; border:none; color:white; background:#007bff; width:40px;">#</th>
                         <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["firstName"]</th>
                         <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["fatherName"]</th>
                         <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["email"]</th>
@@ -65,7 +67,8 @@
                         <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["age"]</th>
                         <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["department"]</th>
                         <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["designation"]</th>
-                        <th style="padding:12px; border:none; color:white; background:#007bff; width:250px; text-align:center;">@Localizer["action"]</th>
+                        @* Reduced width for Actions column *@
+                        <th style="padding:12px; border:none; color:white; background:#007bff; width:110px; text-align:center;">@Localizer["action"]</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -76,36 +79,41 @@
                     {
                         var bgColor = index % 2 == 0 ? "#f8faff" : "white";
                         <tr style="background:@bgColor; border-bottom: 1px solid #eee;">
-                            <td style="padding:10px;">@(index + 1)</td> @* Using index + 1 for # instead of item.Id *@
-                            <td style="padding:10px;">@item.FirstName</td>
-                            <td style="padding:10px;">@item.LastName</td>
-                            <td style="padding:10px;">@item.Email</td>
-                            <td style="padding:10px;">@item.Phone</td>
-                            <td style="padding:10px;">@item.Gender</td>
-                            <td style="padding:10px;">@item.Address</td>
-                            <td style="padding:10px;">@item.Age</td>
-                            <td style="padding:10px;">@item.Department.Name</td>
-                            <td style="padding:10px;">@item.Designation.Name</td>
+                            <td style="padding:10px; vertical-align:middle;">@(index + 1)</td>
+                            <td style="padding:10px; vertical-align:middle;">@item.FirstName</td>
+                            <td style="padding:10px; vertical-align:middle;">@item.LastName</td>
+                            <td style="padding:10px; vertical-align:middle; word-break:break-word;">@item.Email</td>
+                            <td style="padding:10px; vertical-align:middle;">@item.Phone</td>
+                            <td style="padding:10px; vertical-align:middle;">@item.Gender</td>
+                            <td style="padding:10px; vertical-align:middle;">@item.Address</td>
+                            <td style="padding:10px; vertical-align:middle;">@item.Age</td>
+                            <td style="padding:10px; vertical-align:middle;">@item.Department.Name</td>
+                            <td style="padding:10px; vertical-align:middle;">@item.Designation.Name</td>
 
-                            <td style="padding:10px; text-align:center;">
+                            <td style="padding:10px; text-align:center; vertical-align:middle;">
+                                @* Detail Button *@
                                 <a onclick="showDetails(@item.Id)"
-                                   style="cursor:pointer; background:#2d7dff; color:white; padding:5px 10px; border-radius:4px; text-decoration:none; font-size:12px; margin:2px; display:inline-block;">
-                                    <i class="fas fa-info-circle"></i> @Localizer["detail"]
+                                   title="@Localizer["detail"]"
+                                   style="cursor:pointer; background:#2d7dff; color:white; padding:6px 10px; border-radius:6px; text-decoration:none; font-size:12px; margin:1px; display:inline-block; border:none;">
+                                    <i class="fas fa-info-circle"></i>
                                 </a>
 
+                                @* Edit Button *@
                                 <a onclick="editEmployee(@item.Id)"
-                                   style="cursor:pointer; background:#4db8ff; color:white; padding:5px 10px; border-radius:4px; text-decoration:none; font-size:12px; margin:2px; display:inline-block;">
-                                    <i class="fas fa-edit"></i> @Localizer["edit"]
+                                   title="@Localizer["edit"]"
+                                   style="cursor:pointer; background:#4db8ff; color:white; padding:6px 10px; border-radius:6px; text-decoration:none; font-size:12px; margin:1px; display:inline-block; border:none;">
+                                    <i class="fas fa-edit"></i>
                                 </a>
 
+                                @* Delete Button *@
                                 <a onclick="deleteEmployee(@item.Id)"
-                                   style="cursor:pointer; background:#ff4d4d; color:white; padding:5px 10px; border-radius:4px; text-decoration:none; font-size:12px; margin:2px; display:inline-block;">
-                                    <i class="fas fa-trash-alt"></i> @Localizer["delete"]
+                                   title="@Localizer["delete"]"
+                                   style="cursor:pointer; background:#ff4d4d; color:white; padding:6px 10px; border-radius:6px; text-decoration:none; font-size:12px; margin:1px; display:inline-block; border:none;">
+                                    <i class="fas fa-trash-alt"></i>
                                 </a>
                             </td>
                         </tr>
-
-                        @* @{ index++; } *@
+                        @* @{ index++; }  *@
                     }
                 </tbody>
             </table>

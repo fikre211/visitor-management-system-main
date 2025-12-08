@@ -1,78 +1,116 @@
 ﻿@model GatePass.MS.Domain.Employee
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Employee Details";
 }
-<div class="modal-header">
-    <h4 class="modal-title"> @ViewData["Title"]</h4>
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
-<div class="modal-body">
-    <div class="row justify-content-center">
 
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Phone)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Phone)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Gender)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Gender)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Address)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Age)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Age)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Department)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Department.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Designation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Designation.Name)
-        </dd>
-    </dl>
+<style>
+    /* Custom Scoped Styles for this View */
+    .modal-header-blue {
+        background: linear-gradient(135deg, #0056b3 0%, #007bff 100%); /* Primary Blue Gradient */
+        color: white;
+        border-bottom: none;
+    }
 
-    
-        <div>
-            <a asp-action="Index">Back to List</a>
+    .detail-label {
+        color: #0056b3; /* Accent/Dark Blue */
+        font-size: 0.85rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 2px;
+    }
+
+    .detail-value {
+        font-size: 1rem;
+        color: #333;
+        font-weight: 500;
+        margin-bottom: 15px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #e3f2fd; /* Very Light Accent Blue Border */
+    }
+
+    .section-icon {
+        background-color: #e3f2fd; /* Light Accent Background */
+        color: #0056b3;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin-right: 15px;
+        font-weight: bold;
+    }
+
+    .user-banner {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="modal-content border-0 shadow">
+    <div class="modal-header modal-header-blue">
+        <h5 class="modal-title">
+            <i class="fas fa-user-circle mr-2"></i> @ViewData["Title"]
+        </h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" style="opacity: 1;">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body p-4">
+
+        <div class="user-banner">
+            <div class="section-icon">
+                <span>@Model.FirstName.Substring(0, 1)@Model.LastName.Substring(0, 1)</span>
+            </div>
+            <div>
+                <h4 class="mb-0 text-dark">@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h4>
+                <small class="text-muted">@Html.DisplayFor(model => model.Designation.Name)</small>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="detail-group">
+                    <div class="detail-label">@Html.DisplayNameFor(model => model.Email)</div>
+                    <div class="detail-value">@Html.DisplayFor(model => model.Email)</div>
+                </div>
+
+                <div class="detail-group">
+                    <div class="detail-label">@Html.DisplayNameFor(model => model.Phone)</div>
+                    <div class="detail-value">@Html.DisplayFor(model => model.Phone)</div>
+                </div>
+
+                <div class="detail-group">
+                    <div class="detail-label">@Html.DisplayNameFor(model => model.Address)</div>
+                    <div class="detail-value">@Html.DisplayFor(model => model.Address)</div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="detail-group">
+                    <div class="detail-label">@Html.DisplayNameFor(model => model.Department)</div>
+                    <div class="detail-value">@Html.DisplayFor(model => model.Department.Name)</div>
+                </div>
+
+                <div class="detail-group">
+                    <div class="detail-label">@Html.DisplayNameFor(model => model.Gender)</div>
+                    <div class="detail-value">@Html.DisplayFor(model => model.Gender)</div>
+                </div>
+
+                <div class="detail-group">
+                    <div class="detail-label">@Html.DisplayNameFor(model => model.Age)</div>
+                    <div class="detail-value">@Html.DisplayFor(model => model.Age) Years Old</div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
+    <div class="modal-footer bg-light">
+        <a asp-action="Index" class="btn btn-outline-primary">Back to List</a>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    </div>
+</div>

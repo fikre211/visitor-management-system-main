@@ -12,141 +12,149 @@
     var employees = Model.Employees.Select(e => new { e.Id, e.FirstName }).ToList();
 }
 
-<div style="padding: 30px;">
-    <div class="row">
-        <div class="col-12">
-            <div class="card" style="border-top: 4px solid #007bff; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-left: none; border-right: none; border-bottom: none;">
+<div style="padding:30px; background:#f7faff; font-family:Segoe UI, Arial, sans-serif;">
 
-                <div class="card-header" style="background-color: #f0f7ff; border-bottom: 1px solid #cce5ff; padding: 20px;">
-                    <form method="get" action="@Url.Action("VisitReport", "Reports")" class="row g-3 align-items-end">
-
-                        <div class="col-md-2 form-group mb-0">
-                            <label for="startDate" class="form-label" style="color: #0056b3; font-weight: 600; margin-bottom: 5px;">@Localizer["Start Date"]:</label>
-                            <input type="date" id="startDate" name="startDate" class="form-control" value="@Model.StartDate?.ToString("yyyy-MM-dd")" />
-                        </div>
-
-                        <div class="col-md-2 form-group mb-0">
-                            <label for="endDate" class="form-label" style="color: #0056b3; font-weight: 600; margin-bottom: 5px;">@Localizer["End Date"]:</label>
-                            <input type="date" id="endDate" name="endDate" class="form-control" value="@Model.EndDate?.ToString("yyyy-MM-dd")" />
-                        </div>
-
-                        <div class="col-md-2 form-group mb-0">
-                            <label for="status" class="form-label" style="color: #0056b3; font-weight: 600; margin-bottom: 5px;">@Localizer["Status"]:</label>
-                            <select id="status" name="status" class="form-control">
-                                <option value="">@Localizer["All"]</option>
-                                @foreach (var status in statusOptions)
-                                {
-                                    <option value="@status">@status</option>
-                                }
-                            </select>
-                        </div>
-
-                        <div class="col-md-2 form-group mb-0">
-                            <label for="employee" class="form-label" style="color: #0056b3; font-weight: 600; margin-bottom: 5px;">@Localizer["Employee"]:</label>
-                            <select id="employee" name="employeeId" class="form-control">
-                                <option value="">@Localizer["All"]</option>
-                                @foreach (var employee in employees)
-                                {
-                                    <option value="@employee.Id">@employee.FirstName</option>
-                                }
-                            </select>
-                        </div>
-
-                        <div class="col-md-4 form-group mb-0 text-right">
-                            <button type="submit" class="btn btn-primary px-4" style="background-color: #007bff; border-color: #007bff; color: white; margin-top: 10px;">
-                                <i class="fas fa-filter mr-1"></i> @Localizer["Filter"]
-                            </button>
-                        </div>
-                    </form>
-                </div>
-                <div class="card-body p-0" style="height: 500px; overflow-y: auto;">
-
-                    <div style="overflow-x: auto;">
-                        <table id="myDataTable" class="table table-hover table-head-fixed text-nowrap">
-                            <thead style="background-color: #007bff; color: black;">
-                                <tr>
-                                    <th>@Localizer["Request ID"]</th>
-                                    <th>@Localizer["Visitor Name"]</th>
-                                    <th>@Localizer["Visitor Phone"]</th>
-                                    <th>@Localizer["Visitor Email"]</th>
-
-                                    <th>@Localizer["Additional Guests"]</th>
-                                    <th>@Localizer["Devices"]</th>
-
-                                    <th>@Localizer["Approved Time Start"]</th>
-                                    <th>@Localizer["Approved Time End"]</th>
-                                    <th>@Localizer["Purpose"]</th>
-                                    <th>@Localizer["Inviter"]</th>
-                                    <th>@Localizer["Request Date"]</th>
-                                    <th>@Localizer["Approved or Rejected By"]</th>
-                                    <th>@Localizer["Status"]</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                @foreach (var report in Model.Reports)
-                                {
-                                    <tr>
-                                        <td class="align-middle">@report.RequestId</td>
-                                        <td class="align-middle font-weight-bold">@report.GuestName</td>
-                                        <td class="align-middle">@report.Phone</td>
-                                        <td class="align-middle">@report.Email</td>
-
-                                        <td class="align-middle text-center" style="width: 120px;">
-                                            @if (!string.IsNullOrEmpty(report.AdditionalGuests))
-                                            {
-                                                <span class="badge badge-info">@report.AdditionalGuests</span>
-                                            }
-                                            else
-                                            {
-                                                <span>-</span>
-                                            }
-                                        </td>
-                                        <td class="align-middle text-center" style="width: 120px;">
-                                            @if (!string.IsNullOrEmpty(report.Devices))
-                                            {
-                                                <i class="fas fa-laptop text-secondary"></i>
-                                            }
-                                            else
-                                            {
-                                                <span>-</span>
-                                            }
-                                        </td>
-
-                                        <td class="align-middle">@report.ApprovedDateTimeStart</td>
-                                        <td class="align-middle">@report.ApprovedDateTimeEnd</td>
-                                        <td class="align-middle">@report.PurposeOfVisit</td>
-                                        <td class="align-middle">@report.EmployeeName</td>
-                                        <td class="align-middle">@report.Timestamp</td>
-                                        <td class="align-middle">@report.Approver</td>
-                                        <td class="align-middle">
-                                            @{
-                                                string statusStyle = "";
-                                                if (report.Status == "Approved")
-                                                {
-                                                    statusStyle = "color: #28a745; font-weight: bold;"; // Green
-                                                }
-                                                else if (report.Status == "Rejected")
-                                                {
-                                                    statusStyle = "color: #dc3545; font-weight: bold;"; // Red
-                                                }
-                                                else
-                                                {
-                                                    statusStyle = "color: #007bff; font-weight: bold;"; // Blue
-                                                }
-                                            }
-                                            <span style="@statusStyle">@report.Status</span>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+    @* --- FILTER SECTION (Styled like the previous Upload Form) --- *@
+    <form method="get" action="@Url.Action("VisitReport", "Reports")" 
+          style="margin-bottom:25px; padding:10px; border:1px solid #cce5ff; border-radius:8px; background:#eef5ff; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+        
+        <div class="row align-items-end">
+            <div class="col-md-2 form-group mb-0">
+                <label for="startDate" style="font-weight:600; margin-bottom:5px; color:#0056b3;">@Localizer["Start Date"]:</label>
+                <input type="date" id="startDate" name="startDate" class="form-control" value="@Model.StartDate?.ToString("yyyy-MM-dd")" style="border-radius:4px; border-color:#b3d7ff;" />
             </div>
+
+            <div class="col-md-2 form-group mb-0">
+                <label for="endDate" style="font-weight:600; margin-bottom:5px; color:#0056b3;">@Localizer["End Date"]:</label>
+                <input type="date" id="endDate" name="endDate" class="form-control" value="@Model.EndDate?.ToString("yyyy-MM-dd")" style="border-radius:4px; border-color:#b3d7ff;" />
+            </div>
+
+            <div class="col-md-2 form-group mb-0">
+                <label for="status" style="font-weight:600; margin-bottom:5px; color:#0056b3;">@Localizer["Status"]:</label>
+                <select id="status" name="status" class="form-control" style="border-radius:4px; border-color:#b3d7ff;">
+                    <option value="">@Localizer["All"]</option>
+                    @foreach (var status in statusOptions)
+                    {
+                        <option value="@status">@status</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-2 form-group mb-0">
+                <label for="employee" style="font-weight:600; margin-bottom:5px; color:#0056b3;">@Localizer["Employee"]:</label>
+                <select id="employee" name="employeeId" class="form-control" style="border-radius:4px; border-color:#b3d7ff;">
+                    <option value="">@Localizer["All"]</option>
+                    @foreach (var employee in employees)
+                    {
+                        <option value="@employee.Id">@employee.FirstName</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-4 form-group mb-0 text-right">
+                <button type="submit" class="btn btn-primary px-4" style="background:#007bff; border-color:#007bff; color:white; font-weight:600; box-shadow:0 2px 4px rgba(0,0,0,0.1);">
+                    <i class="fas fa-filter mr-1"></i> @Localizer["Filter"]
+                </button>
+            </div>
+        </div>
+    </form>
+
+    @* --- TABLE SECTION --- *@
+    <div style="background:white; border-radius:10px; box-shadow:0px 4px 10px rgba(0,0,0,0.1);">
+        
+        <div>
+            @* Removed 'text-nowrap' and removed fixed height to use main scrollbar *@
+            <table id="myDataTable" class="table table-hover table-head-fixed" style="font-size:14px; width:100%; border-collapse: separate; border-spacing: 0;">
+                <thead style="position: sticky; top: 0; z-index: 1; background-color: #007bff; color: white;">
+                    <tr>
+                        <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["Request ID"]</th>
+                        <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["Visitor Name"]</th>
+                        <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["Visitor Phone"]</th>
+                        <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["Visitor Email"]</th>
+
+                        <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["Additional Guests"]</th>
+                        <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["Devices"]</th>
+
+                        <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["Approved Time Start"]</th>
+                        <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["Approved Time End"]</th>
+                        <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["Purpose"]</th>
+                        <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["Inviter"]</th>
+                        <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["Request Date"]</th>
+                        <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["Approved or Rejected By"]</th>
+                        <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["Status"]</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @{
+                        int index = 0;
+                    }
+                    @foreach (var report in Model.Reports)
+                    {
+                        // Alternating background color logic
+                        var bgColor = index % 2 == 0 ? "#f8faff" : "white";
+
+                        <tr style="background:@bgColor; border-bottom: 1px solid #eee;">
+                            <td style="padding:10px; vertical-align:middle;">@report.RequestId</td>
+                            <td style="padding:10px; vertical-align:middle; font-weight:bold;">@report.GuestName</td>
+                            <td style="padding:10px; vertical-align:middle;">@report.Phone</td>
+                            <td style="padding:10px; vertical-align:middle; word-break:break-word;">@report.Email</td>
+
+                            <td style="padding:10px; vertical-align:middle; text-align:center;">
+                                @if (!string.IsNullOrEmpty(report.AdditionalGuests))
+                                {
+                                    <span class="badge badge-info">@report.AdditionalGuests</span>
+                                }
+                                else
+                                {
+                                    <span>-</span>
+                                }
+                            </td>
+                            <td style="padding:10px; vertical-align:middle; text-align:center;">
+                                @if (!string.IsNullOrEmpty(report.Devices))
+                                {
+                                    <i class="fas fa-laptop text-secondary"></i>
+                                }
+                                else
+                                {
+                                    <span>-</span>
+                                }
+                            </td>
+
+                            <td style="padding:10px; vertical-align:middle;">@report.ApprovedDateTimeStart</td>
+                            <td style="padding:10px; vertical-align:middle;">@report.ApprovedDateTimeEnd</td>
+                            <td style="padding:10px; vertical-align:middle;">@report.PurposeOfVisit</td>
+                            <td style="padding:10px; vertical-align:middle;">@report.EmployeeName</td>
+                            <td style="padding:10px; vertical-align:middle;">@report.Timestamp</td>
+                            <td style="padding:10px; vertical-align:middle;">@report.Approver</td>
+                            <td style="padding:10px; vertical-align:middle;">
+                                @{
+                                    string statusStyle = "";
+                                    if (report.Status == "Approved")
+                                    {
+                                        statusStyle = "color: #28a745; font-weight: bold;"; // Green
+                                    }
+                                    else if (report.Status == "Rejected")
+                                    {
+                                        statusStyle = "color: #dc3545; font-weight: bold;"; // Red
+                                    }
+                                    else
+                                    {
+                                        statusStyle = "color: #007bff; font-weight: bold;"; // Blue
+                                    }
+                                }
+                                <span style="@statusStyle">@report.Status</span>
+                            </td>
+                        </tr>
+                        
+                        @* @{ index++; } *@
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
+
 @section Scripts {
     <script>
         document.addEventListener('DOMContentLoaded', function () {

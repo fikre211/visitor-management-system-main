@@ -185,7 +185,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             {
                                 <li class="nav-item">
                                     <a asp-controller="RequestInformations" asp-route-companyName="@companyName" asp-action="Index" class="nav-link">
-                                        <i class="nav-icon fas fa-book text-secondary"></i>
+                                        <i class="nav-icon fas fa-book text-primary"></i>
                                         <p>
                                             @Localizer["Requests"]
                                             @if (ViewBag.NumberOfInvitations is int && ViewBag.NumberOfInvitations > 0)
@@ -201,7 +201,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             {
                                 <li class="nav-item">
                                     <a asp-controller="DeligateRole" asp-route-companyName="@companyName" asp-action="Index" class="nav-link">
-                                        <i class="nav-icon fas fa-building text-secondary"></i>
+                                        <i class="nav-icon fas fa-building text-primary"></i>
                                         <p>
                                             @Localizer["Role Deligations"]
                                         </p>
@@ -394,7 +394,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                        asp-route-companyName="@companyName"
                        asp-action="Index"
                        style="
-           font-size:28px;
+           font-size:20px;
            font-weight:800;
            letter-spacing:1.5px;
            text-transform:uppercase;

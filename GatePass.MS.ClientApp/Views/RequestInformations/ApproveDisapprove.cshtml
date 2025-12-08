@@ -10,6 +10,118 @@
     ViewData["Title"] = "View Detail";
 }
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+<style>
+    :root {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        --primary-blue: #0d6efd;
+        --dark-blue: #0a58ca;
+        --accent-blue: #e7f1ff;
+        --text-dark: #343a40;
+        --text-muted: #6c757d;
+    }
+
+    /* Card Styling */
+    .custom-card {
+        border: none;
+        border-top: 4px solid var(--primary-blue);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        border-radius: 8px;
+        background-color: #fff;
+    }
+
+    /* THE REQUESTED PADDING */
+    .card-body-padded {
+        padding: 30px !important;
+    }
+
+    /* Section Headers */
+    .detail-section-title {
+        color: var(--primary-blue);
+        border-bottom: 2px solid var(--accent-blue);
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+        margin-top: 20px;
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+
+        .detail-section-title:first-child {
+            margin-top: 0;
+        }
+
+    /* Field Labels & Values */
+    .detail-label {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        margin-bottom: 4px;
+        display: block;
+    }
+
+    .detail-value {
+        font-size: 1rem;
+        color: var(--text-dark);
+        background-color: #f8f9fa; /* Light gray background for read-only data */
+        padding: 8px 12px;
+        border-radius: 6px;
+        border: 1px solid #e9ecef;
+        min-height: 40px; /* Ensure consistency */
+    }
+
+    .detail-value-plain {
+        font-size: 1rem;
+        color: var(--text-dark);
+        padding-top: 5px;
+    }
+
+    /* Device List Styling */
+    .device-item {
+        background-color: #fff;
+        border-left: 4px solid var(--primary-blue);
+        margin-bottom: 10px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    /* Status Badges */
+    .status-badge {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    .status-pending {
+        background-color: #ffc107;
+        color: #000;
+    }
+
+    .status-approved {
+        background-color: #198754;
+        color: #fff;
+    }
+
+    .status-rejected {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
+    .status-reviewed {
+        background-color: #0dcaf0;
+        color: #000;
+    }
+
+    /* Action Area */
+    .action-area {
+        background-color: var(--accent-blue);
+        padding: 20px;
+        border-radius: 8px;
+        border: 1px solid #cfe2ff;
+    }
+</style>
+
 @if (SignInManager.IsSignedIn(User))
 {
     var user = await UserManager.GetUserAsync(User);
@@ -26,143 +138,149 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-12 justfy-content-center" style="padding: 16px">
-        <div class="card card-primary">
-            <div class="card-header">
-                <h3 class="card-title">@Localizer["requestDetails"]</h3>
+
+    <div class="col-sm-12 justify-content-center" style="padding: 60px">
+        <div class="card custom-card">
+            <div class="card-header bg-white border-bottom-0 pt-4 px-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3 class="card-title text-primary fw-bold mb-0">
+                        <i class="fas fa-file-invoice me-2"></i> @Localizer["requestDetails"]
+                    </h3>
+
+                    @* Status Badge Logic *@
+                    @{
+                        var badgeClass = "bg-secondary";
+                        if (Model.Status == "Approved") { badgeClass = "bg-success"; }
+                        else if (Model.Status == "Rejected") { badgeClass = "bg-danger"; }
+                        else if (Model.Status == "Pending") { badgeClass = "bg-warning text-dark"; }
+                        else if (Model.Status == "Reviewed") { badgeClass = "bg-info text-dark"; }
+                    }
+                    <span class="badge @badgeClass fs-6 px-3 py-2 rounded-pill">@Model.Status</span>
+                </div>
             </div>
-            <div class="card-body">
 
-
-
+            <div class="card-body card-body-padded">
 
                 <form asp-action="ApproveDisapprove">
 
+                    <h5 class="detail-section-title"><i class="fas fa-user-circle me-2"></i> @Localizer["Guest Information"]</h5>
 
-                    <div class="row mb-3">
-                        <label class="col col-md-4 col-form-label">@Localizer["guestFirstName"]: </label>
-                        <div class="col-6 col-md-8">
-                            <p class="form-control-plaintext">@Model.GuestFirstName</p>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="detail-label">@Localizer["guestFirstName"]</label>
+                            <div class="detail-value"><i class="fas fa-user me-2 text-primary"></i> @Model.GuestFirstName</div>
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label class="col col-md-4 col-form-label">@Localizer["Guest Last Name"]:</label>
-                        <div class="col-6 col-md-8">
-                            <p class="form-control-plaintext">@Model.GuestLastName</p>
+                        <div class="col-md-6 mb-3">
+                            <label class="detail-label">@Localizer["Guest Last Name"]</label>
+                            <div class="detail-value"><i class="far fa-user me-2 text-primary"></i> @Model.GuestLastName</div>
                         </div>
-                    </div>
-
-
-                    <div class="row mb-3">
-                        <label class="col col-md-4 col-form-label">@Localizer["Company Name"]: </label>
-                        <div class="col-6 col-md-8">
-                            <p class="form-control-plaintext">@Model.CompanyName</p>
+                        <div class="col-md-6 mb-3">
+                            <label class="detail-label">@Localizer["Company Name"]</label>
+                            <div class="detail-value"><i class="fas fa-building me-2 text-primary"></i> @Model.CompanyName</div>
                         </div>
-                    </div>
-
-
-                    <div class="row mb-3">
-                        <label class="col col-md-4 col-form-label">@Localizer["guestEmail"]: </label>
-                        <div class="col-6 col-md-8">
-                            <p class="form-control-plaintext">@Model.GuestEmail</p>
-                            <input asp-for="GuestEmail" class="form-control" type="email" hidden />
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label class="col col-md-4 col-form-label">@Localizer["guestPhoneNumber"]: </label>
-                        <div class="col-6 col-md-8">
-                            <p class="form-control-plaintext">@Model.GuestPhoneNumber</p>
-                        </div>
-                    </div>
-                    @if (Model.Status == "Pending" || Model.Status == "Reviewed" || Model.Status == "Rejected")
-                    {
-                        <div class="row mb-3">
-                            <label class="col col-md-4 col-form-label">@Localizer["visitDateRange"]: </label>
-                            <div class="col-6 col-md-8">
-                                <p class="form-control-plaintext">@Model.VisitDateTimeStart.ToString("yyyy-MM-ddTHH:mm") @Localizer["to"] @Model.VisitDateTimeEnd.ToString("yyyy-MM-ddTHH:mm") </p>
-
+                        <div class="col-md-6 mb-3">
+                            <label class="detail-label">@Localizer["guestEmail"]</label>
+                            <div class="detail-value">
+                                <i class="fas fa-envelope me-2 text-primary"></i> @Model.GuestEmail
+                                <input asp-for="GuestEmail" type="email" hidden />
                             </div>
                         </div>
-                    }
-                    else
-                    {
-                        <div class="row mb-3">
-                            <label class="col col-md-4 col-form-label">@Localizer["Approved Time Window"]</label>
-                            <div class="col-6 col-md-8">
-                                <p class="form-control-plaintext">@Model.ApprovedDateTimeStart @Localizer["to"] @Model.ApprovedDateTimeEnd </p>
-
-                            </div>
-                        </div>
-                    }
-
-
-                    <div class="row mb-3">
-                        <label class="col col-md-4 col-form-label">@Localizer["PurposeOfVisit"]: </label>
-                        <div class="col-6 col-md-8">
-                            <p class="form-control-plaintext">@Model.PurposeOfVisit</p>
+                        <div class="col-md-6 mb-3">
+                            <label class="detail-label">@Localizer["guestPhoneNumber"]</label>
+                            <div class="detail-value"><i class="fas fa-phone me-2 text-primary"></i> @Model.GuestPhoneNumber</div>
                         </div>
                     </div>
-                    <div class="row mb-3">
-                        <label class="col col-md-4 col-form-label">@Localizer["approvalStatus"]: </label>
-                        <div class="col-6 col-md-8">
-                            <p class="form-control-plaintext">@Model.Status</p>
-                        </div>
-                    </div>
-                    @if (isGateKeeperRole)
-                    {
-                        <div class="row mb-3">
-                            <label class="col col-md-4 col-form-label">@Localizer["Guest Destination Department"]: </label>
-                            <div class="col-6 col-md-8">
-                                <p class="form-control-plaintext">@Model.GuestDestinationDepartment</p>
-                            </div>
-                        </div>
-                    }
-                    <div class="row mb-3">
-                        <label class="col col-md-4 col-form-label">@Localizer["approver"]: </label>
-                        <div class="col-6 col-md-8">
-                            <p class="form-control-plaintext">@Model.Approver</p>
-                        </div>
-                    </div>
-                    @if (!Model.IsIndividual)
-                    {
-                        <div class="row mb-3">
-                            <label class="col col-md-4 col-form-label">@Localizer["Attachements"]: </label>
-                            <div class="col-6 col-md-8">
-                                @foreach (var attachment in Model.Attachments)
-                                {
 
-                                    <a href="~/uploads/@attachment.AttachmentName" target="_blank">
-                                        @attachment.AttachmentName
-                                    </a>
+                    <h5 class="detail-section-title"><i class="fas fa-clock me-2"></i> @Localizer["Visit Schedule"]</h5>
 
-                                }
-                            </div>
-                        </div>
-                    }
-                    @if (Model.IsCheckedIn)
-                    {
-                        <div class="row mb-3">
-                            <label class="col col-md-4 col-form-label">@Localizer["Check in Status"]: </label>
-                            <div class="col-6 col-md-8">
-                                <p class="form-control-plaintext">@Localizer["Guest is Checked in"]!</p>
-                            </div>
-                        </div>
-                    }
-                    <div class="row mb-3">
-                        <label class="col-12 col-md-12 col-form-label">@Localizer["Devices"]: </label>
-                        <div class="col-6 col-md-8">
-                            @if (Model.Devices != null && Model.Devices.Any())
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            @if (Model.Status == "Pending" || Model.Status == "Reviewed" || Model.Status == "Rejected")
                             {
-                                <ul class="list-group">
-                                    @for (int i = 0; i < Model.Devices.Count; i++) // Use a for loop for indexed names
-                                    {
-                                        var device = Model.Devices.ElementAt(i); // Get the device at current index
+                                <label class="detail-label">@Localizer["visitDateRange"]</label>
+                                <div class="detail-value">
+                                    <i class="fas fa-calendar-alt me-2 text-primary"></i>
+                                    @Model.VisitDateTimeStart.ToString("yyyy-MM-dd HH:mm")
+                                    <span class="mx-2 text-muted">&rarr;</span>
+                                    @Model.VisitDateTimeEnd.ToString("yyyy-MM-dd HH:mm")
+                                </div>
+                            }
+                            else
+                            {
+                                <label class="detail-label">@Localizer["Approved Time Window"]</label>
+                                <div class="detail-value border-success">
+                                    <i class="fas fa-check-circle me-2 text-success"></i>
+                                    @Model.ApprovedDateTimeStart
+                                    <span class="mx-2 text-muted">&rarr;</span>
+                                    @Model.ApprovedDateTimeEnd
+                                </div>
+                            }
+                        </div>
 
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div class="col-md-12 mb-3">
+                            <label class="detail-label">@Localizer["PurposeOfVisit"]</label>
+                            <div class="detail-value"><i class="fas fa-info-circle me-2 text-primary"></i> @Model.PurposeOfVisit</div>
+                        </div>
+
+                        @if (isGateKeeperRole)
+                        {
+                            <div class="col-md-12 mb-3">
+                                <label class="detail-label">@Localizer["Guest Destination Department"]</label>
+                                <div class="detail-value">@Model.GuestDestinationDepartment</div>
+                            </div>
+                        }
+
+                        <div class="col-md-6 mb-3">
+                            <label class="detail-label">@Localizer["approver"]</label>
+                            <div class="detail-value">@Model.Approver</div>
+                        </div>
+
+                        @if (!Model.IsIndividual)
+                        {
+                            <div class="col-md-6 mb-3">
+                                <label class="detail-label">@Localizer["Attachements"]</label>
+                                <div class="detail-value-plain">
+                                    @foreach (var attachment in Model.Attachments)
+                                    {
+                                        <a href="~/uploads/@attachment.AttachmentName" target="_blank" class="btn btn-sm btn-outline-secondary mb-1">
+                                            <i class="fas fa-paperclip me-1"></i> @attachment.AttachmentName
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        }
+
+                        @if (Model.IsCheckedIn)
+                        {
+                            <div class="col-md-12 mb-3">
+                                <div class="alert alert-success d-flex align-items-center">
+                                    <i class="fas fa-user-check me-2 fs-4"></i>
+                                    <div>
+                                        <strong>@Localizer["Check in Status"]:</strong> @Localizer["Guest is Checked in"]!
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <h5 class="detail-section-title"><i class="fas fa-laptop me-2"></i> @Localizer["Devices"]</h5>
+
+                    <div class="mb-4">
+                        @if (Model.Devices != null && Model.Devices.Any())
+                        {
+                            <ul class="list-group list-group-flush">
+                                @for (int i = 0; i < Model.Devices.Count; i++)
+                                {
+                                    var device = Model.Devices.ElementAt(i);
+                                    <li class="list-group-item device-item rounded p-3">
+                                        <div class="d-flex justify-content-between align-items-center flex-wrap">
                                             <div>
-                                                <strong>@Localizer["Item Name"]:</strong> @device.DeviceName <br />
-                                                <strong>@Localizer["Identifier"]:</strong> @device.Identifier <br />
-                                                <strong>@Localizer["Description"]:</strong> @device.Description
+                                                <h6 class="mb-1 fw-bold text-primary">@device.DeviceName</h6>
+                                                <div class="small text-muted">
+                                                    <i class="fas fa-barcode me-1"></i> <strong>@Localizer["Identifier"]:</strong> @device.Identifier
+                                                    <span class="mx-2">|</span>
+                                                    <i class="fas fa-align-left me-1"></i> <strong>@Localizer["Description"]:</strong> @device.Description
+                                                </div>
 
                                                 <input type="hidden" name="Devices[@i].DeviceId" value="@device.DeviceId" />
                                                 <input type="hidden" name="Devices[@i].DeviceName" value="@device.DeviceName" />
@@ -170,77 +288,80 @@
                                                 <input type="hidden" name="Devices[@i].Description" value="@device.Description" />
                                                 <input type="hidden" name="Devices[@i].RequestInformationId" value="@device.RequestInformationId" />
                                             </div>
-                                            @if (((Model.Status == "Pending") || (Model.Status == "Reviewed" && !isInSupervisorRole)) && (isInAdminRole || (isInSupervisorRole)))
-                                            {
-                                                <div class="device-status-toggle">
-                                                    <label class="custom-switch @(device.IsGranted == true ? "is-granted" : "")">
-                                                        <input type="checkbox"
-                                                               id="deviceGrant_@device.DeviceId"
-                                                               name="Devices[@i].IsGranted"
-                                                               value="true"
-                                                               @(device.IsGranted == true ? "checked" : "")
-                                                               onchange="toggleDenyCheckbox(@device.DeviceId, this, @i)">
-                                                        <span class="custom-slider"></span>
-                                                    </label>
-                                                    <span class="custom-switch-label @(device.IsGranted == true ? "text-success" : "")" id="labelGrant_@device.DeviceId">
-                                                        @Localizer["Allow"]
-                                                    </span>
 
-                                                    <label class="custom-switch @(device.IsDenied == true ? "is-denied" : "")">
-                                                        <input type="checkbox"
-                                                               id="deviceDeny_@device.DeviceId"
-                                                               name="Devices[@i].IsDenied"
-                                                               value="true"
-                                                               @(device.IsDenied == true ? "checked" : "")
-                                                               onchange="toggleGrantCheckbox(@device.DeviceId, this, @i)">
-                                                        <span class="custom-slider"></span>
-                                                    </label>
-                                                    <span class="custom-switch-label @(device.IsDenied == true ? "text-danger" : "")" id="labelDeny_@device.DeviceId">
-                                                        @Localizer["Deny"]
-                                                    </span>
+                                            <div class="mt-2 mt-md-0">
+                                                @if (((Model.Status == "Pending") || (Model.Status == "Reviewed" && !isInSupervisorRole)) && (isInAdminRole || (isInSupervisorRole)))
+                                                {
+                                                    <div class="device-status-toggle d-flex align-items-center bg-light p-2 rounded">
+                                                        <label class="custom-switch me-3 @(device.IsGranted == true ? "is-granted" : "")">
+                                                            <input type="checkbox"
+                                                                   id="deviceGrant_@device.DeviceId"
+                                                                   name="Devices[@i].IsGranted"
+                                                                   value="true"
+                                                                   @(device.IsGranted == true ? "checked" : "")
+                                                                   onchange="toggleDenyCheckbox(@device.DeviceId, this, @i)">
+                                                            <span class="custom-slider"></span>
+                                                        </label>
+                                                        <span class="custom-switch-label fw-bold me-4 @(device.IsGranted == true ? "text-success" : "")" id="labelGrant_@device.DeviceId">
+                                                            @Localizer["Allow"]
+                                                        </span>
 
-                                                    <!-- === Hidden required field === -->
-                                                    <input type="hidden" id="deviceRequired_@device.DeviceId"
-                                                           name="Devices[@i].SelectionRequired"
-                                                           value="@(device.IsGranted.GetValueOrDefault() || device.IsDenied.GetValueOrDefault() ? "1" : "")"
-                                                           required />
-                                                </div>
-                                            }
+                                                        <label class="custom-switch me-3 @(device.IsDenied == true ? "is-denied" : "")">
+                                                            <input type="checkbox"
+                                                                   id="deviceDeny_@device.DeviceId"
+                                                                   name="Devices[@i].IsDenied"
+                                                                   value="true"
+                                                                   @(device.IsDenied == true ? "checked" : "")
+                                                                   onchange="toggleGrantCheckbox(@device.DeviceId, this, @i)">
+                                                            <span class="custom-slider"></span>
+                                                        </label>
+                                                        <span class="custom-switch-label fw-bold @(device.IsDenied == true ? "text-danger" : "")" id="labelDeny_@device.DeviceId">
+                                                            @Localizer["Deny"]
+                                                        </span>
 
-                                            else
-                                            {
-                                                <div class="fw-bold">
-                                                    @if (device.IsGranted == true)
-                                                    {
-                                                        <span class="text-success">@Localizer["Granted"]</span>
-                                                    }
-                                                    else if (device.IsDenied == true)
-                                                    {
-                                                        <span class="text-danger">@Localizer["Denied"]</span>
-                                                    }
-                                                    else
-                                                    {
-                                                        <span class="text-muted">@Localizer["Pending"]</span>
-                                                    }
-                                                </div>
-                                            }
-                                        </li>
-                                    }
-                                </ul>
-                            }
-                            else
-                            {
-                                <p>@Localizer["No devices available."]</p>
-                            }
-                        </div>
+                                                        <input type="hidden" id="deviceRequired_@device.DeviceId"
+                                                               name="Devices[@i].SelectionRequired"
+                                                               value="@(device.IsGranted.GetValueOrDefault() || device.IsDenied.GetValueOrDefault() ? "1" : "")"
+                                                               required />
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="fw-bold px-3 py-1 rounded border">
+                                                        @if (device.IsGranted == true)
+                                                        {
+                                                            <span class="text-success"><i class="fas fa-check me-1"></i> @Localizer["Granted"]</span>
+                                                        }
+                                                        else if (device.IsDenied == true)
+                                                        {
+                                                            <span class="text-danger"><i class="fas fa-ban me-1"></i> @Localizer["Denied"]</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="text-muted"><i class="fas fa-hourglass-half me-1"></i> @Localizer["Pending"]</span>
+                                                        }
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        }
+                        else
+                        {
+                            <div class="alert alert-light border">@Localizer["No devices available."]</div>
+                        }
                     </div>
-                    <div class="row mb-3">
-                        <label class="col-12 col-md-12 col-form-label">@Localizer["Guests"]: </label>
-                        <div class="col-6 col-md-8">
-                            @if (Model.AdditionalGuests != null)
-                            {
-                                <table class="table table-bordered">
-                                    <thead>
+
+                    <h5 class="detail-section-title"><i class="fas fa-users me-2"></i> @Localizer["Guests"]</h5>
+
+                    <div class="mb-4">
+                        @if (Model.AdditionalGuests != null && Model.AdditionalGuests.Any())
+                        {
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped">
+                                    <thead class="bg-light text-primary">
                                         <tr>
                                             <th>@Localizer["First Name"]</th>
                                             <th>@Localizer["Last Name"]</th>
@@ -256,164 +377,157 @@
                                                 <td>@guest.LastName</td>
                                                 <td>@guest.Email</td>
                                                 <td>@guest.Phone</td>
-
                                             </tr>
                                         }
                                     </tbody>
                                 </table>
-                            }
-                            else
-                            {
-                                <p>@Localizer["No Addtional Guests available."]</p>
-                            }
-                        </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-light border">@Localizer["No Addtional Guests available."]</div>
+                        }
                     </div>
 
                     @if (((Model.Status == "Pending") || (Model.Status == "Reviewed" && !isInSupervisorRole)) && (isInAdminRole || isInSupervisorRole))
                     {
-                        @* Feedback (visible for all who can approve/reject) *@
-                        <div class="form-group">
-                            <label asp-for="Feedback">@Localizer["Feedback"]</label>
-                            <textarea asp-for="Feedback" class="form-control"></textarea>
-                            <span asp-validation-for="Feedback" class="text-danger"></span>
-                        </div>
+                        <div class="action-area mt-4">
+                            <h5 class="text-primary fw-bold mb-3"><i class="fas fa-gavel me-2"></i> @Localizer["Actions"]</h5>
 
-                        @* --- APPROVAL SECTION --- *@
-
-                        @* Approved Date/Time Inputs (ONLY for Admins OR Supervisors NOT of "hopr") *@
-                        @if ((isInAdminRole) || (isInSupervisorRole && companyName.ToLower() != "hopr"))
-                        {
-                            <div class="form-group row">
-                                <div class="col-md-6 mb-3">
-                                    <label asp-for="ApprovedDateTimeStart">@Localizer["Approval Start"]</label>
-                                    <input id="startDate"
-                                           class="form-control"
-                                           type="datetime-local"
-                                           name="ApprovedDateTimeStart"
-                                           value="@Model.VisitDateTimeStart.ToString("yyyy-MM-ddTHH:mm")"
-                                           min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")"
-                                           required />
-                                    <span asp-validation-for="ApprovedDateTimeStart" class="text-danger"></span>
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <label asp-for="ApprovedDateTimeEnd">@Localizer["Approval End"]</label>
-                                    <input id="endDate"
-                                           class="form-control"
-                                           type="datetime-local"
-                                           name="ApprovedDateTimeEnd"
-                                           value="@Model.VisitDateTimeEnd.ToString("yyyy-MM-ddTHH:mm")"
-                                           min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")"
-                                           required />
-                                    <span asp-validation-for="ApprovedDateTimeEnd" class="text-danger"></span>
-                                </div>
+                            <div class="form-group mb-4">
+                                <label asp-for="Feedback" class="fw-bold mb-2">@Localizer["Feedback"]</label>
+                                <textarea asp-for="Feedback" class="form-control" rows="3" placeholder="Enter comments or feedback here..."></textarea>
+                                <span asp-validation-for="Feedback" class="text-danger"></span>
                             </div>
 
-                            <div class="form-group row align-items-center mb-3">
-                                <input type="hidden" id="LanguageHidden" name="SelectedLanguageHidden" value="" />
+                            <div class="row">
+                                <div class="col-lg-7 mb-4 mb-lg-0 border-end border-light pe-lg-4">
+                                    @if ((isInAdminRole) || (isInSupervisorRole && companyName.ToLower() != "hopr"))
+                                    {
+                                        <h6 class="text-success fw-bold mb-3">@Localizer["Approve Request"]</h6>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label asp-for="ApprovedDateTimeStart" class="small text-muted mb-1">@Localizer["Approval Start"]</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text bg-white"><i class="fas fa-calendar-check text-success"></i></span>
+                                                    <input id="startDate"
+                                                           class="form-control"
+                                                           type="datetime-local"
+                                                           name="ApprovedDateTimeStart"
+                                                           value="@Model.VisitDateTimeStart.ToString("yyyy-MM-ddTHH:mm")"
+                                                           min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")"
+                                                           required />
+                                                </div>
+                                                <span asp-validation-for="ApprovedDateTimeStart" class="text-danger"></span>
+                                            </div>
 
-                                <!-- Row: Language Selector Above -->
-                                <div class="col-12 mb-2">
-                                    <div class="d-flex align-items-center">
-                                        <label for="languageSelect" class="form-label mb-0 me-2 fw-semibold text-secondary">
-                                            Send Message In:
-                                        </label>
+                                            <div class="col-md-6 mb-3">
+                                                <label asp-for="ApprovedDateTimeEnd" class="small text-muted mb-1">@Localizer["Approval End"]</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text bg-white"><i class="fas fa-calendar-times text-danger"></i></span>
+                                                    <input id="endDate"
+                                                           class="form-control"
+                                                           type="datetime-local"
+                                                           name="ApprovedDateTimeEnd"
+                                                           value="@Model.VisitDateTimeEnd.ToString("yyyy-MM-ddTHH:mm")"
+                                                           min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")"
+                                                           required />
+                                                </div>
+                                                <span asp-validation-for="ApprovedDateTimeEnd" class="text-danger"></span>
+                                            </div>
+                                        </div>
 
-                                        <select id="languageSelect"
-                                                name="SelectedLanguage"
-                                                class="form-select form-select-sm shadow-sm border-success-subtle"
-                                                style="max-width: 180px;">
-                                            <option value="en">English</option>
-                                            <option value="am">Amharic</option>
+                                        <div class="d-flex align-items-end justify-content-between mt-2">
+                                            <div>
+                                                <input type="hidden" id="LanguageHidden" name="SelectedLanguageHidden" value="" />
+                                                <label for="languageSelect" class="form-label small text-secondary mb-1">Send Message In:</label>
+                                                <select id="languageSelect" name="SelectedLanguage" class="form-select form-select-sm" style="width: 150px;">
+                                                    <option value="en">English</option>
+                                                    <option value="am">Amharic</option>
+                                                </select>
+                                            </div>
+
+                                            <button type="submit"
+                                                    name="Approve"
+                                                    value="true"
+                                                    class="btn btn-success fw-bold px-4"
+                                                    onclick="setApprovalRequired(true); return validateDeviceSelections();">
+                                                <i class="fas fa-check me-2"></i> @Localizer["approve"]
+                                            </button>
+                                        </div>
+                                    }
+
+                                    @* Review Button *@
+                                    @if (isInSupervisorRole && companyName.ToLower() == "hopr")
+                                    {
+                                        <div class="mt-3">
+                                            <button type="submit" name="Review" value="true" class="btn btn-info text-white fw-bold">
+                                                <i class="fas fa-share me-2"></i> @Localizer["Send to Admin"]
+                                            </button>
+                                        </div>
+                                    }
+                                </div>
+
+                                <div class="col-lg-5 ps-lg-4">
+                                    <h6 class="text-danger fw-bold mb-3">@Localizer["Reject Request"]</h6>
+
+                                    <div class="mb-3">
+                                        <label class="small text-muted mb-1">@Localizer["Select only if you reject the request"]</label>
+                                        <select asp-for="SelectedReason" class="form-control" id="rejectReason">
+                                            <option value="">-- @Localizer["Select a reason"] --</option>
+                                            <option value="Unavailable Schedule!">@Localizer["Unavailable Schedule"]!</option>
+                                            <option value="Office Closed">@Localizer["Office Closed"]</option>
+                                            <option value="Meeting">@Localizer["Meeting"]</option>
+                                            <option value="unknown reason">@Localizer["unknown reason"]</option>
                                         </select>
+                                        <span asp-validation-for="SelectedReason" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="text-end mt-4">
+                                        <button type="submit"
+                                                name="Disapprove"
+                                                value="true"
+                                                class="btn btn-outline-danger fw-bold"
+                                                onclick="return validateRejection()">
+                                            <i class="fas fa-times me-2"></i> @Localizer["reject"]
+                                        </button>
                                     </div>
                                 </div>
-                                <div class="col-12">
-                                    <button type="submit"
-                                            name="Approve"
-                                            value="true"
-                                            class="btn btn-success px-4 fw-semibold"
-                                            onclick="setApprovalRequired(true); return validateDeviceSelections();">
-                                        @Localizer["approve"]
-                                    </button>
-
-                                </div>
-                            </div>
-                        }
-                        @* "Review" button conditional display (ONLY for Supervisors AND companyName is "hopr") *@
-                        @if (isInSupervisorRole && companyName.ToLower() == "hopr")
-                        {
-                            <div class="form-group row">
-                                <div class="col">
-                                    <button type="submit" name="Review" value="true" class="btn btn-info">@Localizer["Send to Admin"]</button>
-                                </div>
-                            </div>
-                        }
-
-                        @* --- REJECTION SECTION --- *@
-
-                        @* Reject Reason Dropdown *@
-                        <div class="row mb-3">
-                            <label class="col col-md-4 col-form-label">@Localizer["Select only if you reject the request"]: </label>
-                            <div class="col-6 col-md-8">
-                                <select asp-for="SelectedReason" class="form-control" id="rejectReason">
-                                    <option value="">-- @Localizer["Select a reason"] --</option>
-                                    <option value="Unavailable Schedule!">@Localizer["Unavailable Schedule"]!</option>
-                                    <option value="Office Closed">@Localizer["Office Closed"]</option>
-                                    <option value="Meeting">@Localizer["Meeting"]</option>
-                                    <option value="unknown reason">@Localizer["unknown reason"]</option>
-                                </select>
-                                <span asp-validation-for="SelectedReason" class="text-danger"></span>
-
-                            </div>
-                        </div>
-
-                        @* Reject button (for Admins, Supervisors, and Supervisors of "hopr") *@
-                        <div class="form-group row">
-                            <div class="col">
-                                <button type="submit"
-                                        name="Disapprove"
-                                        value="true"
-                                        class="btn btn-danger"
-                                        onclick="return validateRejection()">
-                                    @Localizer["reject"]
-                                </button>
-
                             </div>
                         </div>
                     }
 
                 </form>
-                <hr />
-                <div class="row">
+
+                <hr class="my-4" />
+
+                <div class="d-flex justify-content-between">
+                    <div>
+                        @if (isGateKeeperRole)
+                        {
+                            <a class="btn btn-secondary" asp-controller="Home" asp-action="Index"><i class="fas fa-arrow-left me-1"></i> @Localizer["backToList"]</a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-secondary" asp-action="Index"><i class="fas fa-arrow-left me-1"></i> @Localizer["backToList"]</a>
+                        }
+                    </div>
+
                     @if (((Model.Status == "Pending") || (Model.Status == "Reviewed")) && Model.InviterId == user.EmployeeId)
                     {
-                        <div class="col-6">
-                            <a class="btn btn-danger" style="cursor: pointer;" onclick="deleteEmployee(@Model.Id)">@Localizer["delete"]</a>
+                        <div>
+                            <a class="btn btn-danger" style="cursor: pointer;" onclick="deleteEmployee(@Model.Id)">
+                                <i class="fas fa-trash-alt me-1"></i> @Localizer["delete"]
+                            </a>
                         </div>
                     }
-
-
-
-                    @if (isGateKeeperRole)
-                    {
-                        <div class="col-6">
-                            <a class="btn btn-primary" asp-controller="Home" asp-action="Index">@Localizer["backToList"]</a>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="col-6">
-                            <a class="btn btn-primary" asp-action="Index">@Localizer["backToList"]</a>
-                        </div>
-                    }
-
                 </div>
+
             </div>
         </div>
     </div>
-
 }
+
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
@@ -433,12 +547,12 @@
 
                 if (reasonSelect.value === "") {
                     // Add red border highlight
-                    reasonSelect.style.border = "2px solid Blue";
+                    reasonSelect.style.border = "2px solid red";
                     return false; // prevent form submit
                 }
 
                 // Reset border if valid
-                  if (languageSelect && languageHidden) {
+                if (languageSelect && languageHidden) {
                     languageHidden.value = languageSelect.value;
                 }
                 reasonSelect.style.border = "";
@@ -447,91 +561,94 @@
         </script>
 
         <script>
-            document.getElementById("startDate").addEventListener("change", function () {
-                let startDate = this.value;
-                let endDateInput = document.getElementById("endDate");
+            const startDateEl = document.getElementById("startDate");
+            if(startDateEl){
+                startDateEl.addEventListener("change", function () {
+                    let startDate = this.value;
+                    let endDateInput = document.getElementById("endDate");
 
-                if (startDate) {
-                    // set the minimum date for end date as the selected start date
-                    endDateInput.min = startDate;
+                    if (startDate) {
+                        // set the minimum date for end date as the selected start date
+                        endDateInput.min = startDate;
 
-                    // if end date is earlier than start, clear it
-                    if (endDateInput.value && endDateInput.value < startDate) {
-                        endDateInput.value = "";
+                        // if end date is earlier than start, clear it
+                        if (endDateInput.value && endDateInput.value < startDate) {
+                            endDateInput.value = "";
+                        }
+                    }
+                });
+            }
+        </script>
+        <script>
+            function toggleDenyCheckbox(deviceId, grantCheckbox) {
+                const denyCheckbox = document.getElementById(`deviceDeny_${deviceId}`);
+                const grantSwitch = grantCheckbox.closest('.custom-switch');
+                const denySwitch = denyCheckbox.closest('.custom-switch');
+                const grantLabel = document.getElementById(`labelGrant_${deviceId}`);
+                const denyLabel = document.getElementById(`labelDeny_${deviceId}`);
+                const requiredField = document.getElementById(`deviceRequired_${deviceId}`);
+
+                if (grantCheckbox.checked) {
+                    // Uncheck deny
+                    denyCheckbox.checked = false;
+
+                    // Styling updates
+                    grantSwitch.classList.add('is-granted');
+                    denySwitch.classList.remove('is-denied');
+                    grantLabel.classList.add('text-success');
+                    denyLabel.classList.remove('text-danger');
+
+                    // Mark as selected (valid)
+                    requiredField.value = "1";
+                }
+                else {
+                    // Remove grant styling
+                    grantSwitch.classList.remove('is-granted');
+                    grantLabel.classList.remove('text-success');
+
+                    // If neither is checked → mandatory fails
+                    if (!denyCheckbox.checked) {
+                        requiredField.value = "";
                     }
                 }
-            });
+            }
+
+            function toggleGrantCheckbox(deviceId, denyCheckbox) {
+                const grantCheckbox = document.getElementById(`deviceGrant_${deviceId}`);
+                const grantSwitch = grantCheckbox.closest('.custom-switch');
+                const denySwitch = denyCheckbox.closest('.custom-switch');
+                const grantLabel = document.getElementById(`labelGrant_${deviceId}`);
+                const denyLabel = document.getElementById(`labelDeny_${deviceId}`);
+                const requiredField = document.getElementById(`deviceRequired_${deviceId}`);
+
+                if (denyCheckbox.checked) {
+                    // Uncheck allow
+                    grantCheckbox.checked = false;
+
+                    // Styling updates
+                    denySwitch.classList.add('is-denied');
+                    grantSwitch.classList.remove('is-granted');
+                    denyLabel.classList.add('text-danger');
+                    grantLabel.classList.remove('text-success');
+
+                    // Mark as selected (valid)
+                    requiredField.value = "1";
+                }
+                else {
+                    // Remove deny styling
+                    denySwitch.classList.remove('is-denied');
+                    denyLabel.classList.remove('text-danger');
+
+                    // If neither is checked → mandatory fails
+                    if (!grantCheckbox.checked) {
+                        requiredField.value = "";
+                    }
+                }
+            }
         </script>
-<script>
-    function toggleDenyCheckbox(deviceId, grantCheckbox) {
-        const denyCheckbox = document.getElementById(`deviceDeny_${deviceId}`);
-        const grantSwitch = grantCheckbox.closest('.custom-switch');
-        const denySwitch = denyCheckbox.closest('.custom-switch');
-        const grantLabel = document.getElementById(`labelGrant_${deviceId}`);
-        const denyLabel = document.getElementById(`labelDeny_${deviceId}`);
-        const requiredField = document.getElementById(`deviceRequired_${deviceId}`);
-
-        if (grantCheckbox.checked) {
-            // Uncheck deny
-            denyCheckbox.checked = false;
-
-            // Styling updates
-            grantSwitch.classList.add('is-granted');
-            denySwitch.classList.remove('is-denied');
-            grantLabel.classList.add('text-success');
-            denyLabel.classList.remove('text-danger');
-
-            // Mark as selected (valid)
-            requiredField.value = "1";
-        } 
-        else {
-            // Remove grant styling
-            grantSwitch.classList.remove('is-granted');
-            grantLabel.classList.remove('text-success');
-
-            // If neither is checked → mandatory fails
-            if (!denyCheckbox.checked) {
-                requiredField.value = "";
-            }
-        }
-    }
-
-    function toggleGrantCheckbox(deviceId, denyCheckbox) {
-        const grantCheckbox = document.getElementById(`deviceGrant_${deviceId}`);
-        const grantSwitch = grantCheckbox.closest('.custom-switch');
-        const denySwitch = denyCheckbox.closest('.custom-switch');
-        const grantLabel = document.getElementById(`labelGrant_${deviceId}`);
-        const denyLabel = document.getElementById(`labelDeny_${deviceId}`);
-        const requiredField = document.getElementById(`deviceRequired_${deviceId}`);
-
-        if (denyCheckbox.checked) {
-            // Uncheck allow
-            grantCheckbox.checked = false;
-
-            // Styling updates
-            denySwitch.classList.add('is-denied');
-            grantSwitch.classList.remove('is-granted');
-            denyLabel.classList.add('text-danger');
-            grantLabel.classList.remove('text-success');
-
-            // Mark as selected (valid)
-            requiredField.value = "1";
-        } 
-        else {
-            // Remove deny styling
-            denySwitch.classList.remove('is-denied');
-            denyLabel.classList.remove('text-danger');
-
-            // If neither is checked → mandatory fails
-            if (!grantCheckbox.checked) {
-                requiredField.value = "";
-            }
-        }
-    }
-</script>
 
         <script>
-                        function setApprovalRequired(isApprove) {
+            function setApprovalRequired(isApprove) {
                 const startInput = document.getElementById("ApprovedDateTimeStart");
                 const endInput = document.getElementById("ApprovedDateTimeEnd");
                 const reasonSelect = document.querySelector("select[name='SelectedReason']");
@@ -564,16 +681,17 @@
 
             document.addEventListener('DOMContentLoaded', function () {
                 const startInput = document.getElementById('ApprovedDateTimeStart');
-
                 const endInput = document.getElementById('ApprovedDateTimeEnd');
 
-                startInput.addEventListener('change', function () {
-                    // Set the min attribute of the end date to the selected start date
-                    endInput.min = startInput.value;
-                });
+                if(startInput && endInput){
+                    startInput.addEventListener('change', function () {
+                        // Set the min attribute of the end date to the selected start date
+                        endInput.min = startInput.value;
+                    });
+                }
             });
 
-                                    function validateDeviceSelections() {
+            function validateDeviceSelections() {
                 const devices = document.querySelectorAll("[id^='deviceRequired_']");
                 let valid = true;
                 let firstInvalidElement = null;
@@ -585,7 +703,6 @@
                         // Highlight device toggle area
                         const devId = reqField.id.replace("deviceRequired_", "");
                         const grant = document.getElementById(`deviceGrant_${devId}`);
-                        const deny = document.getElementById(`deviceDeny_${devId}`);
 
                         const toggleContainer = grant.closest(".device-status-toggle");
                         toggleContainer.style.border = "2px solid red";
@@ -606,13 +723,11 @@
                 if (!valid && firstInvalidElement) {
                     // Scroll to first invalid device toggle
                     firstInvalidElement.scrollIntoView({ behavior: "smooth", block: "center" });
-                    
+
                 }
 
                 return valid;
             }
-
-
         </script>
     }
 }

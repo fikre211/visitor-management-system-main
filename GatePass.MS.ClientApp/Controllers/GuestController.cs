@@ -425,7 +425,7 @@ namespace GatePass.MS.ClientApp.Controllers
                     graphics.FillRectangle(Brushes.LightGray, 0, 0, image.Width, image.Height);
 
                     // 4. Define font and brush
-                    Font font = new Font("Arial", 13, FontStyle.Bold);
+                    Font font = new Font("Arial", 16, FontStyle.Bold);
                     Brush brush = Brushes.CadetBlue;
                     // 6. Draw the logo from the file path
                     // 5. Draw text (adjust positions as needed)
