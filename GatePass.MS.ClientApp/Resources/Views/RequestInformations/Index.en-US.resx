@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="approvalStatus" xml:space="preserve">
-    <value>approvalStatus</value>
+    <value>Approval Status</value>
   </data>
   <data name="Approved" xml:space="preserve">
     <value>Approved</value>
@@ -139,7 +139,7 @@
     <value>Guest Phone Number</value>
   </data>
   <data name="inviteNew" xml:space="preserve">
-    <value>inviteNew</value>
+    <value>Invite New</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
@@ -148,7 +148,7 @@
     <value>Pending</value>
   </data>
   <data name="purposeOfVisit" xml:space="preserve">
-    <value>purposeOfVisit</value>
+    <value>Purpose of Visit</value>
   </data>
   <data name="Rejected" xml:space="preserve">
     <value>Rejected</value>
@@ -163,9 +163,9 @@
     <value>View Detail</value>
   </data>
   <data name="Visit End Date" xml:space="preserve">
-    <value>Visit Date End</value>
+    <value>Visit End Date</value>
   </data>
   <data name="Visit Start Date" xml:space="preserve">
-    <value>Visit End Date</value>
+    <value>Visit Start Date</value>
   </data>
 </root>

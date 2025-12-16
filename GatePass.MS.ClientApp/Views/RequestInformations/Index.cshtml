@@ -226,7 +226,27 @@
         </div>
     </div>
 </div>
+<style>
+    /* CORRECTED: Target the actual ID 'requestsTable' */
+    #requestsTable {
+        /* This forces the separate borders to become one single grid */
+        border-collapse: collapse !important;
+        border-spacing: 0 !important;
+    }
 
+        /* Add the visible border to headers and cells */
+        #requestsTable th,
+        #requestsTable td {
+            border: 1px solid #a0a0a0 !important; /* Visible Grey Border */
+        }
+
+        /* IMPORTANT: Remove the 'floating card' shadow defined in your top CSS
+           so the grid looks flat and clean */
+        #requestsTable tbody tr {
+            box-shadow: none !important;
+            border-radius: 0 !important;
+        }
+</style>
 @section Scripts {
     <script>
         $(document).ready(function(){

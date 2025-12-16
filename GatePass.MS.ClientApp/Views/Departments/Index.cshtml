@@ -2,23 +2,17 @@
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 
-
 @{
-
     ViewData["Title"] = "Index";
-    var departments = Model.ToList();
-    var hasDepartments = departments.Any();
 }
-
-
 
 <div style="padding:20px;">
 
     <div class="mb-3" style="margin-bottom:20px;">
-        <a asp-action="Create" class="btn btn-primary"
-           style="background:#0d6efd; border-color:#0d6efd; padding:8px 14px; border-radius:6px; font-weight:500;">
+        <button onclick="openCreateModal()" class="btn btn-primary"
+                style="background:#0d6efd; border-color:#0d6efd; padding:8px 14px; border-radius:6px; font-weight:500;">
             <i class="fas fa-plus"></i> @Localizer["createNewDepartment"]
-        </a>
+        </button>
     </div>
 
     <div class="card"
@@ -53,10 +47,10 @@
                                     <i class="fas fa-trash"></i>
                                 </a>
 
-                                <a asp-action="Create" asp-route-parentId="@department.Id" class="btn btn-sm"
-                                   style="background:#0ba8e6; color:#fff; border-color:#0ba8e6; margin-left:4px;" title="Add Sub">
+                                <button onclick="openCreateModal('@department.Id')" class="btn btn-sm"
+                                        style="background:#0ba8e6; color:#fff; border-color:#0ba8e6; margin-left:4px;" title="Add Sub">
                                     <i class="fas fa-plus"></i>
-                                </a>
+                                </button>
 
                                 <a asp-action="Edit" asp-route-id="@department.Id" class="btn btn-warning btn-sm"
                                    style="background:#ffc107; border-color:#ffca2c; color:#000; margin-left:4px;" title="Edit">
@@ -82,5 +76,59 @@
             </table>
         </div>
     </div>
-
 </div>
+
+<div class="modal fade" id="createDepartmentModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="border-radius:10px; border:none; box-shadow:0 5px 15px rgba(0,0,0,0.2);">
+
+            <div class="modal-header" style="background:linear-gradient(90deg,#0d6efd,#0a58ca); color:white; border-radius:10px 10px 0 0;">
+                <h5 class="modal-title" style="font-weight:600;">
+                    <i class="fas fa-plus-circle"></i> @Localizer["createNewDepartment"]
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" onclick="closeCreateModal()" aria-label="Close" style="color:white; opacity:1;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <form asp-action="Create" method="post">
+                <div class="modal-body" style="padding:25px;">
+
+                    <input type="hidden" name="ParentDepartmentId" id="modalParentId" />
+
+                    <div class="form-group">
+                        <label class="control-label" style="font-weight:500; color:#004085;">@Localizer["departmentName"]</label>
+                        <input type="text" name="Name" id="modalNameInput" class="form-control" required
+                               style="border:1px solid #bcdcff; border-radius:6px; padding:8px; margin-top:5px;" />
+                    </div>
+
+                </div>
+                <div class="modal-footer" style="background-color:#f8f9fa; border-radius:0 0 10px 10px;">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeCreateModal()">@Localizer["Cancel"]</button>
+                    <button type="submit" class="btn btn-primary" style="background:#0d6efd;">@Localizer["Create"]</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        // Function to OPEN the modal
+        function openCreateModal(parentId = null) {
+            // clear the form
+            $('#modalNameInput').val('');
+
+            // Set the parent ID (if provided) or clear it (if creating new root)
+            $('#modalParentId').val(parentId);
+
+            // Open the modal
+            $('#createDepartmentModal').modal('show');
+        }
+
+        // Function to CLOSE the modal
+        function closeCreateModal() {
+            $('#createDepartmentModal').modal('hide');
+        }
+    </script>
+}

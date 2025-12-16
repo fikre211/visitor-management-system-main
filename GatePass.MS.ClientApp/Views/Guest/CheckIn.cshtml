@@ -24,8 +24,8 @@
         border: 1px solid var(--border-blue);
         border-radius: 12px;
         box-shadow: 0 6px 15px rgba(21, 101, 192, 0.08);
-        padding: 30px;
-        margin-top: 20px;
+        padding: 10px;
+        margin-top: 10px;
     }
 
     /* --- Section Headers --- */
@@ -33,8 +33,8 @@
         color: var(--primary-blue);
         border-bottom: 2px solid var(--light-blue-bg);
         padding-bottom: 10px;
-        margin-bottom: 20px;
-        margin-top: 25px;
+        margin-bottom: 10px;
+        margin-top: 10px;
         font-weight: 600;
         font-size: 1.1rem;
     }
@@ -50,7 +50,7 @@
     .form-control-custom {
         border: 1px solid #ced4da;
         border-radius: 8px;
-        padding: 10px 15px;
+        padding: 5px 55px;
         transition: all 0.3s ease;
         background-color: #fcfcfc;
     }
@@ -245,41 +245,89 @@
                     <h5 class="section-header">
                         <i class="fas fa-laptop mr-2"></i> @Localizer["Devices"]
                     </h5>
-
                     <div class="row mb-3">
                         <div class="col-12">
                             @if (ViewBag.Devices != null && ((ICollection<GatePass.MS.Domain.Device>)ViewBag.Devices).Any())
                             {
-                                <ul class="list-group">
+                                <div class="list-group list-group-flush">
                                     @foreach (var device in (ICollection<GatePass.MS.Domain.Device>)ViewBag.Devices)
                                     {
-                                        <li class="list-group-item d-flex justify-content-between align-items-center" style="border-radius: 8px; margin-bottom: 5px;">
-                                            <div>
-                                                <div style="font-weight: 600; color: var(--primary-blue);">@device.DeviceName</div>
-                                                <small class="text-muted"><strong>@Localizer["ID"]:</strong> @device.Identifier</small><br />
-                                                <small class="text-muted">@device.Description</small>
+                                        <div class="list-group-item border-0 mb-2 d-flex justify-content-between align-items-center shadow-sm"
+                                             style="border-radius: 10px; background-color: #f8f9fa; padding: 15px;">
+
+                                            <div class="d-flex align-items-start">
+                                                <div class="d-flex align-items-center justify-content-center mr-3 mt-1"
+                                                     style="width: 40px; height: 40px; min-width: 40px; background-color: #e7f1ff; border-radius: 50%; color: #0d6efd;">
+                                                    <i class="fas fa-laptop"></i>
+                                                </div>
+
+                                                <div style="font-size: 14px;">
+
+                                                    <div class="mb-1">
+                                                        <span class="text-muted small font-weight-bold text-uppercase mr-1" style="font-size: 11px; letter-spacing: 0.5px;">
+                                                            @Localizer["Item Name"]:
+                                                        </span>
+                                                        <span style="font-weight: 600; color: #004085; font-size: 15px;">
+                                                            @device.DeviceName
+                                                        </span>
+                                                    </div>
+
+                                                    <div class="mb-1">
+                                                        <span class="text-muted small font-weight-bold text-uppercase mr-1" style="font-size: 11px; letter-spacing: 0.5px;">
+                                                            @Localizer["Identifier"]:
+                                                        </span>
+                                                        <span class="text-dark font-weight-medium">
+                                                            @device.Identifier
+                                                        </span>
+                                                    </div>
+
+                                                    @if (!string.IsNullOrEmpty(device.Description))
+                                                    {
+                                                        <div>
+                                                            <span class="text-muted small font-weight-bold text-uppercase mr-1" style="font-size: 11px; letter-spacing: 0.5px;">
+                                                                @Localizer["Description"]:
+                                                            </span>
+                                                            <span class="text-secondary">
+                                                                @device.Description
+                                                            </span>
+                                                        </div>
+                                                    }
+                                                </div>
                                             </div>
-                                            <div class="font-weight-bold">
+
+                                            <div class="pl-2">
                                                 @if (device.IsGranted == true)
                                                 {
-                                                    <span class="badge badge-success px-3 py-2">@Localizer["Granted"]</span>
+                                                    <span class="badge badge-pill badge-light text-success border border-success px-3 py-2">
+                                                        <i class="fas fa-check-circle mr-1"></i> @Localizer["Granted"]
+                                                    </span>
                                                 }
                                                 else if (device.IsDenied == true)
                                                 {
-                                                    <span class="badge badge-danger px-3 py-2">@Localizer["Denied"]</span>
+                                                    <span class="badge badge-pill badge-light text-danger border border-danger px-3 py-2">
+                                                        <i class="fas fa-times-circle mr-1"></i> @Localizer["Denied"]
+                                                    </span>
                                                 }
                                                 else
                                                 {
-                                                    <span class="badge badge-warning text-white px-3 py-2">@Localizer["Pending"]</span>
+                                                    <span class="badge badge-pill badge-light text-warning border border-warning px-3 py-2">
+                                                        <i class="fas fa-clock mr-1"></i> @Localizer["Pending"]
+                                                    </span>
                                                 }
                                             </div>
-                                        </li>
+
+                                        </div>
                                     }
-                                </ul>
+                                </div>
                             }
                             else
                             {
-                                <div class="alert alert-light text-center border text-muted">@Localizer["No devices declared."]</div>
+                                <div class="text-center p-4" style="background-color: #f8f9fa; border-radius: 10px; border: 1px dashed #dee2e6;">
+                                    <div class="mb-2" style="color: #adb5bd;">
+                                        <i class="fas fa-laptop-medical fa-2x"></i>
+                                    </div>
+                                    <h6 class="text-muted mb-0">@Localizer["No devices declared."]</h6>
+                                </div>
                             }
                         </div>
                     </div>
