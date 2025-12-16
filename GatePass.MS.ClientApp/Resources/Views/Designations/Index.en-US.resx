@@ -121,13 +121,13 @@
     <value>actions</value>
   </data>
   <data name="createNewDesignation" xml:space="preserve">
-    <value>createNewDesignation</value>
+    <value>Create New Designation</value>
   </data>
   <data name="designationName" xml:space="preserve">
-    <value>designationName</value>
+    <value>Designation Name</value>
   </data>
-  <data name="designationtLists" xml:space="preserve">
-    <value>designationLists</value>
+  <data name="designationLists" xml:space="preserve">
+    <value>Designation Lists</value>
   </data>
   <data name="noDesignationsFound" xml:space="preserve">
     <value>noDesignationsFound</value>

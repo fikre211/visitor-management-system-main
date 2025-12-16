@@ -129,13 +129,16 @@
   <data name="parentDepartment" xml:space="preserve">
     <value>Parent Department</value>
   </data>
-  <data name="addDeparment" xml:space="preserve">
-    <value>Add Department</value>
-  </data>
   <data name="Create Department" xml:space="preserve">
     <value>Create Department</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
+  </data>
+  <data name="addDeparment" xml:space="preserve">
+    <value>Add Department</value>
+  </data>
+  <data name="createNewDepartment" xml:space="preserve">
+    <value>Create New Department</value>
   </data>
 </root>

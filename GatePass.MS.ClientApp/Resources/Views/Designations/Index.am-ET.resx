@@ -126,7 +126,7 @@
   <data name="designationName" xml:space="preserve">
     <value>ስያሜ ስም</value>
   </data>
-  <data name="designationtLists" xml:space="preserve">
+  <data name="designationLists" xml:space="preserve">
     <value>ስያሜዎች ዝርዝር</value>
   </data>
   <data name="noDesignationsFound" xml:space="preserve">

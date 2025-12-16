@@ -119,10 +119,11 @@
 
                 <div class="card-tools">
                     <div class="input-group input-group-sm" style="width: 160px;">
-                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+                        <!-- Changed to client-side ID for JS filtering -->
+                        <input type="text" id="table_search" class="form-control float-right" placeholder="Search">
 
                         <div class="input-group-append">
-                            <button type="submit" class="btn btn-default">
+                            <button type="button" class="btn btn-default">
                                 <i class="fas fa-search"></i>
                             </button>
                         </div>
@@ -131,7 +132,8 @@
             </div>
 
             <div class="card-body table-responsive p-0">
-                <table class="table table-hover text-nowrap">
+                <!-- Added ID for JS targeting -->
+                <table class="table table-hover text-nowrap" id="requestsTable">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -175,19 +177,19 @@
                                 @(invitation.Status == "Pending" || invitation.Status == "Rejected"
                                                                 ? invitation.VisitDateTimeStart.ToString("MM/dd/yyyy")
                                                                 : invitation.ApprovedDateTimeStart)
-                                                                                               </td>
+                                </td>
 
-                            <td>
-                                @(invitation.Status == "Pending" || invitation.Status == "Rejected"
-                                                                ? invitation.VisitDateTimeEnd.ToString("MM/dd/yyyy")
-                                                                : invitation.ApprovedDateTimeEnd)
-                            </td>
+                                <td>
+                                    @(invitation.Status == "Pending" || invitation.Status == "Rejected"
+                                                                    ? invitation.VisitDateTimeEnd.ToString("MM/dd/yyyy")
+                                                                    : invitation.ApprovedDateTimeEnd)
+                                </td>
 
                                 <td>@invitation.PurposeOfVisit</td>
                                 <td>@(invitation.Employee?.FirstName + " " + invitation.Employee?.LastName)</td>
 
                                 <td>
-                                @if (invitation.Status == "Pending")
+                                    @if (invitation.Status == "Pending")
                                     {
                                         <span class="badge badge-warning">@Localizer["Pending"]</span>
                                     }
@@ -226,5 +228,14 @@
 </div>
 
 @section Scripts {
-    <!-- Your scripts here -->
+    <script>
+        $(document).ready(function(){
+            $("#table_search").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#requestsTable tbody tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
 }

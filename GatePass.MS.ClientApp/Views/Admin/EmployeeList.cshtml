@@ -77,7 +77,7 @@
 
                                 if (isInAdminRole && userAccount != null)
                                 {
-                                    <span style="background-color: @PrimaryBlue; color: white; padding: 6px 14px; border-radius: 20px; font-size: 16px; font-weight: bold; display: inline-block;">
+                                    <span style="background-color: @PrimaryBlue; color: white; padding: 6px 14px; border-radius: 20px; font-size: 14px;  display: inline-block;">
                                         @Localizer["already Registered"]
                                     </span>
 
@@ -88,7 +88,7 @@
                                        asp-route-companyName="@companyName"
                                        asp-page="/Account/Register"
                                        asp-route-employeeId="@item.Id"
-                                       style="cursor: pointer; background-color: @AccentBlue; color: white; padding: 6px 14px; border-radius: 20px; text-decoration: none; font-size: 16px; font-weight: bold; box-shadow: 0 3px 6px rgba(0,176,255,0.3); border: none; display: inline-block;"
+                                       style="cursor: pointer; background-color: @AccentBlue; color: white; padding: 6px 14px; border-radius: 20px; text-decoration: none; font-size: 14px;  box-shadow: 0 3px 6px rgba(0,176,255,0.3); border: none; display: inline-block;"
                                        onmouseover="this.style.backgroundColor='#0091ea'"
                                        onmouseout="this.style.backgroundColor='@AccentBlue'">
                                         @Localizer["createAccount"]
@@ -107,4 +107,15 @@
 
 @section Scripts {
 
-}
+}<style>
+    /* Force table borders to collapse into single lines */
+    #myDataTable {
+        border-collapse: collapse !important;
+    }
+
+        /* Add a visible border to every header and cell */
+        #myDataTable th,
+        #myDataTable td {
+            border: 1px solid #a0a0a0 !important; /* Dark grey visible border */
+        }
+</style>

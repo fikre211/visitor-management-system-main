@@ -43,16 +43,17 @@ namespace GatePass.MS.ClientApp.Controllers
         private readonly GuestActivityService _guestActivityService;
         private readonly SmsService _smsService;
         private readonly ICurrentCompany _current;
-
+        private readonly IConfiguration _configuration;
         public GuestController(ApplicationDbContext context,
         ILogger<GuestController> logger,
-
+         IConfiguration configuration,
        UserManager<ApplicationUser> userManager,
        IEmailSender emailSender,
        ICurrentCompany current,
        IWebHostEnvironment webHostEnvironment,
        IFileService fileService,GuestActivityService guestActivityService, SmsService smsService)
         {
+            _configuration = configuration;
             _userManager = userManager;
             _emailSender = emailSender;
             _context = context;
@@ -63,7 +64,7 @@ namespace GatePass.MS.ClientApp.Controllers
             _environment = webHostEnvironment;
             _guestActivityService = guestActivityService;
             _smsService = smsService;
-
+         
 
         }
         [HttpGet]
@@ -127,10 +128,43 @@ namespace GatePass.MS.ClientApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        private async Task<bool> VerifyRecaptcha(string token)
+        {
+            var secretKey = _configuration["GoogleReCaptcha:SecretKey"];
+
+            if (string.IsNullOrWhiteSpace(secretKey))
+                return false;
+
+            using var client = new HttpClient();
+            var response = await client.PostAsync(
+                $"https://www.google.com/recaptcha/api/siteverify?secret={secretKey}&response={token}",
+                null
+            );
+
+            var json = await response.Content.ReadAsStringAsync();
+            dynamic result = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
+
+            return result.success == true;
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> Invite(RequestInformationViewModel model)
         {
+            var captchaResponse = Request.Form["g-recaptcha-response"];
+
+            if (string.IsNullOrEmpty(captchaResponse))
+            {
+                ModelState.AddModelError("", "Please verify that you are not a robot.");
+                return View(nameof(Invite), model);
+            }
+
+            var isCaptchaValid = await VerifyRecaptcha(captchaResponse);
+            if (!isCaptchaValid)
+            {
+                ModelState.AddModelError("", "reCAPTCHA validation failed.");
+                return View(nameof(Invite), model);
+            }
 
             try
             {

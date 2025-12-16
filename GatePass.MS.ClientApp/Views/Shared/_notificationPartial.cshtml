@@ -10,6 +10,7 @@
 {
     var currentUser = await _userManager.GetUserAsync(User);
     int? CurrentUserDepartmentId = currentUser?.Employee?.DepartmentId;
+    int? CurrentCompanyId = currentUser?.CompanyId;
     var isInSupervisorRole = await _userManager.IsInRoleAsync(currentUser, "Superviser");
     var isInAdminRole = await _userManager.IsInRoleAsync(currentUser, "Admin");
     @if (currentUser != null)
@@ -17,10 +18,29 @@
         var today = DateTime.Today;
 
         int pendingRequestsCount = _context.RequestInformation
-                    .Count(r => (r.Employee.DepartmentId == CurrentUserDepartmentId && isInSupervisorRole && r.Status == "Pending" && r.VisitDateTimeEnd >= today));
+    .Count(r =>
+        r.CompanyId == CurrentCompanyId &&
+        r.Employee.DepartmentId == CurrentUserDepartmentId &&
+        isInSupervisorRole &&
+        r.Status == "Pending" &&
+        r.VisitDateTimeEnd >= today &&
+        !r.Deleted
+    );
+
         int OutDatedRequestsCount = _context.RequestInformation
-                        .Count(r => ((r.VisitDateTimeStart < today && r.Status == "Pending") && !r.Deleted));
-        int lockedAccountCount = _userManager.Users.Where(u => u.IsLocked).Count();
+            .Count(r =>
+                r.CompanyId == CurrentCompanyId &&
+                r.VisitDateTimeStart < today &&
+                r.Status == "Pending" &&
+                !r.Deleted
+            );
+
+        int lockedAccountCount = _userManager.Users
+     .Count(u =>
+         u.CompanyId == CurrentCompanyId &&
+         u.IsLocked
+     );
+
 
         @if (isInAdminRole)
         {

@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Companies Lists" xml:space="preserve">
-    <value>Companies Lists</value>
+    <value>Companies List</value>
   </data>
   <data name="Create New Company" xml:space="preserve">
     <value>Create New Company</value>

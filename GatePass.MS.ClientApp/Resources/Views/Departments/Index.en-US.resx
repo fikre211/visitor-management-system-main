@@ -127,6 +127,6 @@
     <value>Department Lists</value>
   </data>
   <data name="departmentName" xml:space="preserve">
-    <value>departmentName</value>
+    <value>Department Name</value>
   </data>
 </root>

@@ -135,4 +135,10 @@
   <data name="Cancel" xml:space="preserve">
     <value>ሰርዝ</value>
   </data>
+  <data name="addDeparment" xml:space="preserve">
+    <value>34</value>
+  </data>
+  <data name="createNewDepartment" xml:space="preserve">
+    <value>ክፍል ይፍጠሩ</value>
+  </data>
 </root>

@@ -5,30 +5,60 @@
 @{
     ViewData["Title"] = "Visit Report";
 
-    // Prepare options for status dropdown
     var statusOptions = new[] { "Pending", "Approved", "Rejected" };
-
-    // Prepare options for employee dropdown
     var employees = Model.Employees.Select(e => new { e.Id, e.FirstName }).ToList();
 }
 
+<style>
+    /* Styling for the clickable rows */
+    .clickable-row {
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+
+        .clickable-row:hover {
+            background-color: #e3f2fd !important; /* Light accent blue hover */
+        }
+
+    /* Helper class to hide columns visually but keep them in the DOM for Export */
+    /* Note: If you use Bootstrap, 'd-none' does this automatically. Defined here just in case. */
+    .col-hidden {
+        display: none !important;
+    }
+
+    /* Modal Styling */
+    .modal-header-custom {
+        background: linear-gradient(135deg, #1e88e5 0%, #1565c0 100%);
+        color: white;
+    }
+
+    .detail-label {
+        font-weight: 600;
+        color: #1565c0;
+        font-size: 0.9rem;
+    }
+
+    .detail-value {
+        color: #333;
+        margin-bottom: 15px;
+        display: block;
+    }
+</style>
+
 <div style="padding:30px; background:#f7faff; font-family:Segoe UI, Arial, sans-serif;">
 
-    @* --- FILTER SECTION (Styled like the previous Upload Form) --- *@
-    <form method="get" action="@Url.Action("VisitReport", "Reports")" 
+    @* --- FILTER SECTION (Unchanged) --- *@
+    <form method="get" action="@Url.Action("VisitReport", "Reports")"
           style="margin-bottom:25px; padding:10px; border:1px solid #cce5ff; border-radius:8px; background:#eef5ff; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
-        
         <div class="row align-items-end">
             <div class="col-md-2 form-group mb-0">
                 <label for="startDate" style="font-weight:600; margin-bottom:5px; color:#0056b3;">@Localizer["Start Date"]:</label>
                 <input type="date" id="startDate" name="startDate" class="form-control" value="@Model.StartDate?.ToString("yyyy-MM-dd")" style="border-radius:4px; border-color:#b3d7ff;" />
             </div>
-
             <div class="col-md-2 form-group mb-0">
                 <label for="endDate" style="font-weight:600; margin-bottom:5px; color:#0056b3;">@Localizer["End Date"]:</label>
                 <input type="date" id="endDate" name="endDate" class="form-control" value="@Model.EndDate?.ToString("yyyy-MM-dd")" style="border-radius:4px; border-color:#b3d7ff;" />
             </div>
-
             <div class="col-md-2 form-group mb-0">
                 <label for="status" style="font-weight:600; margin-bottom:5px; color:#0056b3;">@Localizer["Status"]:</label>
                 <select id="status" name="status" class="form-control" style="border-radius:4px; border-color:#b3d7ff;">
@@ -39,20 +69,18 @@
                     }
                 </select>
             </div>
-
             <div class="col-md-2 form-group mb-0">
                 <label for="employee" style="font-weight:600; margin-bottom:5px; color:#0056b3;">@Localizer["Employee"]:</label>
                 <select id="employee" name="employeeId" class="form-control" style="border-radius:4px; border-color:#b3d7ff;">
                     <option value="">@Localizer["All"]</option>
-                    @foreach (var employee in employees)
+                    @foreach (var emp in employees)
                     {
-                        <option value="@employee.Id">@employee.FirstName</option>
+                        <option value="@emp.Id">@emp.FirstName</option>
                     }
                 </select>
             </div>
-
             <div class="col-md-4 form-group mb-0 text-right">
-                <button type="submit" class="btn btn-primary px-4" style="background:#007bff; border-color:#007bff; color:white; font-weight:600; box-shadow:0 2px 4px rgba(0,0,0,0.1);">
+                <button type="submit" class="btn btn-primary px-4" style="background:#007bff;">
                     <i class="fas fa-filter mr-1"></i> @Localizer["Filter"]
                 </button>
             </div>
@@ -61,27 +89,26 @@
 
     @* --- TABLE SECTION --- *@
     <div style="background:white; border-radius:10px; box-shadow:0px 4px 10px rgba(0,0,0,0.1);">
-        
         <div>
-            @* Removed 'text-nowrap' and removed fixed height to use main scrollbar *@
-            <table id="myDataTable" class="table table-hover table-head-fixed" style="font-size:14px; width:100%; border-collapse: separate; border-spacing: 0;">
-                <thead style="position: sticky; top: 0; z-index: 1; background-color: #007bff; color: white;">
+            <table id="myDataTable" class="table table-hover" style="font-size:14px; width:100%; border-collapse: separate; border-spacing: 0;">
+                <thead style="background-color: #007bff; color: white;">
                     <tr>
-                        <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["Request ID"]</th>
-                        <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["Visitor Name"]</th>
-                        <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["Visitor Phone"]</th>
-                        <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["Visitor Email"]</th>
+                        @* VISIBLE COLUMNS *@
+                        <th style="padding:12px; border:none;">@Localizer["Request ID"]</th>
+                        <th style="padding:12px; border:none;">@Localizer["Visitor Name"]</th>
+                        <th style="padding:12px; border:none;">@Localizer["Visitor Phone"]</th>
+                        <th style="padding:12px; border:none;">@Localizer["Request Date"]</th>
 
-                        <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["Additional Guests"]</th>
-                        <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["Devices"]</th>
-
-                        <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["Approved Time Start"]</th>
-                        <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["Approved Time End"]</th>
-                        <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["Purpose"]</th>
-                        <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["Inviter"]</th>
-                        <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["Request Date"]</th>
-                        <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["Approved or Rejected By"]</th>
-                        <th style="padding:12px; border:none; color:white; background:#007bff;">@Localizer["Status"]</th>
+                        @* HIDDEN COLUMNS (For Export Only - using class 'col-hidden') *@
+                        <th class="col-hidden">@Localizer["Visitor Email"]</th>
+                        <th class="col-hidden">@Localizer["Additional Guests"]</th>
+                        <th class="col-hidden">@Localizer["Devices"]</th>
+                        <th class="col-hidden">@Localizer["Approved Time Start"]</th>
+                        <th class="col-hidden">@Localizer["Approved Time End"]</th>
+                        <th class="col-hidden">@Localizer["Purpose"]</th>
+                        <th class="col-hidden">@Localizer["Inviter"]</th>
+                        <th class="col-hidden">@Localizer["Approved/Rejected By"]</th>
+                        <th class="col-hidden">@Localizer["Status"]</th>
                     </tr>
                 </thead>
 
@@ -91,63 +118,43 @@
                     }
                     @foreach (var report in Model.Reports)
                     {
-                        // Alternating background color logic
                         var bgColor = index % 2 == 0 ? "#f8faff" : "white";
 
-                        <tr style="background:@bgColor; border-bottom: 1px solid #eee;">
+                        <tr class="clickable-row"
+                            style="background:@bgColor; border-bottom: 1px solid #eee;"
+                            onclick="openDetailsModal(this)"
+                            data-id="@report.RequestId"
+                            data-name="@report.GuestName"
+                            data-phone="@report.Phone"
+                            data-email="@report.Email"
+                            data-guests="@report.AdditionalGuests"
+                            data-devices="@report.Devices"
+                            data-start="@report.ApprovedDateTimeStart"
+                            data-end="@report.ApprovedDateTimeEnd"
+                            data-purpose="@report.PurposeOfVisit"
+                            data-inviter="@report.EmployeeName"
+                            data-date="@report.Timestamp"
+                            data-approver="@report.Approver"
+                            data-status="@report.Status">
+
+                            @* VISIBLE DATA *@
                             <td style="padding:10px; vertical-align:middle;">@report.RequestId</td>
                             <td style="padding:10px; vertical-align:middle; font-weight:bold;">@report.GuestName</td>
                             <td style="padding:10px; vertical-align:middle;">@report.Phone</td>
-                            <td style="padding:10px; vertical-align:middle; word-break:break-word;">@report.Email</td>
-
-                            <td style="padding:10px; vertical-align:middle; text-align:center;">
-                                @if (!string.IsNullOrEmpty(report.AdditionalGuests))
-                                {
-                                    <span class="badge badge-info">@report.AdditionalGuests</span>
-                                }
-                                else
-                                {
-                                    <span>-</span>
-                                }
-                            </td>
-                            <td style="padding:10px; vertical-align:middle; text-align:center;">
-                                @if (!string.IsNullOrEmpty(report.Devices))
-                                {
-                                    <i class="fas fa-laptop text-secondary"></i>
-                                }
-                                else
-                                {
-                                    <span>-</span>
-                                }
-                            </td>
-
-                            <td style="padding:10px; vertical-align:middle;">@report.ApprovedDateTimeStart</td>
-                            <td style="padding:10px; vertical-align:middle;">@report.ApprovedDateTimeEnd</td>
-                            <td style="padding:10px; vertical-align:middle;">@report.PurposeOfVisit</td>
-                            <td style="padding:10px; vertical-align:middle;">@report.EmployeeName</td>
                             <td style="padding:10px; vertical-align:middle;">@report.Timestamp</td>
-                            <td style="padding:10px; vertical-align:middle;">@report.Approver</td>
-                            <td style="padding:10px; vertical-align:middle;">
-                                @{
-                                    string statusStyle = "";
-                                    if (report.Status == "Approved")
-                                    {
-                                        statusStyle = "color: #28a745; font-weight: bold;"; // Green
-                                    }
-                                    else if (report.Status == "Rejected")
-                                    {
-                                        statusStyle = "color: #dc3545; font-weight: bold;"; // Red
-                                    }
-                                    else
-                                    {
-                                        statusStyle = "color: #007bff; font-weight: bold;"; // Blue
-                                    }
-                                }
-                                <span style="@statusStyle">@report.Status</span>
-                            </td>
+
+                            @* HIDDEN DATA (For Export) *@
+                            <td class="col-hidden">@report.Email</td>
+                            <td class="col-hidden">@report.AdditionalGuests</td>
+                            <td class="col-hidden">@report.Devices</td>
+                            <td class="col-hidden">@report.ApprovedDateTimeStart</td>
+                            <td class="col-hidden">@report.ApprovedDateTimeEnd</td>
+                            <td class="col-hidden">@report.PurposeOfVisit</td>
+                            <td class="col-hidden">@report.EmployeeName</td>
+                            <td class="col-hidden">@report.Approver</td>
+                            <td class="col-hidden">@report.Status</td>
                         </tr>
-                        
-                        @* @{ index++; } *@
+                        { index++; }
                     }
                 </tbody>
             </table>
@@ -155,22 +162,151 @@
     </div>
 </div>
 
+<div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header modal-header-custom">
+                <h5 class="modal-title">
+                    <i class="fas fa-info-circle mr-2"></i> @Localizer["Visit Details"]
+                </h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="row">
+                    <div class="col-md-6">
+                        <span class="detail-label">@Localizer["Request ID"]</span>
+                        <span class="detail-value" id="m-id"></span>
+                        <span class="detail-label">@Localizer["Visitor Name"]</span>
+                        <span class="detail-value" id="m-name"></span>
+                        <span class="detail-label">@Localizer["Email"]</span>
+                        <span class="detail-value" id="m-email"></span>
+                        <span class="detail-label">@Localizer["Phone"]</span>
+                        <span class="detail-value" id="m-phone"></span>
+                        <span class="detail-label">@Localizer["Additional Guests"]</span>
+                        <span class="detail-value" id="m-guests"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <span class="detail-label">@Localizer["Inviter (Employee)"]</span>
+                        <span class="detail-value" id="m-inviter"></span>
+                        <span class="detail-label">@Localizer["Status"]</span>
+                        <span class="detail-value" id="m-status" style="font-weight:bold;"></span>
+                        <span class="detail-label">@Localizer["Approved or Rejected By"]</span>
+                        <span class="detail-value" id="m-approver"></span>
+                        <span class="detail-label">@Localizer["Request Date"]</span>
+                        <span class="detail-value" id="m-date"></span>
+                        <span class="detail-label">@Localizer["Devices"]</span>
+                        <span class="detail-value" id="m-devices"></span>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-12">
+                        <span class="detail-label">@Localizer["Approved Time Window"]</span>
+                        <div class="alert alert-light border" style="color: #333;">
+                            <i class="far fa-clock text-primary"></i> <span id="m-start"></span> &nbsp; <strong>To</strong> &nbsp; <span id="m-end"></span>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <span class="detail-label">@Localizer["Purpose of Visit"]</span>
+                        <div class="p-3 bg-light rounded border mt-1" id="m-purpose"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer["Close"]</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Set the selected value for the status dropdown
+            // Restore Dropdown Values
             var statusDropdown = document.getElementById('status');
             var selectedStatus = '@Model.Status';
-            if (selectedStatus) {
-                statusDropdown.value = selectedStatus;
-            }
+            if (selectedStatus) statusDropdown.value = selectedStatus;
 
-            // Set the selected value for the employee dropdown
             var employeeDropdown = document.getElementById('employee');
             var selectedEmployeeId = '@Model.EmployeeId';
-            if (selectedEmployeeId) {
-                employeeDropdown.value = selectedEmployeeId;
-            }
+            if (selectedEmployeeId) employeeDropdown.value = selectedEmployeeId;
+
+            // --- EXPORT CONFIGURATION (Required for DataTables to see hidden columns) ---
+            // If you are using jQuery DataTables, initialize it like this:
+            /*
+            $('#myDataTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'excelHtml5',
+                        text: 'Export to Excel',
+                        exportOptions: {
+                            columns: ':all' // <--- THIS IS KEY: Export ALL columns, even hidden ones
+                        }
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        exportOptions: { columns: ':all' }
+                    }
+                ],
+                // If you prefer DataTables handles hiding instead of CSS class 'col-hidden':
+                // columnDefs: [ { targets: [4,5,6,7,8,9,10,11,12], visible: false } ]
+            });
+            */
         });
+
+        // Function to Populate and Show Modal
+        function openDetailsModal(row) {
+            // Retrieve data attributes
+            var id = row.getAttribute('data-id');
+            var name = row.getAttribute('data-name');
+            var phone = row.getAttribute('data-phone');
+            var email = row.getAttribute('data-email');
+            var guests = row.getAttribute('data-guests') || "-";
+            var devices = row.getAttribute('data-devices') || "-";
+            var start = row.getAttribute('data-start');
+            var end = row.getAttribute('data-end');
+            var purpose = row.getAttribute('data-purpose');
+            var inviter = row.getAttribute('data-inviter');
+            var date = row.getAttribute('data-date');
+            var approver = row.getAttribute('data-approver');
+            var status = row.getAttribute('data-status');
+
+            // Set text in modal
+            document.getElementById('m-id').innerText = id;
+            document.getElementById('m-name').innerText = name;
+            document.getElementById('m-email').innerText = email;
+            document.getElementById('m-phone').innerText = phone;
+            document.getElementById('m-guests').innerText = guests;
+            document.getElementById('m-devices').innerText = devices;
+            document.getElementById('m-inviter').innerText = inviter;
+            document.getElementById('m-date').innerText = date;
+            document.getElementById('m-approver').innerText = approver;
+            document.getElementById('m-start').innerText = start;
+            document.getElementById('m-end').innerText = end;
+            document.getElementById('m-purpose').innerText = purpose;
+
+            // Colorize Status
+            var statusEl = document.getElementById('m-status');
+            statusEl.innerText = status;
+            statusEl.style.color = (status === 'Approved') ? '#28a745' : (status === 'Rejected' ? '#dc3545' : '#007bff');
+
+            // Show Modal
+            $('#detailsModal').modal('show');
+        }
     </script>
+    <style>
+    /* Force table borders to collapse into single lines */
+    #myDataTable {
+        border-collapse: collapse !important;
+    }
+
+        /* Add a visible border to every header and cell */
+        #myDataTable th,
+        #myDataTable td {
+            border: 1px solid #a0a0a0 !important; /* Dark grey visible border */
+        }
+</style>
 }

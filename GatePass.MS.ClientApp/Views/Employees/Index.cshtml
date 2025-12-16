@@ -77,9 +77,10 @@
                     }
                     @foreach (var item in Model)
                     {
+                        index++;
                         var bgColor = index % 2 == 0 ? "#f8faff" : "white";
                         <tr style="background:@bgColor; border-bottom: 1px solid #eee;">
-                            <td style="padding:10px; vertical-align:middle;">@(index + 1)</td>
+                            <td style="padding:10px; vertical-align:middle;">@(index )</td>
                             <td style="padding:10px; vertical-align:middle;">@item.FirstName</td>
                             <td style="padding:10px; vertical-align:middle;">@item.LastName</td>
                             <td style="padding:10px; vertical-align:middle; word-break:break-word;">@item.Email</td>
@@ -121,7 +122,18 @@
     </div>
 
 </div>
+<style>
+    /* Force table borders to collapse into single lines */
+    #myDataTable {
+        border-collapse: collapse !important;
+    }
 
+        /* Add a visible border to every header and cell */
+        #myDataTable th,
+        #myDataTable td {
+            border: 1px solid #a0a0a0 !important; /* Dark grey visible border */
+        }
+</style>
 
 @section Scripts {
     <script>

@@ -147,9 +147,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <partial name="_LoginPartial" />
                     <li class="mt-2 mr-3">
                         <form asp-controller="Language" asp-action="SetLanguage" method="post">
-                            <select name="culture" onchange="this.form.submit()" class="form-control form-control-sm text-primary" style="border: 1px solid #cce5ff; background-color: #f8f9fa; border-radius: 20px; font-weight: 600;">
+                            <select name="culture" onchange="this.form.submit()" class="form-control form-control-sm text-primary" style="border: 1px solid #cce5ff; background-color: #f8f9fa;  font-weight: 600;">
                                 <option value="en-US" selected="@(CultureInfo.CurrentCulture.Name == "en-US")">English</option>
-                                <option value="om-ET" selected="@(CultureInfo.CurrentCulture.Name == "om-ET")">Afaan Oromoo</option>
+                
                                 <option value="am-ET" selected="@(CultureInfo.CurrentCulture.Name == "am-ET")">አማርኛ</option>
                             </select>
                             <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
@@ -210,10 +210,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </li>
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">
-                                        <i class="nav-icon fas fa-chart-pie text-info"></i>
+                                        <i class="nav-icon fas fa-chart-pie text-info text-primary"></i>
                                         <p>
                                             @Localizer["Reports"]
-                                            <i class="right fas fa-angle-left"></i>
+                                            <i class="right fas fa-angle-left "></i>
                                         </p>
                                     </a>
                                     <ul class="nav nav-treeview" style="display: none;">
@@ -310,7 +310,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </li>
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">
-                                        <i class="nav-icon fas fa-chart-pie text-info"></i>
+                                        <i class="nav-icon fas fa-chart-pie text-info text-primary"></i>
                                         <p>
                                             @Localizer["Reports"]
                                             <i class="right fas fa-angle-left"></i>
