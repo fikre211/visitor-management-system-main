@@ -15,6 +15,7 @@
         overflow: hidden;
     }
 </style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
 <div class="d-flex justify-content-center align-items-center" style="background-color: #e3f2fd; height: 100vh; width: 100vw; overflow: hidden; position: fixed; top: 0; left: 0; z-index: 1000;">
 
@@ -26,7 +27,13 @@
             </div>
 
             <div class="card-body p-4">
-                <p class="login-box-msg text-muted text-center mb-4">@Localizer["loginMessage"]</p>
+                <p class="login-box-msg text-muted text-center mb-4"
+                   style="font-family: 'Inter','Segoe UI',Tahoma,Arial,sans-serif;
+          font-size: 0.95rem;
+          font-weight: 500;
+          letter-spacing: 0.3px;">
+                    @Localizer["loginMessage"]
+                </p>
 
                 <form method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger small text-center mb-3" role="alert"></div>

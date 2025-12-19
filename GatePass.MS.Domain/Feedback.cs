@@ -14,6 +14,11 @@ namespace GatePass.MS.Domain
         public int Rating { get; set; } = 0; // Assuming rating is an integer value, e.g., 1 to 5
         public int CompanyId { get; set; }
         public Company Company { get; set; }
+
+        // Link to the RequestInformation (optional)
+        public int? RequestId { get; set; }
+        public RequestInformation? RequestInformation { get; set; }
+
         public string? Comment { get; set; } = "";
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 

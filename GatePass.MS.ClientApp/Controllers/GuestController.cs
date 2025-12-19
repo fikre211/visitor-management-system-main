@@ -427,117 +427,132 @@ namespace GatePass.MS.ClientApp.Controllers
 
         public ActionResult GetDynamicImage(int id)
         {
-            var request = _context.RequestInformation
-             .FirstOrDefault(r => r.Id == id);
-            var guestId = request?.GuestId;
-            var guest = _context.Guest.FirstOrDefault(x => x.Id == guestId);
-            var today = DateTime.Today;
+            var request = _context.RequestInformation.FirstOrDefault(r => r.Id == id);
+            if (request == null) return NotFound();
 
-            if (request == null)
-            {
-                return NotFound();
-            }
-            if (guest == null)
-            {
-                return NotFound();
-            }
-            if (request.VisitDateTimeEnd<today)
-            {
-                return NotFound();
-            }
-            try
-            {
-                // 1. Create a Bitmap object
-                Bitmap image = new Bitmap(500, 500);
+            var guest = _context.Guest.FirstOrDefault(x => x.Id == request.GuestId);
+            if (guest == null) return NotFound();
 
-                // 2. Get graphics object
-                using (Graphics graphics = Graphics.FromImage(image))
+            // Setup Dimensions (Portrait Card)
+            int width = 600;
+            int height = 900;
+
+            // Create Bitmap
+            Bitmap image = new Bitmap(width, height);
+
+            using (Graphics g = Graphics.FromImage(image))
+            {
+                // 0. High Quality Settings
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+                g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+
+                // 1. Colors & Fonts
+                Color primaryBlue = Color.FromArgb(13, 71, 161); // Deep Blue
+                Color accentBlue = Color.FromArgb(227, 242, 253);  // Light Blue
+                Color textDark = Color.FromArgb(33, 37, 41);
+                Color textGray = Color.FromArgb(108, 117, 125);
+
+                Font fontTitle = new Font("Segoe UI", 32, FontStyle.Bold); // "VISITOR"
+                Font fontName = new Font("Segoe UI", 28, FontStyle.Bold);  // Guest Name
+                Font fontLabel = new Font("Segoe UI", 14, FontStyle.Bold); // "Host:", "Date:"
+                Font fontValue = new Font("Segoe UI", 16, FontStyle.Regular); // Actual values
+                Font fontSmall = new Font("Segoe UI", 12, FontStyle.Regular); // Footer text
+
+                // 2. Background
+                g.Clear(Color.White);
+
+                // 3. Draw Header (Blue Top Bar)
+                int headerHeight = 180;
+                Rectangle headerRect = new Rectangle(0, 0, width, headerHeight);
+                using (SolidBrush headerBrush = new SolidBrush(primaryBlue))
                 {
-                    graphics.SmoothingMode = SmoothingMode.AntiAlias;
-
-                    // 3. Fill background color (optional)
-                    graphics.FillRectangle(Brushes.LightGray, 0, 0, image.Width, image.Height);
-
-                    // 4. Define font and brush
-                    Font font = new Font("Arial", 16, FontStyle.Bold);
-                    Brush brush = Brushes.CadetBlue;
-                    // 6. Draw the logo from the file path
-                    // 5. Draw text (adjust positions as needed)
-                    string logoFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", _current.Value.LogoPath.TrimStart('/'));
-
-                    if (!System.IO.File.Exists(logoFilePath))
-                    {
-                        throw new FileNotFoundException("Logo image not found", logoFilePath);
-                    }
-
-                    Image logoImage = Image.FromFile(logoFilePath);
-
-                    // 7. Resize the logo image (e.g., to 100x100 pixels)
-                    int desiredWidth = 110;
-                    int desiredHeight = 110;
-                    Bitmap resizedLogo = new Bitmap(logoImage, desiredWidth, desiredHeight);
-                    // 7. Draw the logo image onto the Bitmap
-                    int logoX = 370; // Adjust the X-coordinate as needed
-                    int logoY = 10; // Adjust the Y-coordinate as needed
-
-                    string userData = $"{id}";
-                    QRCodeGenerator qrGenerator = new QRCodeGenerator();
-                    QRCodeData qrCodeData = qrGenerator.CreateQrCode(userData, QRCodeGenerator.ECCLevel.Q);
-                    QRCode qrCode = new QRCode(qrCodeData);
-                    Bitmap qrCodeImage = qrCode.GetGraphic(20);
-
-                   
-                    // 3. Encode Dynamic Image URL in QR Code
-                    qrCode = new QRCode(qrCodeData);
-                    qrCodeImage = qrCode.GetGraphic(20);
-                    desiredWidth = 140;
-                    desiredHeight = 140;
-                    Bitmap resizedQrcode=new Bitmap(qrCodeImage,desiredWidth, desiredHeight);
-
-                    // Create Bitmap object for guest information
-                    
-                    // Draw QR code (adjust position as needed)
-                    var qrCodeX = 330;
-                    var qrCodeY = 300;
-                    graphics.DrawImage(resizedQrcode, qrCodeX, qrCodeY);
-                    graphics.DrawImage(resizedLogo, logoX, logoY);
-                    // 6. Add your design elements here (e.g., logo, borders, etc.)
-                    // ...
-                    graphics.DrawString(_current.Value.Name, font, brush, 20, 30);
-                    graphics.DrawString($"Call:8181 Email:{_current.Value.Email}", font, brush, 20, 60);
-                    graphics.DrawString($"website:{_current.Value.website}", font, brush, 20, 90);
-                    graphics.DrawString($"Addis Ababa,Ethiopia", font, brush, 20, 120);
-
-                    brush = Brushes.Black;
-                    graphics.DrawString($"Full Name: {guest.FirstName} {guest.LastName} ", font, brush, 20, 160);
-                    graphics.DrawString($"Email: {guest.Email}", font, brush, 20, 190);
-                    graphics.DrawString($"Approved Time Window:", font, brush, 20, 220);
-                    graphics.DrawString($"{request.ApprovedDateTimeStart}-{request.ApprovedDateTimeEnd}", font, brush, 20, 250);
-                    graphics.DrawString($"Purpose of Visit: {request.PurposeOfVisit}", font, brush, 20, 280);
-                    graphics.DrawString($"Phone Number: {guest.Phone}", font, brush, 20,310 );
-                    brush = Brushes.Red;
-
-                    graphics.DrawString($"Please Return Badge Before Leaving", font, brush, 20, 380);
-                    // 6. Load the logo image from the local file path
-                   
+                    g.FillRectangle(headerBrush, headerRect);
                 }
-                
 
-                
+                // 4. Draw Logo (White Circle Container in Header)
+                string logoPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", _current.Value.LogoPath.TrimStart('/'));
+                if (System.IO.File.Exists(logoPath))
+                {
+                    using (Image logo = Image.FromFile(logoPath))
+                    {
+                        int logoSize = 120;
+                        int logoX = (width - logoSize) / 2;
+                        int logoY = 20;
 
-                // 7. Save image to memory stream
-                MemoryStream ms = new MemoryStream();
-                image.Save(ms, ImageFormat.Png);
-                ms.Position = 0;
+                        // Draw white circle behind logo
+                        g.FillEllipse(Brushes.White, logoX - 5, logoY - 5, logoSize + 10, logoSize + 10);
 
-                // 8. Return image as file result
-                return File(ms, "image/png");
+                        // Draw Logo
+                        g.DrawImage(logo, logoX, logoY, logoSize, logoSize);
+                    }
+                }
+
+                // 5. Header Title "VISITOR PASS"
+                StringFormat centerFormat = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
+                g.DrawString("VISITOR PASS", fontTitle, Brushes.White, new Rectangle(0, 140, width, 50), centerFormat);
+
+                // 6. Visitor Name (Centered & Large)
+                string visitorName = $"{guest.FirstName} {guest.LastName}";
+                Rectangle nameRect = new Rectangle(20, 210, width - 40, 60);
+                g.DrawString(visitorName, fontName, new SolidBrush(textDark), nameRect, centerFormat);
+
+                // Underline the name
+                using (Pen linePen = new Pen(primaryBlue, 3))
+                {
+                    g.DrawLine(linePen, 150, 275, width - 150, 275);
+                }
+
+                // 7. Details Table (Grid Layout)
+                int startY = 320;
+                int rowHeight = 50;
+                int labelX = 80;
+                int valueX = 220;
+
+                DrawDetailRow(g, "Date:", DateTime.Now.ToString("MMM dd, yyyy"), startY, labelX, valueX, fontLabel, fontValue, textGray, textDark);
+                DrawDetailRow(g, "Host:", $"{request.Employee?.FirstName} {request.Employee?.LastName}", startY + rowHeight, labelX, valueX, fontLabel, fontValue, textGray, textDark);
+                DrawDetailRow(g, "Purpose:", request.PurposeOfVisit, startY + (rowHeight * 2), labelX, valueX, fontLabel, fontValue, textGray, textDark);
+                DrawDetailRow(g, "Time:", $"{request.ApprovedDateTimeStart:HH:mm} - {request.ApprovedDateTimeEnd:HH:mm}", startY + (rowHeight * 3), labelX, valueX, fontLabel, fontValue, textGray, textDark);
+
+                // 8. Generate & Draw QR Code (Bottom Center)
+                QRCodeGenerator qrGenerator = new QRCodeGenerator();
+                QRCodeData qrCodeData = qrGenerator.CreateQrCode($"{id}", QRCodeGenerator.ECCLevel.Q);
+                QRCode qrCode = new QRCode(qrCodeData);
+                Bitmap qrCodeImage = qrCode.GetGraphic(20); // Get raw high res
+
+                int qrSize = 200;
+                int qrX = (width - qrSize) / 2;
+                int qrY = 600;
+                g.DrawImage(qrCodeImage, qrX, qrY, qrSize, qrSize);
+
+                // 9. Footer Warning
+                string footerText = "Please return this badge to security\nbefore leaving the premises.";
+                Rectangle footerRect = new Rectangle(0, 830, width, 70);
+                using (SolidBrush footerBg = new SolidBrush(accentBlue))
+                {
+                    g.FillRectangle(footerBg, footerRect);
+                }
+                g.DrawString(footerText, fontSmall, new SolidBrush(primaryBlue), footerRect, centerFormat);
+
+                // 10. Outer Border
+                using (Pen borderPen = new Pen(primaryBlue, 10))
+                {
+                    borderPen.Alignment = PenAlignment.Inset;
+                    g.DrawRectangle(borderPen, 0, 0, width, height);
+                }
             }
-            catch (Exception ex)
-            {
-                // Handle exceptions (e.g., log the error)
-                return View("Error");
-            }
+
+            MemoryStream ms = new MemoryStream();
+            image.Save(ms, ImageFormat.Png);
+            ms.Position = 0;
+            return File(ms, "image/png");
+        }
+
+        // Helper method to keep code clean
+        private void DrawDetailRow(Graphics g, string label, string value, int y, int labelX, int valueX, Font fLabel, Font fValue, Color cLabel, Color cValue)
+        {
+            g.DrawString(label, fLabel, new SolidBrush(cLabel), labelX, y);
+            g.DrawString(value, fValue, new SolidBrush(cValue), valueX, y);
         }
 
         [HttpGet]
@@ -585,7 +600,10 @@ namespace GatePass.MS.ClientApp.Controllers
                 ViewBag.AdditionalGuests = request.AdditionalGuests;
                 ViewBag.Devices = request.Devices;
                 ViewBag.ApprovedTimeStart = request.ApprovedDateTimeStart;
-                ViewBag.ApprovedTimeEnd = request.ApprovedDateTimeEnd;     }
+                ViewBag.ApprovedTimeEnd = request.ApprovedDateTimeEnd;     
+
+            }
+
             else if (request?.VisitDateTimeEnd < DateTime.Today)
             {
                 ViewBag.ErrorMessage = "your visit date is expired.";
@@ -600,22 +618,37 @@ namespace GatePass.MS.ClientApp.Controllers
 
         public async Task<IActionResult> Check(int checkId)
         {
-            var request = await _context.RequestInformation.FindAsync(checkId);
+            var request = await _context.RequestInformation
+                .Include(r => r.Guest)
+                .FirstOrDefaultAsync(r => r.Id == checkId);
+
             if (request == null)
             {
                 return NotFound();
             }
-            var guest=_context.Guest?.FirstOrDefault(g=>request.GuestId==g.Id);
-            _logger.LogInformation("request id =================================================", request.Id);
-            
+
+            if (request.Guest == null)
+            {
+                TempData["message"] = "Guest not found.";
+                TempData["MessageType"] = "danger";
+                return RedirectToAction(nameof(CheckIn));
+            }
 
             if (!request.IsCheckedIn)
             {
                 request.IsCheckedIn = true;
-                _context.Update(request);
+
+                _context.RequestInformation.Update(request);
                 await _context.SaveChangesAsync();
-                await _guestActivityService.LogActivityAsync(guest.Id, "Check In", $"Guest {guest.FirstName}  {guest.LastName} is checked in");
-                TempData["message"] = "you are checked In successfully!";
+
+                // ✅ ACTIVITY LOG
+                await _guestActivityService.LogActivityAsync(
+                    request.Guest.Id,
+                    "Check In",
+                    $"Guest {request.Guest.FirstName} {request.Guest.LastName} checked in"
+                );
+
+                TempData["message"] = "You are checked in successfully!";
                 TempData["MessageType"] = "success";
             }
 

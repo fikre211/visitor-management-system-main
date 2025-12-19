@@ -15,32 +15,40 @@
     var isInAdminRole = await _userManager.IsInRoleAsync(currentUser, "Admin");
     @if (currentUser != null)
     {
-        var today = DateTime.Today;
+      
+            var today = DateTime.Today;
 
-        int pendingRequestsCount = _context.RequestInformation
-    .Count(r =>
-        r.CompanyId == CurrentCompanyId &&
-        r.Employee.DepartmentId == CurrentUserDepartmentId &&
-        isInSupervisorRole &&
-        r.Status == "Pending" &&
-        r.VisitDateTimeEnd >= today &&
-        !r.Deleted
-    );
+            // Start with a base query for requests and optionally filter by company
+            var requestQuery = _context.RequestInformation.AsQueryable();
+            if (CurrentCompanyId != null)
+            {
+                requestQuery = requestQuery.Where(r => r.CompanyId == CurrentCompanyId);
+            }
 
-        int OutDatedRequestsCount = _context.RequestInformation
-            .Count(r =>
-                r.CompanyId == CurrentCompanyId &&
+            // Pending requests are meaningful only for supervisors
+            int pendingRequestsCount = 0;
+            if (isInSupervisorRole && CurrentUserDepartmentId != null)
+            {
+                pendingRequestsCount = requestQuery.Count(r =>
+                    r.Employee.DepartmentId == CurrentUserDepartmentId &&
+                    r.Status == "Pending" &&
+                    r.VisitDateTimeEnd >= today &&
+                    !r.Deleted
+                );
+            }
+
+            // Outdated requests (optionally filtered by company when company is set)
+            int OutDatedRequestsCount = requestQuery.Count(r =>
                 r.VisitDateTimeStart < today &&
                 r.Status == "Pending" &&
                 !r.Deleted
             );
 
-        int lockedAccountCount = _userManager.Users
-     .Count(u =>
-         u.CompanyId == CurrentCompanyId &&
-         u.IsLocked
-     );
-
+            // Locked accounts: if company is null count across all companies
+            int lockedAccountCount = _userManager.Users
+                .Where(u => (CurrentCompanyId == null || u.CompanyId == CurrentCompanyId) && u.IsLocked)
+                .Count();
+        
 
         @if (isInAdminRole)
         {

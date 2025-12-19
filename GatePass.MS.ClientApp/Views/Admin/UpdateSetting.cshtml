@@ -30,7 +30,7 @@
              
                 <div class="form-group" style="margin-bottom: 25px;">
                     <label asp-for="MaxLoginAttempts" class="control-label" style="font-weight: 600; color: #333;">@Localizer["maximumLoginFailedAttempts"]</label>
-                    <input asp-for="MaxLoginAttempts" type="number" step="1" class="form-control" style="border-color: #b3d7ff; border-radius: 4px;" />
+                    <input asp-for="MaxLoginAttempts" type="number" step="1" class="form-control" readonly style="border-color: #b3d7ff; border-radius: 4px;" />
                     <span asp-validation-for="MaxLoginAttempts" class="text-danger" style="font-size: 13px;"></span>
                 </div>
 

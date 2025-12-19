@@ -375,85 +375,136 @@
    
     @if (isInGatekeeperRole)
     {
+        @using Microsoft.AspNetCore.Mvc.Localization
+    @inject IViewLocalizer Localizer
+
+        <style>
+            :root {
+                --primary-blue: #0d47a1; /* Deep Blue */
+                --accent-blue: #e3f2fd; /* Light Blue */
+                --hover-blue: #bbdefb;
+            }
+
+            /* Table Styling */
+            .table-blue-theme thead {
+                background-color: var(--primary-blue);
+                color: white;
+            }
+
+            .table-blue-theme tbody tr {
+                transition: background-color 0.2s ease;
+                cursor: pointer;
+            }
+
+                .table-blue-theme tbody tr:hover {
+                    background-color: var(--hover-blue) !important;
+                }
+
+            /* Modal Styling */
+            .visitor-modal-header {
+                background-color: var(--primary-blue);
+                color: white;
+            }
+
+            .visitor-slip-container {
+                background-color: #f8f9fa;
+                border: 2px dashed var(--primary-blue);
+                border-radius: 8px;
+                padding: 15px;
+                text-align: center;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+
+            .visitor-photo {
+                width: 100%;
+                height: auto;
+                border-radius: 4px;
+                margin-bottom: 15px;
+                object-fit: cover;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            }
+
+            .detail-label {
+                font-weight: 600;
+                color: #6c757d;
+                font-size: 0.85rem;
+                text-transform: uppercase;
+            }
+
+            .detail-value {
+                font-weight: 500;
+                color: #212529;
+                font-size: 1rem;
+                margin-bottom: 12px;
+                border-bottom: 1px solid #dee2e6;
+                padding-bottom: 4px;
+            }
+
+            .action-btn-group .btn {
+                width: 100%;
+                margin-bottom: 8px;
+                border-radius: 20px;
+            }
+        </style>
+
         <div class="container-fluid" style="padding: 30px">
             <div class="row">
                 <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">@Localizer["Visitor Requests"]</h3>
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header" style="background-color: white; border-bottom: 2px solid var(--primary-blue);">
+                            <h3 class="card-title text-primary"><i class="fas fa-users mr-2"></i>@Localizer["Visitor Requests"]</h3>
                         </div>
-                        <div class="card-body table-responsive p-0">
-                            <table id="myDataTable" class="table table-bordered table-striped">
+                        <div class="card-body p-0">
+                            <table id="myDataTable" class="table table-bordered table-blue-theme mb-0">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>@Localizer["Name"]</th>
-                                        <th>@Localizer["visitDateStart"]</th>
-                                        <th>@Localizer["visitDateEnd"]</th>
-                                        <th>@Localizer["purposeOfVisit"]</th>
-                                        <th>@Localizer["responsiblePerson"]</th>
-                                        <th>@Localizer["Guest Destination Department"]</th>
-                                        <th>@Localizer["Print"]</th>
-                                        <th>@Localizer["Check-in Status"]</th>
-                                        <th>@Localizer["Actions"]</th>
+                                        <th style="width: 5%">#</th>
+                                        <th style="width: 40%">@Localizer["Visitor Name"]</th>
+                                        <th style="width: 30%">@Localizer["Visit Date"]</th>
+                                        <th style="width: 25%">@Localizer["Status"]</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @for (int i = 0; i < Model.Count; i++)
+                            @for (int i = 0; i < Model.Count; i++)
                                     {
                                         var request = Model[i];
-                                        <tr>
+                                        var visitorName = request.IsIndividual ? (request.Guest?.FirstName + " " + request.Guest?.LastName) : request.Guest?.CompanyName;
+                                        var hostName = request.Employee != null ? (request.Employee?.FirstName + " " + request.Employee?.LastName) : "Outer Request";
+                                        var imgUrl = request.ImageData != null ? Url.Action("GetDynamicImage", "Guest", new { id = request.Id }) : "";
+
+                                        <tr class="view-details-row"
+                                            data-id="@request.Id"
+                                            data-name="@visitorName"
+                                            data-start="@request.VisitDateTimeStart.ToString("yyyy-MM-dd HH:mm")"
+                                            data-end="@request.VisitDateTimeEnd.ToString("yyyy-MM-dd HH:mm")"
+                                            data-purpose="@request.PurposeOfVisit"
+                                            data-host="@hostName"
+                                            data-dept="@request?.Department?.Name"
+                                            data-img="@imgUrl"
+                                            data-checkedin="@request.IsCheckedIn.ToString().ToLower()">
+
                                             <td>@(i + 1)</td>
                                             <td>
-                                                @if (request.IsIndividual)
+                                                <div class="d-flex align-items-center">
+                                                    <div class="bg-light rounded-circle d-flex justify-content-center align-items-center mr-3" style="width: 35px; height: 35px; color: var(--primary-blue)">
+                                                        <i class="fas fa-user"></i>
+                                                    </div>
+                                                    <strong>@visitorName</strong>
+                                                </div>
+                                            </td>
+                                            <td>@request.VisitDateTimeStart.ToString("MMM dd, yyyy")</td>
+                                            <td>
+                                                @if (request.IsCheckedIn)
                                                 {
-                                                    @(request.Guest?.FirstName + " " + request.Guest?.LastName)
+                                                    <span class="badge badge-success px-3 py-2">@Localizer["Checked In"]</span>
                                                 }
                                                 else
                                                 {
-                                                    @request.Guest?.CompanyName
+                                                    <span class="badge badge-secondary px-3 py-2">@Localizer["Pending"]</span>
                                                 }
-                                            </td>
-                                            <td>@request.VisitDateTimeStart.ToString("yyyy-MM-dd")</td>
-                                            <td>@request.VisitDateTimeEnd.ToString("yyyy-MM-dd")</td>
-                                            <td>@request.PurposeOfVisit</td>
-                                            <td>
-                                                @if (request.Employee != null)
-                                                {
-                                                    @(request.Employee?.FirstName + " " + request.Employee?.LastName)
-                                                }
-                                                else
-                                                {
-                                                    <span>Outer Request</span>
-                                                }
-                                            </td>
-                                            <td>@request?.Department?.Name</td>
-                                            <td>
-                                                @if (request.ImageData != null)
-                                                {
-                                                    <button class="btn btn-secondary print-btn" data-image="@Url.Action("GetDynamicImage", "Guest", new { id = request.Id })">
-                                                        <i class="fas fa-print"></i>
-                                                    </button>
-                                                }
-                                            </td>
-                                            <td>
-                                                @if (!request.IsCheckedIn)
-                                                {
-                                                    <form asp-controller="Guest" asp-action="CheckIn" method="post" class="d-inline">
-                                                        <input type="hidden" name="requestId" value="@request.Id" />
-                                                        <button type="submit" class="btn btn-success">@Localizer["checkIn"]</button>
-                                                    </form>
-                                                }
-                                                else
-                                                {
-                                                    <form asp-controller="Guest" asp-action="CheckOut" method="post" class="d-inline">
-                                                        <input type="hidden" name="requestId" value="@request.Id" />
-                                                        <button type="submit" class="btn btn-warning">@Localizer["checkOut"]</button>
-                                                    </form>
-                                                }
-                                            </td>
-                                            <td>
-                                                <a class="btn btn-primary" asp-controller="RequestInformations" asp-action="ApproveDisapprove" asp-route-id="@request.Id">@Localizer["viewDetail"]</a>
                                             </td>
                                         </tr>
                                     }
@@ -464,6 +515,166 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="visitorDetailsModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header visitor-modal-header">
+                        <h5 class="modal-title"><i class="fas fa-id-card-alt mr-2"></i>@Localizer["Visitor Details"]</h5>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="visitor-slip-container">
+                                    <div class="text-center">
+                                        <h6 class="text-muted mb-3">Visitor Pass</h6>
+                                        <img id="modalImg" src="" alt="Visitor Image" class="visitor-photo" onerror="this.style.display='none'" />
+                                        <div id="noImgPlaceholder" class="text-muted mb-3" style="display:none; padding: 20px; background: #eee;">No Image</div>
+                                    </div>
+
+                                    <div class="action-btn-group mt-3">
+                                        <button type="button" class="btn btn-secondary" id="btnPrint">
+                                            <i class="fas fa-print mr-2"></i>@Localizer["Print Slip"]
+                                        </button>
+
+                                        <form asp-controller="Guest" asp-action="CheckIn" method="post" id="formCheckIn" style="display:none;">
+                                            <input type="hidden" name="requestId" id="inputCheckInId" />
+                                            <button type="submit" class="btn btn-success">
+                                                <i class="fas fa-sign-in-alt mr-2"></i>@Localizer["Check In"]
+                                            </button>
+                                        </form>
+
+                                        <form asp-controller="Guest" asp-action="CheckOut" method="post" id="formCheckOut" style="display:none;">
+                                            <input type="hidden" name="requestId" id="inputCheckOutId" />
+                                            <button type="submit" class="btn btn-warning">
+                                                <i class="fas fa-sign-out-alt mr-2"></i>@Localizer["Check Out"]
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-8">
+                                <div class="row pt-2">
+                                    <div class="col-12">
+                                        <h4 id="modalVisitorName" style="color: var(--primary-blue); font-weight: bold; margin-bottom: 20px;"></h4>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="detail-label">@Localizer["Host / Responsible"]</div>
+                                        <div class="detail-value" id="modalHost"></div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="detail-label">@Localizer["Destination Dept"]</div>
+                                        <div class="detail-value" id="modalDept"></div>
+                                    </div>
+
+                                    <div class="col-md-6 mt-3">
+                                        <div class="detail-label">@Localizer["Check-in Time"]</div>
+                                        <div class="detail-value" id="modalStart"></div>
+                                    </div>
+                                    <div class="col-md-6 mt-3">
+                                        <div class="detail-label">@Localizer["Expected Check-out"]</div>
+                                        <div class="detail-value" id="modalEnd"></div>
+                                    </div>
+
+                                    <div class="col-12 mt-3">
+                                        <div class="detail-label">@Localizer["Purpose of Visit"]</div>
+                                        <div class="detail-value" id="modalPurpose"></div>
+                                    </div>
+
+                                    <div class="col-12 mt-4 text-right">
+                                        <a id="btnFullDetails" class="btn btn-outline-primary btn-sm" href="#">
+                                            @Localizer["View Full Record"] <i class="fas fa-arrow-right ml-1"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const rows = document.querySelectorAll(".view-details-row");
+
+                rows.forEach(row => {
+                    row.addEventListener("click", function() {
+                        // 1. Get data from data attributes
+                        const id = this.getAttribute("data-id");
+                        const name = this.getAttribute("data-name");
+                        const start = this.getAttribute("data-start");
+                        const end = this.getAttribute("data-end");
+                        const purpose = this.getAttribute("data-purpose");
+                        const host = this.getAttribute("data-host");
+                        const dept = this.getAttribute("data-dept");
+                        const imgUrl = this.getAttribute("data-img");
+                        const isCheckedIn = this.getAttribute("data-checkedin") === "true";
+
+                        // 2. Populate Modal Text
+                        document.getElementById("modalVisitorName").textContent = name;
+                        document.getElementById("modalStart").textContent = start;
+                        document.getElementById("modalEnd").textContent = end;
+                        document.getElementById("modalPurpose").textContent = purpose;
+                        document.getElementById("modalHost").textContent = host;
+                        document.getElementById("modalDept").textContent = dept;
+
+                        // 3. Handle Image
+                        const imgElement = document.getElementById("modalImg");
+                        const noImgPlaceholder = document.getElementById("noImgPlaceholder");
+
+                        if (imgUrl && imgUrl.length > 5) { // Simple check if url exists
+                            imgElement.src = imgUrl;
+                            imgElement.style.display = "block";
+                            noImgPlaceholder.style.display = "none";
+                            // Update print button data
+                            document.getElementById("btnPrint").setAttribute("data-image", imgUrl);
+                            document.getElementById("btnPrint").style.display = "inline-block";
+                        } else {
+                            imgElement.style.display = "none";
+                            noImgPlaceholder.style.display = "block";
+                            document.getElementById("btnPrint").style.display = "none";
+                        }
+
+                        // 4. Handle Buttons (Check In vs Check Out)
+                        const formCheckIn = document.getElementById("formCheckIn");
+                        const formCheckOut = document.getElementById("formCheckOut");
+
+                        if (isCheckedIn) {
+                            formCheckIn.style.display = "none";
+                            formCheckOut.style.display = "block";
+                            document.getElementById("inputCheckOutId").value = id;
+                        } else {
+                            formCheckIn.style.display = "block";
+                            formCheckOut.style.display = "none";
+                            document.getElementById("inputCheckInId").value = id;
+                        }
+
+                        // 5. Update "Full Details" Link
+                        document.getElementById("btnFullDetails").href = "/RequestInformations/ApproveDisapprove/" + id;
+
+                        // 6. Show Modal (Using jQuery for Bootstrap 4/5)
+                        $('#visitorDetailsModal').modal('show');
+                    });
+                });
+
+                // Print Logic
+                document.getElementById("btnPrint").addEventListener("click", function(e){
+                    e.stopPropagation(); // Prevent row click
+                    const url = this.getAttribute("data-image");
+                    if(url) {
+                       var win = window.open(url, '_blank');
+                       win.focus();
+                       // Actual printing depends on if the URL returns an image or a print view
+                    }
+                });
+            });
+        </script>
     }
 }
 else
@@ -508,7 +719,7 @@ else
             <div class="welcome-section">
                 <h1 class="welcome-title">Welcome to @company.Name</h1>
                 <p class="welcome-subtitle">
-                    @Localizer["Please Take a Moment for Self-Registration, Check-In or Check-Out Below"].
+                    @Localizer["Please Take a Moment for Self-Registration, Check-In or Check-Out Below"]
                 </p>
 
                 <div class="action-buttons">

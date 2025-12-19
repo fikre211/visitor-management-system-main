@@ -186,7 +186,7 @@ namespace GatePass.MS.ClientApp.Controllers
                     .Include(r => r.Guest)
                     .Include(r => r.Attachments)
                     .Where(r => r.CompanyId == _current.Value.Id)
-                    .Where(r => r.VisitDateTimeStart <= today && today <= r.VisitDateTimeEnd && r.Status == "Approved")
+                    .Where(r =>r.Status == "Approved")
                     .ToListAsync();
 
                 return View(requestInformation);

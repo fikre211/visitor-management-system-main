@@ -123,6 +123,9 @@
   <data name="Comment" xml:space="preserve">
     <value>አስተያየት</value>
   </data>
+  <data name="CreatedAt" xml:space="preserve">
+    <value>የአስተያየት ቀን</value>
+  </data>
   <data name="detail" xml:space="preserve">
     <value>ዝርዝር</value>
   </data>
@@ -133,6 +136,6 @@
     <value>ስም</value>
   </data>
   <data name="Rating" xml:space="preserve">
-    <value>ደረጃ መስጠት</value>
+    <value>ደረጃ</value>
   </data>
 </root>

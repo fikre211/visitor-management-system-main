@@ -6,6 +6,7 @@ using GatePass.MS.Domain.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace GatePass.MS.ClientApp.Controllers
 {
@@ -38,9 +39,18 @@ namespace GatePass.MS.ClientApp.Controllers
         [HttpGet]
         [HttpGet]
         [HttpGet]
-        public async Task<IActionResult> GuestActivityReport(DateTime? startDate, DateTime? endDate, int? SelectedGuestId, string? activityType)
+        public async Task<IActionResult> GuestActivityReport(
+    DateTime? startDate,
+    DateTime? endDate,
+    int? SelectedGuestId,
+    string? activityType)
         {
-            var userId = _userManager.GetUserId(User);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
 
             var model = await _guestActivityService.GetGuestActivitiesAsync(
                 startDate,
@@ -52,6 +62,7 @@ namespace GatePass.MS.ClientApp.Controllers
 
             return View(model);
         }
+
 
 
         public IActionResult VisitReport(DateTime? startDate, DateTime? endDate, string? status, int? employeeId)

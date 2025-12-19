@@ -165,7 +165,7 @@
   <data name="Title" xml:space="preserve">
     <value>ማዕረግ</value>
   </data>
-  <data name="GivenName" xml:space="preserve">
+  <data name="Given Name" xml:space="preserve">
     <value>ሙሉ ስም</value>
   </data>
   <data name="Mr." xml:space="preserve">
@@ -202,10 +202,10 @@
     <value>እጅግ የተከበሩ</value>
   </data>
   <data name="Visitor Self-Registration" xml:space="preserve">
-    <value>የጎብኝዎች ራስን መመዝገቢያ</value>
+    <value>የጎብኝዎች ራስን መመዝገቢያ!</value>
   </data>
   <data name="Please fill out the form below to register your visit" xml:space="preserve">
-    <value>እባክዎ ጉብኝትዎን ለመመዝገብ ከዚህ በታች ያለውን ቅጽ ይሙሉ</value>
+    <value>እባክዎ ጉብኝትዎን ለመመዝገብ ከዚህ በታች ያለውን ቅጽ ይሙሉ!</value>
   </data>
   <data name="Personal Identification" xml:space="preserve">
     <value>የግል መለያ</value>
@@ -232,7 +232,7 @@
     <value>እቃ  ጨምር</value>
   </data>
   <data name="Please list any electronic devices or valuable items you're bringing with you" xml:space="preserve">
-    <value>እባክህ ከአንተ ጋር የምታመጣቸውን ማንኛውንም የኤሌክትሮኒክስ መሳሪያዎች ወይም ጠቃሚ እቃዎች ይዘርዝሩ</value>
+    <value>እባክዎ ከእርስዎ ጋር የሚያመጡትን ማንኛውም የመገልገያ ዕቃዎች ይዘርዝሩ!</value>
   </data>
   <data name="Additional Guests" xml:space="preserve">
     <value>ተጨማሪ እንግዶች</value>

@@ -51,29 +51,35 @@ namespace GatePass.MS.ClientApp.Service
         }
 
         public async Task<GuestActivityReportModel> GetGuestActivitiesAsync(
-     DateTime? startDate,
-     DateTime? endDate,
-     int? SelectedGuestId,
-     string? activityType,
-     string userId)
+            DateTime? startDate,
+            DateTime? endDate,
+            int? selectedGuestId,
+            string? activityType,
+            string userId)
         {
-            // 1. Get the logged-in user's department
+            // 1️⃣ Logged-in user
             var user = await _userManager.Users
                 .Include(u => u.Employee)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
-            var departmentId = user?.Employee?.DepartmentId;
+            if (user == null)
+                throw new Exception("User not found");
 
-            // 2. Get all guest IDs who visited this department
-            var guestIds = await _context.RequestInformation
-                .Where(r => r.DepartmentId == departmentId)
+            var companyId = user.Employee?.CompanyId;
+
+            if (companyId == null)
+                throw new Exception("User is not assigned to a company");
+
+            // 2️⃣ GuestIds that belong to this company (via RequestInformation)
+            var guestIdsForCompany = await _context.RequestInformation
+                .Where(r => r.CompanyId == companyId)
                 .Select(r => r.GuestId)
                 .Distinct()
                 .ToListAsync();
 
-            // 3. Build dropdown list
+            // 3️⃣ Guest dropdown (company-filtered)
             var guests = await _context.Guest
-                .Where(g => guestIds.Contains(g.Id))
+                .Where(g => guestIdsForCompany.Contains(g.Id))
                 .Select(g => new SelectListItem
                 {
                     Value = g.Id.ToString(),
@@ -81,33 +87,38 @@ namespace GatePass.MS.ClientApp.Service
                 })
                 .ToListAsync();
 
-            // 4. Build activity list from RequestInformation
-            var query = _context.RequestInformation
-                .Include(r => r.Guest)
-                .Where(r => guestIds.Contains(r.GuestId))
+            // 4️⃣ Activity query (from GuestActivityLogs)
+            var query = _context.GuestActivityLogs
+                .Include(a => a.Guest)
+                .Where(a =>
+                    a.GuestId != null &&
+                    guestIdsForCompany.Contains(a.GuestId.Value))
                 .AsQueryable();
 
-            // Filter by selected guest
-            if (SelectedGuestId.HasValue)
-                query = query.Where(r => r.GuestId == SelectedGuestId.Value);
+            // 5️⃣ Filters
+            if (selectedGuestId.HasValue)
+                query = query.Where(a => a.GuestId == selectedGuestId.Value);
 
-            // Filter by date
             if (startDate.HasValue)
-                query = query.Where(r => r.VisitDateTimeStart >= startDate.Value);
+                query = query.Where(a => a.Timestamp >= startDate.Value);
 
             if (endDate.HasValue)
-                query = query.Where(r => r.VisitDateTimeEnd <= endDate.Value);
+                query = query.Where(a => a.Timestamp <= endDate.Value);
 
-            // 5. Convert results to Activity DTO
+            if (!string.IsNullOrWhiteSpace(activityType))
+                query = query.Where(a => a.ActivityType == activityType);
+
+            // 6️⃣ Projection
             var activities = await query
-                .Select(r => new GuestActivityDto
+                .OrderByDescending(a => a.Timestamp)
+                .Select(a => new GuestActivityDto
                 {
-                    FirstName = r.Guest.FirstName,
-                    LastName = r.Guest.LastName,
-                    Email = r.Guest.Email,
-                    Timestamp = r.VisitDateTimeStart,
-                    ActivityType = r.PurposeOfVisit,
-                    ActivityDescription = "Visit Requested"
+                    FirstName = a.Guest.FirstName,
+                    LastName = a.Guest.LastName,
+                    Email = a.Guest.Email,
+                    ActivityType = a.ActivityType,
+                    ActivityDescription = a.ActivityDescription,
+                    Timestamp = a.Timestamp
                 })
                 .ToListAsync();
 
@@ -115,13 +126,11 @@ namespace GatePass.MS.ClientApp.Service
             {
                 StartDate = startDate,
                 EndDate = endDate,
-                SelectedGuestId = SelectedGuestId,
+                SelectedGuestId = selectedGuestId,
                 Guests = guests,
                 Activities = activities
             };
         }
-
-
 
 
     }

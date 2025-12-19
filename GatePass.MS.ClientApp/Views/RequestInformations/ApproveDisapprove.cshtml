@@ -399,18 +399,19 @@
                                 <textarea asp-for="Feedback" class="form-control" rows="3" placeholder="Enter comments or feedback here..."></textarea>
                                 <span asp-validation-for="Feedback" class="text-danger"></span>
                             </div>
-                            <div>
-                                <input type="hidden" id="LanguageHidden" name="SelectedLanguageHidden" value="" />
-                                <label for="languageSelect" class="form-label small text-secondary mb-1">Send Message In:</label>
-                                <select id="languageSelect" name="SelectedLanguage" class="form-select form-select-sm" style="width: 150px;">
-                                    <option value="en">English</option>
-                                    <option value="am">Amharic</option>
-                                </select>
-                            </div>
+                          
                             <div class="row">
                                 <div class="col-lg-7 mb-4 mb-lg-0 border-end border-light pe-lg-4">
                                     @if ((isInAdminRole) || (isInSupervisorRole && companyName.ToLower() != "hopr"))
                                     {
+                                        <div>
+                                            <input type="hidden" id="LanguageHidden" name="SelectedLanguageHidden" value="" />
+                                            <label for="languageSelect" class="form-label small text-secondary mb-1">Send Message In:</label>
+                                            <select id="languageSelect" name="SelectedLanguage" class="form-select form-select-sm" style="width: 150px;">
+                                                <option value="en">English</option>
+                                                <option value="am">Amharic</option>
+                                            </select>
+                                        </div>
                                         <h6 class="text-success fw-bold mb-3">@Localizer["Approve Request"]</h6>
                                         <div class="row">
                                             <div class="col-md-6 mb-3">

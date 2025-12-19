@@ -214,11 +214,12 @@ namespace GatePass.MS.ClientApp.Controllers
 
                 _context.Department.Remove(child);
             }
-
+  
             // Step 4: Finally, delete the department
             _context.Department.Remove(department);
             await _context.SaveChangesAsync();
-
+            var userId = _userManager.GetUserId(User);
+            await _userActivityService.LogActivityAsync(userId, "Delete", $"Department '{department.Name}' deleted.");
             TempData["message"] = "Department Deleted successfully!";
             TempData["MessageType"] = "success";
 

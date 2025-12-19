@@ -25,7 +25,7 @@ namespace GatePass.MS.ClientApp.Controllers
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Feedback
-                .Where(e => e.CompanyId == _current.Value.Id);
+                .Where(e => _current.Value.Id == 0 || e.CompanyId == _current.Value.Id);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -45,6 +45,29 @@ namespace GatePass.MS.ClientApp.Controllers
             }
 
             return PartialView("_Details", feedback);
+        }
+
+        // POST: Feedbacks/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([FromForm] Feedback feedback)
+        {
+            if (feedback == null)
+                return BadRequest();
+
+            // Ensure CompanyId is set from current company if not provided
+            if (feedback.CompanyId == 0 && _current?.Value != null)
+            {
+                feedback.CompanyId = _current.Value.Id;
+            }
+
+            // If RequestId was posted via form, it'll be bound to feedback.RequestId already
+
+            _context.Feedback.Add(feedback);
+            await _context.SaveChangesAsync();
+
+            // Return to index or partial as needed
+            return RedirectToAction(nameof(Index));
         }
 
     }

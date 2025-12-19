@@ -4,139 +4,211 @@
 @model GuestActivityReportModel
 
 @{
-    ViewBag.Title = Localizer["Guest Activity Report"];
+    ViewData["Title"] = "Guest Activity Report";
 }
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-
 <style>
-    :root {
-        font-family: 'Segoe UI', Arial, sans-serif;
-        --primary-blue: #0d6efd;
-        --dark-blue: #0a58ca;
-        --accent-blue: #e7f1ff;
-        --text-dark: #343a40;
+    /* Styling for the clickable rows */
+    .clickable-row {
+        cursor: pointer;
+        transition: background-color 0.2s ease;
     }
 
-    /* Card Styling */
-    .custom-card {
-        border: none;
-        border-top: 4px solid var(--primary-blue);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        border-radius: 8px;
-        background-color: #fff;
+        .clickable-row:hover {
+            background-color: #e3f2fd !important; /* Light accent blue hover */
+        }
+
+    /* Helper class to hide columns visually but keep them in the DOM for Export */
+    .col-hidden {
+        display: none !important;
     }
 
-    /* THE REQUESTED PADDING */
-    .card-body-padded {
-        padding: 30px !important;
+    /* Modal Styling */
+    .modal-header-custom {
+        background: linear-gradient(135deg, #17a2b8 0%, #117a8b 100%); /* Teal/Info gradient to differentiate from Visit Report */
+        color: white;
     }
 
-    /* Header Styling */
-    .page-title {
-        color: var(--primary-blue);
-        font-weight: 700;
-        margin: 0;
+    .detail-label {
+        font-weight: 600;
+        color: #117a8b;
+        font-size: 0.9rem;
     }
 
-    /* Table Styling */
-    .table thead th {
-        background-color: var(--accent-blue);
-        color: var(--primary-blue);
-        border-bottom: 2px solid #dee2e6;
-        text-transform: uppercase;
-        font-size: 0.85rem;
-        font-weight: 700;
-        vertical-align: middle;
-    }
-
-    .table tbody td {
-        vertical-align: middle;
-        color: #495057;
-        font-size: 0.95rem;
-    }
-
-    .table-hover tbody tr:hover {
-        background-color: #f1f5f9;
+    .detail-value {
+        color: #333;
+        margin-bottom: 15px;
+        display: block;
     }
 </style>
 
-<div class="col-md-12" style="padding: 30px">
-    <div class="card custom-card">
+<div style="padding:30px; background:#f7faff; font-family:Segoe UI, Arial, sans-serif;">
 
-        <div class="card-header bg-white border-bottom pt-4 px-4">
-            <h3 class="card-title page-title">
-                <i class="fas fa-chart-line me-2"></i> @ViewBag.Title
-            </h3>
+    @* --- FILTER SECTION --- *@
+    <form asp-action="GuestActivityReport" method="get"
+          style="margin-bottom:25px; padding:10px; border:1px solid #cce5ff; border-radius:8px; background:#eef5ff; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+        <div class="row align-items-end">
+            <div class="col-md-3 form-group mb-0">
+                <label for="startDate" style="font-weight:600; margin-bottom:5px; color:#0056b3;">@Localizer["Start Date"]:</label>
+                <input type="date" id="startDate" name="startDate" class="form-control" value="@Model.StartDate?.ToString("yyyy-MM-dd")" style="border-radius:4px; border-color:#b3d7ff;" />
+            </div>
+            <div class="col-md-3 form-group mb-0">
+                <label for="endDate" style="font-weight:600; margin-bottom:5px; color:#0056b3;">@Localizer["End Date"]:</label>
+                <input type="date" id="endDate" name="endDate" class="form-control" value="@Model.EndDate?.ToString("yyyy-MM-dd")" style="border-radius:4px; border-color:#b3d7ff;" />
+            </div>
+            <div class="col-md-3 form-group mb-0">
+                <label asp-for="SelectedGuestId" style="font-weight:600; margin-bottom:5px; color:#0056b3;">@Localizer["Select User"]:</label>
+                <select asp-for="SelectedGuestId" asp-items="Model.Guests" class="form-control" style="border-radius:4px; border-color:#b3d7ff;">
+                    <option value="">@Localizer["All Guests"]</option>
+                </select>
+            </div>
+            <div class="col-md-3 form-group mb-0 text-right">
+                <button type="submit" class="btn btn-info px-4" style="background:#17a2b8; border-color:#17a2b8; color:white;">
+                    <i class="fas fa-filter mr-1"></i> @Localizer["Filter"]
+                </button>
+            </div>
         </div>
+    </form>
 
-        <div class="card-body border-bottom">
-            <form asp-action="GuestActivityReport" method="get" class="row g-3 align-items-end">
-
-                <div class="col-md-3 form-group">
-                    <label for="startDate" class="form-label">@Localizer["Start Date"]:</label>
-                    <input type="date" id="startDate" name="startDate" value="@Model.StartDate?.ToString("yyyy-MM-dd")" class="form-control" />
-                </div>
-
-                <div class="col-md-3 form-group">
-                    <label for="endDate" class="form-label">@Localizer["End Date"]:</label>
-                    <input type="date" id="endDate" name="endDate" value="@Model.EndDate?.ToString("yyyy-MM-dd")" class="form-control" />
-                </div>
-
-                <div class="col-md-4 form-group">
-                    <label asp-for="SelectedGuestId" class="form-label">@Localizer["Select Guest"]</label>
-                    <select asp-for="SelectedGuestId" class="form-control" asp-items="Model.Guests">
-                        <option value="">@Localizer["All Guests"]</option>
-                    </select>
-                </div>
-
-                <div class="col-md-2 form-group">
-                    <button type="submit" class="btn btn-primary w-100 shadow-sm">
-                        <i class="fas fa-filter me-1"></i> @Localizer["Filter"]
-                    </button>
-                </div>
-            </form>
-        </div>
-
-        <div class="card-body card-body-padded table-responsive" style="height: 420px;">
-
-            <table id="myDataTable" class="table table-bordered table-hover table-head-fixed">
-                <thead>
+    @* --- TABLE SECTION --- *@
+    <div style="background:white; border-radius:10px; box-shadow:0px 4px 10px rgba(0,0,0,0.1);">
+        <div>
+            <table id="myDataTable" class="table table-hover" style="font-size:14px; width:100%; border-collapse: separate; border-spacing: 0;">
+                <thead style="background-color: #17a2b8; color: white;">
                     <tr>
-                        <th><i class="fas fa-user me-2"></i> @Localizer["Visitor Name"]</th>
-                        <th><i class="fas fa-envelope me-2"></i> @Localizer["Visitor Email"]</th>
-                        <th><i class="fas fa-clock me-2"></i> @Localizer["Timestamp"]</th>
-                        <th><i class="fas fa-list-alt me-2"></i> @Localizer["Activity Type"]</th>
-                        <th><i class="fas fa-info-circle me-2"></i> @Localizer["Activity Description"]</th>
+                        @* VISIBLE COLUMNS *@
+                        <th style="padding:12px; border:none;">@Localizer["Visitor Name"]</th>
+                        <th style="padding:12px; border:none;">@Localizer["Visitor Email"]</th>
+                        <th style="padding:12px; border:none;">@Localizer["Timestamp"]</th>
+                        <th style="padding:12px; border:none;">@Localizer["Activity Type"]</th>
+
+                        @* HIDDEN COLUMNS (For Export/Data attributes) *@
+                        <th class="col-hidden">@Localizer["Full Description"]</th>
                     </tr>
                 </thead>
+
                 <tbody>
-                    @if (Model.Activities != null && Model.Activities.Any())
-                    {
-                        @foreach (var activity in Model.Activities)
-                        {
-                            <tr>
-                                <td>@activity.FirstName @activity.LastName</td>
-                                <td>@activity.Email</td>
-                                <td>@activity.Timestamp.ToString("MMM d, yyyy h:mm tt")</td>
-                                <td>
-                                    <span class="badge bg-secondary">@activity.ActivityType</span>
-                                </td>
-                                <td>@activity.ActivityDescription</td>
-                            </tr>
-                        }
+                    @{
+                        int index = 0;
                     }
-                    else
+                    @foreach (var activity in Model.Activities)
                     {
-                        <tr>
-                            <td colspan="5" class="text-center text-muted p-4">
-                                <i class="fas fa-search-minus fa-2x mb-2"></i>
-                                <p>@Localizer["No guest activities found for the selected filter criteria."]</p>
+                        var bgColor = index % 2 == 0 ? "#f8faff" : "white";
+                        var fullName = $"{activity.FirstName} {activity.LastName}";
+
+                        <tr class="clickable-row"
+                            style="background:@bgColor; border-bottom: 1px solid #eee;"
+                            onclick="openDetailsModal(this)"
+                            data-name="@fullName"
+                            data-email="@activity.Email"
+                            data-timestamp="@activity.Timestamp.ToString("MMM d, yyyy h:mm tt")"
+                            data-type="@activity.ActivityType"
+                            data-desc="@activity.ActivityDescription">
+
+                            @* VISIBLE DATA *@
+                            <td style="padding:10px; vertical-align:middle; font-weight:bold;">@fullName</td>
+                            <td style="padding:10px; vertical-align:middle;">@activity.Email</td>
+                            <td style="padding:10px; vertical-align:middle;">@activity.Timestamp.ToString("MMM d, yyyy h:mm tt")</td>
+                            <td style="padding:10px; vertical-align:middle;">
+                                <span class="badge badge-light border">@activity.ActivityType</span>
                             </td>
+
+                            @* HIDDEN DATA *@
+                            <td class="col-hidden">@activity.ActivityDescription</td>
                         </tr>
+                        { index++; }
                     }
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+@* --- MODAL SECTION --- *@
+<div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header modal-header-custom">
+                <h5 class="modal-title">
+                    <i class="fas fa-history mr-2"></i> @Localizer["Activity Details"]
+                </h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="row">
+                    <div class="col-md-6">
+                        <span class="detail-label">@Localizer["Visitor Name"]</span>
+                        <span class="detail-value" id="m-name"></span>
+
+                        <span class="detail-label">@Localizer["Email"]</span>
+                        <span class="detail-value" id="m-email"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <span class="detail-label">@Localizer["Timestamp"]</span>
+                        <span class="detail-value" id="m-timestamp"></span>
+
+                        <span class="detail-label">@Localizer["Activity Type"]</span>
+                        <span class="detail-value" id="m-type" style="font-weight:bold;"></span>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-12">
+                        <span class="detail-label">@Localizer["Activity Description"]</span>
+                        <div class="p-3 bg-light rounded border mt-1" id="m-desc"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer["Close"]</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Function to Populate and Show Modal
+        function openDetailsModal(row) {
+            // Retrieve data attributes
+            var name = row.getAttribute('data-name');
+            var email = row.getAttribute('data-email');
+            var timestamp = row.getAttribute('data-timestamp');
+            var type = row.getAttribute('data-type');
+            var desc = row.getAttribute('data-desc');
+
+            // Set text in modal
+            document.getElementById('m-name').innerText = name;
+            document.getElementById('m-email').innerText = email;
+            document.getElementById('m-timestamp').innerText = timestamp;
+            document.getElementById('m-type').innerText = type;
+            document.getElementById('m-desc').innerText = desc;
+
+            // Show Modal
+            $('#detailsModal').modal('show');
+        }
+
+        // Optional: Initialize DataTable if using export features
+        /*
+        document.addEventListener('DOMContentLoaded', function () {
+             $('#myDataTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [ 'excelHtml5', 'pdfHtml5' ]
+            });
+        });
+        */
+    </script>
+    <style>
+        /* Force table borders to collapse into single lines matching the previous UI */
+        #myDataTable {
+            border-collapse: collapse !important;
+        }
+
+            #myDataTable th,
+            #myDataTable td {
+                border: 1px solid #a0a0a0 !important;
+            }
+    </style>
+}

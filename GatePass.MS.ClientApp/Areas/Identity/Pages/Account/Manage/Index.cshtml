@@ -21,21 +21,21 @@
             <div class="card card-primary card-outline">
                 <div class="card-body box-profile">
 
-                    <img src="@Url.Content(Model.Input.ProfilePicture)" class="profile-user-img img-fluid img-circle" alt="User profile picture">
+                    <img src="@Url.Content(Model?.Input?.ProfilePicture ?? "~/images/default-avatar.png")" class="profile-user-img img-fluid img-circle" alt="User profile picture">
 
-                    <h3 class="profile-username text-center">@Model.Input.firstname @Model.Input.lastname </h3>
+                    <h3 class="profile-username text-center">@((Model?.Input?.firstname) ?? "") @((Model?.Input?.lastname) ?? "") </h3>
 
-                    <p class="text-muted text-center">@Model.Input.email</p>
+                    <p class="text-muted text-center">@((Model?.Input?.email) ?? "")</p>
 
                     <ul class="list-group list-group-unbordered mb-3">
                         <li class="list-group-item">
-                            <b>Age</b> <a class="float-right">@Model.Input.age</a>
+                            <b>Age</b> <a class="float-right">@((Model?.Input?.age)?.ToString() ?? "")</a>
                         </li>
                         <li class="list-group-item">
-                            <b>Gender</b> <a class="float-right">@Model.Input.gender</a>
+                            <b>Gender</b> <a class="float-right">@((Model?.Input?.gender) ?? "")</a>
                         </li>
                         <li class="list-group-item">
-                            <b>Mobile </b> <a class="float-right">@Model.Input.PhoneNumber</a>
+                            <b>Mobile </b> <a class="float-right">@((Model?.Input?.PhoneNumber) ?? "")</a>
                         </li>
                         <li class="list-group-item">
                             <a class="btn btn-primary btn-sm"
@@ -62,18 +62,18 @@
                     <strong><i class="fas fa-book mr-1"></i> Department</strong>
 
                     <p class="text-muted">
-                        @Model.Input.department
+                        @((Model?.Input?.department) ?? "")
                     </p>
 
                     <hr>
 
                     <strong><i class="fas fa-map-marker-alt mr-1"></i> Location</strong>
 
-                    <p class="text-muted">@Model.Input.address</p>
+                    <p class="text-muted">@((Model?.Input?.address) ?? "")</p>
                     <hr>
 
                     <strong><i class="fas fa-pencil-alt mr-1"></i> designation</strong>
-                    <p class="text-muted">@Model.Input.designation</p>
+                    <p class="text-muted">@((Model?.Input?.designation) ?? "")</p>
                     <hr>
                 </div>
                 <!-- /.card-body -->
