@@ -468,9 +468,38 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                            @for (int i = 0; i < Model.Count; i++)
+                            @{
+                                        // Initialize a counter for the visible rows
+                                        int displayCount = 0;
+                                    }
+                                    @for (int i = 0; i < Model.Count; i++)
                                     {
                                         var request = Model[i];
+
+                                        // ---------------------------------------------------------
+                                        // FILTER LOGIC START
+                                        // ---------------------------------------------------------
+
+                                        // 1. Filter Date: Today or Future
+                                        bool isDateValid = request.VisitDateTimeStart.Date >= DateTime.Today;
+
+                                        // 2. Filter Status: Approved Only
+                                        // IMPORTANT: Replace 'RequestStatus.Approved' with your actual Enum or boolean property (e.g. request.IsApproved)
+                                        // If you use a string, use: request.Status == "Approved"
+                                        bool isApproved = request.Status == "Approved";
+
+                                        // Apply Filter
+                                        if (!isDateValid || !isApproved)
+                                        {
+                                            continue; // Skip this iteration if criteria are not met
+                                        }
+
+                                        // Increment visual counter only for shown rows
+                                        displayCount++;
+                                        // ---------------------------------------------------------
+                                        // FILTER LOGIC END
+                                        // ---------------------------------------------------------
+
                                         var visitorName = request.IsIndividual ? (request.Guest?.FirstName + " " + request.Guest?.LastName) : request.Guest?.CompanyName;
                                         var hostName = request.Employee != null ? (request.Employee?.FirstName + " " + request.Employee?.LastName) : "Outer Request";
                                         var imgUrl = request.ImageData != null ? Url.Action("GetDynamicImage", "Guest", new { id = request.Id }) : "";
@@ -486,7 +515,7 @@
                                             data-img="@imgUrl"
                                             data-checkedin="@request.IsCheckedIn.ToString().ToLower()">
 
-                                            <td>@(i + 1)</td>
+                                            <td>@displayCount</td>
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="bg-light rounded-circle d-flex justify-content-center align-items-center mr-3" style="width: 35px; height: 35px; color: var(--primary-blue)">
@@ -503,7 +532,7 @@
                                                 }
                                                 else
                                                 {
-                                                    <span class="badge badge-secondary px-3 py-2">@Localizer["Pending"]</span>
+                                                    <span class="badge badge-secondary px-3 py-2">@Localizer["Checked Out"]</span>
                                                 }
                                             </td>
                                         </tr>
@@ -600,11 +629,11 @@
         </div>
 
         <script>
-            document.addEventListener("DOMContentLoaded", function() {
+            document.addEventListener("DOMContentLoaded", function () {
                 const rows = document.querySelectorAll(".view-details-row");
 
                 rows.forEach(row => {
-                    row.addEventListener("click", function() {
+                    row.addEventListener("click", function () {
                         // 1. Get data from data attributes
                         const id = this.getAttribute("data-id");
                         const name = this.getAttribute("data-name");
@@ -664,13 +693,13 @@
                 });
 
                 // Print Logic
-                document.getElementById("btnPrint").addEventListener("click", function(e){
+                document.getElementById("btnPrint").addEventListener("click", function (e) {
                     e.stopPropagation(); // Prevent row click
                     const url = this.getAttribute("data-image");
-                    if(url) {
-                       var win = window.open(url, '_blank');
-                       win.focus();
-                       // Actual printing depends on if the URL returns an image or a print view
+                    if (url) {
+                        var win = window.open(url, '_blank');
+                        win.focus();
+                        // Actual printing depends on if the URL returns an image or a print view
                     }
                 });
             });

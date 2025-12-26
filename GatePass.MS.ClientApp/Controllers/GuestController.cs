@@ -427,124 +427,193 @@ namespace GatePass.MS.ClientApp.Controllers
 
         public ActionResult GetDynamicImage(int id)
         {
+            // 1. Data Retrieval & Validation
             var request = _context.RequestInformation.FirstOrDefault(r => r.Id == id);
             if (request == null) return NotFound();
 
             var guest = _context.Guest.FirstOrDefault(x => x.Id == request.GuestId);
             if (guest == null) return NotFound();
 
-            // Setup Dimensions (Portrait Card)
-            int width = 600;
-            int height = 900;
+            // Optional: Date Validation
+            if (request.VisitDateTimeEnd < DateTime.Today) return NotFound(); // Or return an "Expired" image
 
-            // Create Bitmap
+            // 2. Setup Canvas (Portrait Badge)
+            int width = 600;
+            int height = 1000;
             Bitmap image = new Bitmap(width, height);
 
             using (Graphics g = Graphics.FromImage(image))
             {
-                // 0. High Quality Settings
+                // 3. High Quality Rendering Settings
                 g.SmoothingMode = SmoothingMode.AntiAlias;
                 g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
                 g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                g.CompositingQuality = CompositingQuality.HighQuality;
 
-                // 1. Colors & Fonts
-                Color primaryBlue = Color.FromArgb(13, 71, 161); // Deep Blue
-                Color accentBlue = Color.FromArgb(227, 242, 253);  // Light Blue
-                Color textDark = Color.FromArgb(33, 37, 41);
-                Color textGray = Color.FromArgb(108, 117, 125);
+                // 4. Define Colors & Fonts
+                Color primaryColor = Color.FromArgb(13, 71, 161);    // Deep Blue
+                Color accentColor = Color.FromArgb(240, 248, 255);   // Alice Blue
+                Color textDark = Color.FromArgb(33, 37, 41);         // Black/Dark Gray
+                Color textMuted = Color.FromArgb(108, 117, 125);     // Gray
+                Color warningRed = Color.FromArgb(220, 53, 69);      // Red
 
-                Font fontTitle = new Font("Segoe UI", 32, FontStyle.Bold); // "VISITOR"
-                Font fontName = new Font("Segoe UI", 28, FontStyle.Bold);  // Guest Name
-                Font fontLabel = new Font("Segoe UI", 14, FontStyle.Bold); // "Host:", "Date:"
-                Font fontValue = new Font("Segoe UI", 16, FontStyle.Regular); // Actual values
-                Font fontSmall = new Font("Segoe UI", 12, FontStyle.Regular); // Footer text
+                // Font Hierarchy
+                Font fontOrgName = new Font("Segoe UI", 20, FontStyle.Bold);
+                Font fontOrgInfo = new Font("Segoe UI", 11, FontStyle.Regular);
+                Font fontBadgeTitle = new Font("Segoe UI", 28, FontStyle.Bold); // "VISITOR"
+                Font fontGuestName = new Font("Segoe UI", 24, FontStyle.Bold);
+                Font fontGuestInfo = new Font("Segoe UI", 12, FontStyle.Regular);
+                Font fontLabel = new Font("Segoe UI", 13, FontStyle.Bold);
+                Font fontValue = new Font("Segoe UI", 14, FontStyle.Regular);
+                Font fontWarning = new Font("Segoe UI", 14, FontStyle.Bold);
 
-                // 2. Background
+                StringFormat centerFormat = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
+                StringFormat leftFormat = new StringFormat { Alignment = StringAlignment.Near, LineAlignment = StringAlignment.Center };
+
+                // 5. Draw Background
                 g.Clear(Color.White);
 
-                // 3. Draw Header (Blue Top Bar)
-                int headerHeight = 180;
+                // =========================================================
+                // SECTION A: HEADER (Organization Info)
+                // =========================================================
+                int headerHeight = 260;
                 Rectangle headerRect = new Rectangle(0, 0, width, headerHeight);
-                using (SolidBrush headerBrush = new SolidBrush(primaryBlue))
+                using (SolidBrush headerBrush = new SolidBrush(primaryColor))
                 {
                     g.FillRectangle(headerBrush, headerRect);
                 }
 
-                // 4. Draw Logo (White Circle Container in Header)
+                int currentY = 20;
+
+                // A.1 Draw Logo (Centered in Header)
                 string logoPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", _current.Value.LogoPath.TrimStart('/'));
                 if (System.IO.File.Exists(logoPath))
                 {
                     using (Image logo = Image.FromFile(logoPath))
                     {
-                        int logoSize = 120;
+                        int logoSize = 100;
                         int logoX = (width - logoSize) / 2;
-                        int logoY = 20;
 
-                        // Draw white circle behind logo
-                        g.FillEllipse(Brushes.White, logoX - 5, logoY - 5, logoSize + 10, logoSize + 10);
+                        // White circle background for logo
+                        g.FillEllipse(Brushes.White, logoX - 5, currentY - 5, logoSize + 10, logoSize + 10);
+                        g.DrawImage(logo, logoX, currentY, logoSize, logoSize);
 
-                        // Draw Logo
-                        g.DrawImage(logo, logoX, logoY, logoSize, logoSize);
+                        currentY += logoSize + 15;
                     }
                 }
-
-                // 5. Header Title "VISITOR PASS"
-                StringFormat centerFormat = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
-                g.DrawString("VISITOR PASS", fontTitle, Brushes.White, new Rectangle(0, 140, width, 50), centerFormat);
-
-                // 6. Visitor Name (Centered & Large)
-                string visitorName = $"{guest.FirstName} {guest.LastName}";
-                Rectangle nameRect = new Rectangle(20, 210, width - 40, 60);
-                g.DrawString(visitorName, fontName, new SolidBrush(textDark), nameRect, centerFormat);
-
-                // Underline the name
-                using (Pen linePen = new Pen(primaryBlue, 3))
+                else
                 {
-                    g.DrawLine(linePen, 150, 275, width - 150, 275);
+                    currentY += 100; // Spacer if no logo
                 }
 
-                // 7. Details Table (Grid Layout)
-                int startY = 320;
-                int rowHeight = 50;
-                int labelX = 80;
+                // A.2 Organization Details (White Text)
+                g.DrawString(_current.Value.Name, fontOrgName, Brushes.White, new Rectangle(0, currentY, width, 40), centerFormat);
+                currentY += 35;
+                g.DrawString($"Addis Ababa, Ethiopia", fontOrgInfo, Brushes.White, new Rectangle(0, currentY, width, 25), centerFormat);
+                currentY += 25;
+                g.DrawString($"Web: {_current.Value.website}", fontOrgInfo, Brushes.White, new Rectangle(0, currentY, width, 25), centerFormat);
+                currentY += 25;
+                g.DrawString($"Tel: 8181 | {_current.Value.Email}", fontOrgInfo, Brushes.White, new Rectangle(0, currentY, width, 25), centerFormat);
+
+                // =========================================================
+                // SECTION B: BADGE TITLE & GUEST INFO
+                // =========================================================
+                currentY = headerHeight + 30;
+
+                // B.1 Badge Title
+                g.DrawString("VISITOR PASS", fontBadgeTitle, new SolidBrush(textDark), new Rectangle(0, currentY, width, 50), centerFormat);
+                currentY += 60;
+
+                // B.2 Guest Name (Highlight Box)
+                Rectangle nameBox = new Rectangle(20, currentY, width - 40, 60);
+                using (SolidBrush bgBrush = new SolidBrush(accentColor))
+                {
+                    g.FillRectangle(bgBrush, nameBox); // Light blue background
+                    g.DrawRectangle(new Pen(primaryColor, 1), nameBox); // Thin blue border
+                }
+                g.DrawString($"{guest.FirstName} {guest.LastName}", fontGuestName, new SolidBrush(primaryColor), nameBox, centerFormat);
+                currentY += 70;
+
+                // B.3 Guest Sub-Info
+                string guestContact = $"{guest.Email}";
+                if (!string.IsNullOrEmpty(guest.Phone)) guestContact += $" | {guest.Phone}";
+                g.DrawString(guestContact, fontGuestInfo, new SolidBrush(textMuted), new Rectangle(0, currentY, width, 30), centerFormat);
+
+                currentY += 40;
+                // Separator Line
+                g.DrawLine(new Pen(Color.LightGray, 2), 50, currentY, width - 50, currentY);
+                currentY += 30;
+
+                // =========================================================
+                // SECTION C: REQUEST DETAILS (The Grid)
+                // =========================================================
+                int labelX = 60;
                 int valueX = 220;
+                int rowHeight = 45;
 
-                DrawDetailRow(g, "Date:", DateTime.Now.ToString("MMM dd, yyyy"), startY, labelX, valueX, fontLabel, fontValue, textGray, textDark);
-                DrawDetailRow(g, "Host:", $"{request.Employee?.FirstName} {request.Employee?.LastName}", startY + rowHeight, labelX, valueX, fontLabel, fontValue, textGray, textDark);
-                DrawDetailRow(g, "Purpose:", request.PurposeOfVisit, startY + (rowHeight * 2), labelX, valueX, fontLabel, fontValue, textGray, textDark);
-                DrawDetailRow(g, "Time:", $"{request.ApprovedDateTimeStart:HH:mm} - {request.ApprovedDateTimeEnd:HH:mm}", startY + (rowHeight * 3), labelX, valueX, fontLabel, fontValue, textGray, textDark);
+                // Helper Action to draw rows easily
+                Action<string, string> drawRow = (label, value) => {
+                    g.DrawString(label, fontLabel, new SolidBrush(textMuted), labelX, currentY);
 
-                // 8. Generate & Draw QR Code (Bottom Center)
+                    // Handle long text wrapping for Values
+                    RectangleF valRect = new RectangleF(valueX, currentY, width - valueX - 40, rowHeight * 2);
+                    g.DrawString(value, fontValue, new SolidBrush(textDark), valRect);
+
+                    currentY += rowHeight;
+                };
+
+                // Draw Data
+                drawRow("Request ID:", $"#{id}");
+                drawRow("Status:", "Approved");
+                drawRow("Date:", request.ApprovedDateTimeStart?.ToString("MMM dd,yyyy"));
+                drawRow("Time:", $"{request.ApprovedDateTimeStart:HH:mm} - {request.ApprovedDateTimeEnd:HH:mm}");
+
+                // Host (Handle Potential Nulls)
+                string hostName = request.Employee != null ? $"{request.Employee.FirstName} {request.Employee.LastName}" : "N/A";
+                drawRow("Host:", hostName);
+
+                // Purpose (Might be long, add extra space)
+                string purpose = request.PurposeOfVisit.Length > 25 ? request.PurposeOfVisit.Substring(0, 25) + "..." : request.PurposeOfVisit;
+                drawRow("Purpose:", purpose);
+
+                // =========================================================
+                // SECTION D: FOOTER (QR & Warning)
+                // =========================================================
+
+                // Push footer to bottom
+                int footerY = height - 250;
+
+                // D.1 QR Code
                 QRCodeGenerator qrGenerator = new QRCodeGenerator();
-                QRCodeData qrCodeData = qrGenerator.CreateQrCode($"{id}", QRCodeGenerator.ECCLevel.Q);
+                // Encoding ID and Name for security verification
+                string qrData = $"ID:{id}|Name:{guest.FirstName}|Exp:{request.ApprovedDateTimeEnd}";
+                QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrData, QRCodeGenerator.ECCLevel.Q);
                 QRCode qrCode = new QRCode(qrCodeData);
-                Bitmap qrCodeImage = qrCode.GetGraphic(20); // Get raw high res
+                Bitmap qrCodeImage = qrCode.GetGraphic(20);
 
-                int qrSize = 200;
+                int qrSize = 150;
                 int qrX = (width - qrSize) / 2;
-                int qrY = 600;
-                g.DrawImage(qrCodeImage, qrX, qrY, qrSize, qrSize);
+                g.DrawImage(qrCodeImage, qrX, footerY, qrSize, qrSize);
 
-                // 9. Footer Warning
-                string footerText = "Please return this badge to security\nbefore leaving the premises.";
-                Rectangle footerRect = new Rectangle(0, 830, width, 70);
-                using (SolidBrush footerBg = new SolidBrush(accentBlue))
-                {
-                    g.FillRectangle(footerBg, footerRect);
-                }
-                g.DrawString(footerText, fontSmall, new SolidBrush(primaryBlue), footerRect, centerFormat);
+                // D.2 Warning Text
+                footerY += qrSize + 20;
+                g.DrawString("PLEASE RETURN BADGE", fontWarning, new SolidBrush(warningRed), new Rectangle(0, footerY, width, 30), centerFormat);
+                footerY += 30;
+                g.DrawString("BEFORE LEAVING", fontWarning, new SolidBrush(warningRed), new Rectangle(0, footerY, width, 30), centerFormat);
 
-                // 10. Outer Border
-                using (Pen borderPen = new Pen(primaryBlue, 10))
+                // 6. Final Outer Border
+                using (Pen borderPen = new Pen(primaryColor, 10))
                 {
                     borderPen.Alignment = PenAlignment.Inset;
                     g.DrawRectangle(borderPen, 0, 0, width, height);
                 }
             }
 
+            // 7. Render Stream
             MemoryStream ms = new MemoryStream();
             image.Save(ms, ImageFormat.Png);
             ms.Position = 0;
+
             return File(ms, "image/png");
         }
 
@@ -644,7 +713,7 @@ namespace GatePass.MS.ClientApp.Controllers
                 // ✅ ACTIVITY LOG
                 await _guestActivityService.LogActivityAsync(
                     request.Guest.Id,
-                    "Check In",
+                    "Checked In",
                     $"Guest {request.Guest.FirstName} {request.Guest.LastName} checked in"
                 );
 
@@ -741,7 +810,7 @@ namespace GatePass.MS.ClientApp.Controllers
 
                 if (request.Guest != null)
                 {
-                    await _guestActivityService.LogActivityAsync(request.Guest.Id, "Check Out", $"Guest {request.Guest.FirstName} {request.Guest.LastName} checked out for Request ID: {request.Id}");
+                    await _guestActivityService.LogActivityAsync(request.Guest.Id, "Checked Out", $"Guest {request.Guest.FirstName} {request.Guest.LastName} checked out for Request ID: {request.Id}");
                 }
 
                 TempData["SuccessMessage"] = "You are checked out successfully! Please provide your feedback.";

@@ -124,13 +124,13 @@
     <value>All Requests</value>
   </data>
   <data name="approvedRequests" xml:space="preserve">
-    <value>approvedRequests</value>
+    <value>Approved Requests</value>
   </data>
   <data name="guestFullName" xml:space="preserve">
     <value>Guest Full Name</value>
   </data>
   <data name="pendingRequests" xml:space="preserve">
-    <value>pendingRequests</value>
+    <value>Pending Requests</value>
   </data>
   <data name="purposeOfVisit" xml:space="preserve">
     <value>purposeOfVisit</value>
@@ -226,7 +226,7 @@
     <value>All Requests</value>
   </data>
   <data name="rejectedRequests" xml:space="preserve">
-    <value>rejectedRequests</value>
+    <value>Rejected Requests</value>
   </data>
   <data name="Visitor Requests" xml:space="preserve">
     <value>Visitor Requests</value>

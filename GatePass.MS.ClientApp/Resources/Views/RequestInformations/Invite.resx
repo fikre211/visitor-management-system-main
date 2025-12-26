@@ -138,7 +138,7 @@
   <data name="invite" xml:space="preserve">
     <value />
   </data>
-  <data name="purposeOfVisit" xml:space="preserve">
+  <data name="purposeOfVisit1" xml:space="preserve">
     <value />
   </data>
   <data name="to" xml:space="preserve">
@@ -178,7 +178,7 @@
   <data name="Hon." xml:space="preserve">
     <value />
   </data>
-  <data name="items" xml:space="preserve">
+  <data name="items1" xml:space="preserve">
     <value />
   </data>
   <data name="LastName" xml:space="preserve">
@@ -243,5 +243,11 @@
   </data>
   <data name="Remove" xml:space="preserve">
     <value />
+  </data>
+  <data name="Visit Schedule" xml:space="preserve">
+    <value>Visit Schedule</value>
+  </data>
+  <data name="Visitor Information" xml:space="preserve">
+    <value>Visitor Information</value>
   </data>
 </root>

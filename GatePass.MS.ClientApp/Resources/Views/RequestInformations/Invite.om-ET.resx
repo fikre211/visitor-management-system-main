@@ -138,7 +138,7 @@
   <data name="invite" xml:space="preserve">
     <value>Affeeri</value>
   </data>
-  <data name="purposeOfVisit" xml:space="preserve">
+  <data name="purposeOfVisit1" xml:space="preserve">
     <value>Sababni daawwannaa </value>
   </data>
   <data name="to" xml:space="preserve">
@@ -177,7 +177,7 @@
   <data name="Hon." xml:space="preserve">
     <value>Keessummeessituu .</value>
   </data>
-  <data name="items" xml:space="preserve">
+  <data name="items1" xml:space="preserve">
     <value>Odeeffannoo dabalataa</value>
   </data>
   <data name="LastName" xml:space="preserve">

@@ -249,11 +249,13 @@
 </style>
 @section Scripts {
     <script>
-        $(document).ready(function(){
-            $("#table_search").on("keyup", function() {
-                var value = $(this).val().toLowerCase();
-                $("#requestsTable tbody tr").filter(function() {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        $(document).ready(function () {
+            $("#table_search").on("keyup", function () {
+                var value = $(this).val().trim().normalize("NFC");
+
+                $("#requestsTable tbody tr").each(function () {
+                    var rowText = $(this).text().trim().normalize("NFC");
+                    $(this).toggle(rowText.indexOf(value) > -1);
                 });
             });
         });

@@ -138,6 +138,9 @@
   <data name="guestPhoneNumber" xml:space="preserve">
     <value>Lakkofsa bilbilaa keessummaa</value>
   </data>
+  <data name="Invite" xml:space="preserve">
+    <value>Invite</value>
+  </data>
   <data name="inviteNew" xml:space="preserve">
     <value>Haaraa Affeeri</value>
   </data>

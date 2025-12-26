@@ -138,6 +138,9 @@
   <data name="guestPhoneNumber" xml:space="preserve">
     <value>የእንግዳ ስልክ ቁጥር</value>
   </data>
+  <data name="Invite" xml:space="preserve">
+    <value>Invite</value>
+  </data>
   <data name="inviteNew" xml:space="preserve">
     <value>አዲስ ጋብዝ</value>
   </data>

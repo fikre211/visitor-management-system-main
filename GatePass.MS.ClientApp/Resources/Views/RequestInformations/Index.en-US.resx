@@ -138,6 +138,9 @@
   <data name="guestPhoneNumber" xml:space="preserve">
     <value>Guest Phone Number</value>
   </data>
+  <data name="Invite" xml:space="preserve">
+    <value>ጋብዝ</value>
+  </data>
   <data name="inviteNew" xml:space="preserve">
     <value>Invite New</value>
   </data>
