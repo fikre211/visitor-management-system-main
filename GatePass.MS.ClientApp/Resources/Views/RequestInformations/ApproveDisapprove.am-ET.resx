@@ -148,7 +148,7 @@
     <value>የጉብኝት ዓላማ</value>
   </data>
   <data name="reject" xml:space="preserve">
-    <value>አለመቀበል</value>
+    <value>ውድቅ አድርግ</value>
   </data>
   <data name="requestDetails" xml:space="preserve">
     <value>የጥያቄዎች ዝርዝር</value>
@@ -232,10 +232,10 @@
     <value>ግብረ መልስ</value>
   </data>
   <data name="Approval Start" xml:space="preserve">
-    <value>ማጽደቅ ጅምር</value>
+    <value>ከ</value>
   </data>
   <data name="Approval End" xml:space="preserve">
-    <value>ማጽደቅ ያበቃል</value>
+    <value>እስከ</value>
   </data>
   <data name="Send to Admin" xml:space="preserve">
     <value>ወደ አስተዳዳሪ ላክ</value>
@@ -247,15 +247,21 @@
     <value>ምክንያት ይምረጡ</value>
   </data>
   <data name="Unavailable Schedule" xml:space="preserve">
-    <value>የማይገኝ መርሐግብር</value>
+    <value>ፕሮግራም ለውጥ</value>
   </data>
   <data name="Office Closed" xml:space="preserve">
-    <value>ቢሮ ተዘግቷል።</value>
+    <value>ቢሮ መዘጋት</value>
   </data>
   <data name="Meeting" xml:space="preserve">
     <value>ስብሰባ</value>
   </data>
   <data name="unknown reason" xml:space="preserve">
-    <value>unknown reason</value>
+    <value>አስቸኳይ ምክንያት</value>
+  </data>
+  <data name="Approve Request" xml:space="preserve">
+    <value>ማጽደቅ ጀምር</value>
+  </data>
+  <data name="Reject Request" xml:space="preserve">
+    <value>አትቀበል</value>
   </data>
 </root>

@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="from" xml:space="preserve">
+  <data name="fromA" xml:space="preserve">
     <value>ከ</value>
   </data>
   <data name="guestEmail" xml:space="preserve">
@@ -139,13 +139,13 @@
     <value>ጋብዝ</value>
   </data>
   <data name="purposeOfVisit1" xml:space="preserve">
-    <value>የጉብኝት ምክንያት</value>
+    <value>የጉብኝት ዓላማ</value>
   </data>
   <data name="to" xml:space="preserve">
-    <value>ወደ</value>
+    <value>እስከ</value>
   </data>
   <data name="visitDateRange" xml:space="preserve">
-    <value>የጉብኝት ቀን ክልል</value>
+    <value>የቀጠሮ ጊዜ</value>
   </data>
   <data name="CompanyName" xml:space="preserve">
     <value>የድርጅት ስም</value>
@@ -178,7 +178,7 @@
     <value>የተከበሩ</value>
   </data>
   <data name="items1" xml:space="preserve">
-    <value>እቃዎች/ተጨማሪ መረጃ</value>
+    <value>እቃዎች</value>
   </data>
   <data name="LastName" xml:space="preserve">
     <value>የአያት ስም</value>
@@ -217,10 +217,10 @@
     <value>ማዕረግ</value>
   </data>
   <data name="to1" xml:space="preserve">
-    <value>ወደ</value>
+    <value>እስከ</value>
   </data>
   <data name="visitDateRange1" xml:space="preserve">
-    <value>የጉብኝት ቀን </value>
+    <value>የቀጠሮ ጊዜ</value>
   </data>
   <data name="addItem" xml:space="preserve">
     <value>እቃ/ተጨማሪ መረጃ ጨምር</value>

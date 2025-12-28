@@ -258,4 +258,10 @@
   <data name="unknown reason" xml:space="preserve">
     <value />
   </data>
+  <data name="Approve Request" xml:space="preserve">
+    <value>Approve Request</value>
+  </data>
+  <data name="Reject Request" xml:space="preserve">
+    <value>Reject Request</value>
+  </data>
 </root>

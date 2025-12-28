@@ -154,10 +154,10 @@
   <data name="photo" xml:space="preserve">
     <value />
   </data>
-  <data name="from" xml:space="preserve">
+  <data name="fromA" xml:space="preserve">
     <value />
   </data>
-  <data name="to" xml:space="preserve">
+  <data name="to1" xml:space="preserve">
     <value />
   </data>
   <data name="capturePhoto" xml:space="preserve">

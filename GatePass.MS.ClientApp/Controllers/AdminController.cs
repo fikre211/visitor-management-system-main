@@ -284,33 +284,43 @@ namespace GatePass.MS.ClientApp.Controllers
         // GET: Locked Account
         public async Task<IActionResult> ViewLockedAccount()
         {
-            var users = await _userManager.Users
+            // Determine current company from injected ICurrentCompany
+            var companyId = _current?.Value?.Id;
+
+            // Base query for locked users including related data
+            var query = _userManager.Users
                 .Include(u => u.Employee)
                 .ThenInclude(d => d.Department)
                 .Include(g => g.Guest)
-                .Where(u => u.IsLocked)
-                .ToListAsync();
+                .Where(u => u.IsLocked);
+
+            // Restrict to current company if available
+            if (companyId.HasValue)
+            {
+                query = query.Where(u => u.CompanyId == companyId.Value);
+            }
+
+            var users = await query.ToListAsync();
 
             var userViewModels = new List<ViewUserViewModel>();
 
             foreach (var user in users)
             {
-                bool isLockedOut = await _userManager.IsLockedOutAsync(user);
                 var roles = await _userManager.GetRolesAsync(user);
                 userViewModels.Add(new ViewUserViewModel
                 {
                     Id = user.Id,
-                    Department = user.Employee?.Department.Name ?? "IT",
+                    Department = user.Employee?.Department?.Name ?? "IT",
                     UserName = user.UserName,
                     DepartmentSuperviser = "saboka",
-                    Roles = roles.ToList() // Store all roles
-
+                    Roles = roles.ToList(),
+                    IsLocked = user.IsLocked,
+                    IsActive = user.IsActive
                 });
             }
+
             return View(userViewModels);
-
         }
-
 
         // Action on Request Information start from this line
         [HttpGet]

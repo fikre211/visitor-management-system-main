@@ -1,7 +1,9 @@
+using GatePass.MS.Application;
 using GatePass.MS.ClientApp.Controllers;
 using GatePass.MS.ClientApp.Data;
+using GatePass.MS.ClientApp.Middleware;
+using GatePass.MS.ClientApp.Service;
 using GatePass.MS.Domain;
-using GatePass.MS.Application;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Localization;
@@ -9,7 +11,6 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.Globalization;
-using GatePass.MS.ClientApp.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -212,7 +213,7 @@ app.UseStaticFiles();
 
 
 app.UseRouting();
-
+app.UseNoCacheHeaders();
 app.UseAuthentication();
 app.UseAuthorization();
 //Register RequestLocalizationOptions

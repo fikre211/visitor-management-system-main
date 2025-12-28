@@ -153,11 +153,11 @@
   <data name="photo" xml:space="preserve">
     <value>ፎቶ</value>
   </data>
-  <data name="from" xml:space="preserve">
+  <data name="fromA" xml:space="preserve">
     <value>ከ</value>
   </data>
-  <data name="to" xml:space="preserve">
-    <value>ወደ</value>
+  <data name="to1" xml:space="preserve">
+    <value>እስከ</value>
   </data>
   <data name="capturePhoto" xml:space="preserve">
     <value>ፎቶ አንሳ</value>
@@ -217,7 +217,7 @@
     <value>የግል መረጃ</value>
   </data>
   <data name="Visit Information" xml:space="preserve">
-    <value>መረጃን ይጎብኙ</value>
+    <value>የጉብኝት መረጃ</value>
   </data>
   <data name="select Department" xml:space="preserve">
     <value>ክፍል ይምረጡ</value>

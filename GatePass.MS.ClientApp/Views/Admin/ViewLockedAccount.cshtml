@@ -1,61 +1,124 @@
-﻿@using GatePass.MS.Domain.ViewModels
+﻿@model List<GatePass.MS.Domain.ViewModels.ViewUserViewModel>
+@using GatePass.MS.Domain
+@using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
-@model List<ViewUserViewModel>
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject GatePass.MS.ClientApp.Data.ApplicationDbContext context
+
 @{
+    var companyName = ViewContext.RouteData.Values["companyName"]?.ToString();
     ViewData["Title"] = "User List";
+    var PrimaryBlue = "#0d47a1";
+    var AccentBlue = "#00b0ff";
+    var LightAccentBlue = "#e3f2fd";
 }
 
+<div style="padding:30px; background:#f7faff; font-family:Segoe UI, Arial, sans-serif;">
 
-<!-- /.row -->
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body table-responsive p-0">
-                <table id="myDataTable" class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th> @Localizer["username"]</th>
-                            <th> @Localizer["department"]</th>
-                            <th> @Localizer["roles"]</th>
-                            <th> @Localizer["Details"]</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for (int i = 0; i < Model.Count; i++)
-                        {
-                            var user = Model[i];
-                            <tr>
-                                <td>
-                                    @(i + 1)
-                                </td>
-                                <td>@user.UserName</td>
-                                <td>@user.Department</td>
-                                <td>
-                                    @foreach (var role in user.Roles)
-                                    {
-                                        <span>@role </span>
-
-                                    }
-                                </td>
-                                <td>
-                                    <a class="btn btn-info" asp-action="UserDetails" asp-route-id="@user.Id">See more</a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-            <!-- /.card-body -->
-        </div>
-        <!-- /.card -->
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:25px;">
+        <h3 style="margin:0; color:@PrimaryBlue; font-weight:700;">@Localizer["User List"]</h3>
     </div>
+
+    <div style="background:white; border-radius:10px; box-shadow:0px 4px 10px rgba(0,0,0,0.1);">
+        <div>
+            <table id="myDataTable" class="table table-hover table-head-fixed" style="font-size:14px; width:100%; border-collapse: separate; border-spacing: 0;">
+                <thead style="position: sticky; top: 0; z-index: 1; background-color: @PrimaryBlue; color: white;">
+                    <tr>
+                        <th style="padding:12px; border:none; color:white; background:@PrimaryBlue; width:40px;">#</th>
+                        <th style="padding:12px; border:none; color:white; background:@PrimaryBlue;">@Localizer["username"]</th>
+                        <th style="padding:12px; border:none; color:white; background:@PrimaryBlue;">@Localizer["department"]</th>
+                        <th style="padding:12px; border:none; color:white; background:@PrimaryBlue;">@Localizer["roles"]</th>
+                        <th style="padding:12px; border:none; color:white; background:@PrimaryBlue; width:110px; text-align:center;">@Localizer["action"]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int index = 0;
+                    }
+                    @foreach (var user in Model)
+                    {
+                        index++;
+                        var bgColor = index % 2 == 0 ? "#f8faff" : "white";
+                        <tr style="background:@bgColor; border-bottom: 1px solid #eee; transition: background-color 0.25s;"
+                            onmouseover="this.style.backgroundColor='@LightAccentBlue'"
+                            onmouseout="this.style.backgroundColor='@bgColor'">
+                            <td style="padding:10px; vertical-align:middle;">@index</td>
+                            <td style="padding:10px; vertical-align:middle; font-weight:600; color:#1a1a1a;">@user.UserName</td>
+                            <td style="padding:10px; vertical-align:middle;">@user.Department</td>
+                            <td style="padding:10px; vertical-align:middle;">
+                                @if (user.Roles != null && user.Roles.Any())
+                                {
+                                    foreach (var role in user.Roles)
+                                    {
+                                        <span style="display:inline-block; margin-right:6px; padding:4px 8px; border-radius:12px; background:#f1f7ff; color:@PrimaryBlue; font-size:13px;">@role</span>
+                                    }
+                                }
+                                else
+                                {
+                                    <span style="color:#777;">-</span>
+                                }
+                            </td>
+                            <td style="padding:10px; text-align:center; vertical-align:middle;">
+                                @* Navigate directly to user details page (no modal / no AJAX) *@
+                                <a class="btn btn-info"
+                                   asp-controller="Admin"
+                                   asp-action="UserDetails"
+                                   asp-route-id="@user.Id"
+                                   asp-route-companyName="@companyName"
+                                   style="background:@PrimaryBlue; color:white; padding:6px 10px; border-radius:6px; text-decoration:none; font-size:12px; display:inline-block; border:none;">
+                                    <i class="fas fa-info-circle"></i> &nbsp; @Localizer["See more"]
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 </div>
 
-@section Scripts {
+<style>
+    /* Force table borders to collapse into single lines */
+    #myDataTable {
+        border-collapse: collapse !important;
+    }
 
+        /* Add a visible border to every header and cell */
+        #myDataTable th,
+        #myDataTable td {
+            border: 1px solid #a0a0a0 !important;
+        }
+</style>
+
+@* @section Scripts {
+    <script>
+        $(function () {
+            $("#myDataTable").DataTable({
+                "responsive": true, "lengthChange": false, "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#myDataTable_wrapper .col-md-6:eq(0)');
+        });
+    </script> *@
+}
+@section Scripts {
+    <script>
+        $(function () {
+            // 1. Check if the DataTable already exists
+            if ($.fn.DataTable.isDataTable('#myDataTable')) {
+                // 2. If it exists, destroy it so we can re-configure it cleanly
+                $('#myDataTable').DataTable().destroy();
+            }
+
+            // 3. Initialize the DataTable with your specific settings
+            $("#myDataTable").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#myDataTable_wrapper .col-md-6:eq(0)');
+        });
+    </script>
 }

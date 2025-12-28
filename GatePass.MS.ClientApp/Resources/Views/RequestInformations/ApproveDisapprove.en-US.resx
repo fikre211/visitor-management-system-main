@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="approvalStatus" xml:space="preserve">
-    <value>approvalStatus</value>
+    <value>approval Status</value>
   </data>
   <data name="approve" xml:space="preserve">
     <value>Approve</value>
@@ -133,34 +133,34 @@
     <value>Delete</value>
   </data>
   <data name="guestEmail" xml:space="preserve">
-    <value>guestEmail</value>
+    <value>Guest Email</value>
   </data>
   <data name="guestFirstName" xml:space="preserve">
-    <value>guestFirstName</value>
+    <value>Guest First Name</value>
   </data>
   <data name="Guest Last Name" xml:space="preserve">
     <value>Guest Last Name</value>
   </data>
   <data name="guestPhoneNumber" xml:space="preserve">
-    <value>guestPhoneNumber</value>
+    <value>Guest Phone Number</value>
   </data>
   <data name="purposeOfVisit" xml:space="preserve">
-    <value>purposeOfVisit</value>
+    <value>Purpose of Visit</value>
   </data>
   <data name="reject" xml:space="preserve">
     <value>Reject</value>
   </data>
   <data name="requestDetails" xml:space="preserve">
-    <value>requestDetails</value>
+    <value>Request Details</value>
   </data>
   <data name="responsiblePerson" xml:space="preserve">
-    <value>responsiblePerson</value>
+    <value>Responsible Person</value>
   </data>
   <data name="to" xml:space="preserve">
     <value>To</value>
   </data>
   <data name="visitDateRange" xml:space="preserve">
-    <value>visitDateRange</value>
+    <value>visit Date Range</value>
   </data>
   <data name="Company Name" xml:space="preserve">
     <value>Company Name</value>
@@ -257,5 +257,11 @@
   </data>
   <data name="unknown reason" xml:space="preserve">
     <value>unknown reason</value>
+  </data>
+  <data name="Approve Request" xml:space="preserve">
+    <value>Approve Request</value>
+  </data>
+  <data name="Reject Request" xml:space="preserve">
+    <value>Reject Request</value>
   </data>
 </root>

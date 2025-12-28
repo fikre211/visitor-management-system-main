@@ -153,10 +153,10 @@
   <data name="photo" xml:space="preserve">
     <value>Suuraa</value>
   </data>
-  <data name="from" xml:space="preserve">
+  <data name="fromA" xml:space="preserve">
     <value>Irraa</value>
   </data>
-  <data name="to" xml:space="preserve">
+  <data name="to1" xml:space="preserve">
     <value>Hanga</value>
   </data>
   <data name="capturePhoto" xml:space="preserve">

@@ -23,7 +23,7 @@ using ZXing.QrCode.Internal;
 
 
 namespace GatePass.MS.ClientApp.Areas.Identity.Pages.Account
-{
+{[ResponseCache(NoStore = true, Duration = 0, Location = ResponseCacheLocation.None)]
     public class LoginModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;

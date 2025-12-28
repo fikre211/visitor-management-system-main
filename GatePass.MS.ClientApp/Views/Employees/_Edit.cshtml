@@ -84,7 +84,14 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-phone"></i></span>
                             </div>
-                            <input asp-for="Phone" class="form-control" />
+                            <input asp-for="Address"
+                                   class="form-control"
+                                   type="text"
+                                   inputmode="numeric"
+                                   maxlength="10"
+                                   pattern="\d{10}"
+                                   oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                   placeholder="1234567890" />
                         </div>
                         <span asp-validation-for="Phone" class="text-danger"></span>
                     </div>
@@ -106,7 +113,7 @@
 
                     <div class="form-group">
                         <label asp-for="Address" class="control-label"></label>
-                        <input asp-for="Address" class="form-control" />
+                        <input asp-for="Phone" class="form-control" />
                         <span asp-validation-for="Address" class="text-danger"></span>
                     </div>
 
