@@ -377,12 +377,17 @@ namespace GatePass.MS.ClientApp.Controllers
                 {
                     string baseUrl = "https://localhost:44389";
                     string Qrcode = $"{baseUrl}/Guest/GenerateQRCode?firstName={guest?.FirstName}&lastName={guest?.LastName}&email={guest?.Email}&id={model.Id}";
-                    await SendApprovalEmail(model.GuestEmail, request.Guest.FirstName, model.Id);
+
+                    // Send to main guest ONLY if email exists
+                    if (!string.IsNullOrWhiteSpace(model.GuestEmail))
+                    {
+                        await SendApprovalEmail(model.GuestEmail, request.Guest.FirstName, model.Id);
+                    }
 
                     // Send to additional guests
                     foreach (var g in request.AdditionalGuests)
                     {
-                        if (!string.IsNullOrEmpty(g.Email))
+                        if (!string.IsNullOrWhiteSpace(g.Email))
                         {
                             await SendApprovalEmail(g.Email, g.FirstName, model.Id);
                         }
@@ -394,9 +399,10 @@ namespace GatePass.MS.ClientApp.Controllers
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                    TempData["message"] = "Invitation has been approved, but there was an error sending the approval email.";
+                    TempData["message"] = "Invitation approved, but some emails could not be sent.";
                     TempData["MessageType"] = "warning";
                 }
+
 
                 try
                 {
@@ -438,16 +444,30 @@ namespace GatePass.MS.ClientApp.Controllers
                 // Your existing email/SMS sending logic
                 try
                 {
-                    await SendDisApprovalEmail(model.GuestEmail, request.Guest.FirstName, model.Id, model.SelectedReason);
-
-                    foreach (var g in request.AdditionalGuests)
+                    // Send to main guest ONLY if email exists
+                    if (!string.IsNullOrWhiteSpace(model.GuestEmail))
                     {
-                        if (!string.IsNullOrEmpty(g.Email))
-                        {
-                            await SendDisApprovalEmail(g.Email, g.FirstName, model.Id, model.SelectedReason);
-                        }
+                        await SendDisApprovalEmail(
+                            model.GuestEmail,
+                            request.Guest.FirstName,
+                            model.Id,
+                            model.SelectedReason
+                        );
                     }
 
+                    // Send to additional guests
+                    foreach (var g in request.AdditionalGuests)
+                    {
+                        if (!string.IsNullOrWhiteSpace(g.Email))
+                        {
+                            await SendDisApprovalEmail(
+                                g.Email,
+                                g.FirstName,
+                                model.Id,
+                                model.SelectedReason
+                            );
+                        }
+                    }
 
                     TempData["message"] = "Invitation has been Rejected!";
                     TempData["MessageType"] = "error";
@@ -455,9 +475,11 @@ namespace GatePass.MS.ClientApp.Controllers
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                    TempData["message"] = "Invitation has been Rejected, but there was an error sending the Rejection email.";
+                    TempData["message"] =
+                        "Invitation has been Rejected, but there was an error sending the Rejection email.";
                     TempData["MessageType"] = "warning";
                 }
+
 
                 try
                 {
